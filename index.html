@@ -39,7 +39,9 @@
         .section-title {font-size:3rem;font-weight:900;text-align:center;margin-bottom:50px;text-transform:uppercase;color:#fff;}
         .title-underline {width:80px;height:5px;background:linear-gradient(90deg,var(--chef-yellow),var(--aflam-pink));margin:15px auto 0;border-radius:10px;}
 
+        /* تنسيق الشبكة الجديد (زي باقي الصفحات) */
         .grid-3 {display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:30px;}
+        
         .card-hover {background:rgba(30,30,30,0.5);border-radius:15px;overflow:hidden;border:1px solid rgba(255,255,255,0.1);transition:0.3s;}
         .card-hover:hover {transform:translateY(-10px);border-color:var(--chef-yellow);box-shadow:0 0 30px rgba(255,215,0,0.1);}
         .video-container {position:relative;width:100%;height:220px;}
@@ -51,7 +53,23 @@
         .social-icons a:hover {background:var(--chef-yellow);color:#000;}
 
         .d-none {display:none !important;}
-        @media(max-width:768px){.brand-name{font-size:3.5rem;}.bio-container{flex-direction:column;text-align:center;}.chef-avatar{width:180px;height:180px;}.cursor-glow{display:none;}}
+        
+        /* تعديل الموبايل (2 كارد جنب بعض) */
+        @media(max-width:768px){
+            .brand-name{font-size:3.5rem;}
+            .bio-container{flex-direction:column;text-align:center;}
+            .chef-avatar{width:180px;height:180px;}
+            .cursor-glow{display:none;}
+            
+            .grid-3 {
+                grid-template-columns: repeat(2, 1fr); /* فيديوهين جنب بعض */
+                gap: 15px;
+            }
+            .video-container {height: 120px;} /* تصغير الفيديو شوية عشان يساع */
+            .card-body {padding: 10px;}
+            .card-body h3 {font-size: 0.9rem;}
+            .section-title {font-size: 2rem;}
+        }
     </style>
 </head>
 <body class="ltr">
@@ -59,10 +77,17 @@
     <div class="cursor-glow" id="cursorGlow"></div>
     
     <nav class="nav-bar">
-        <a href="index.html" class="nav-link active">Home</a>
-        <a href="editing.html" class="nav-link">Editing</a>
-        <a href="ai.html" class="nav-link">AI Studio</a>
+        <a href="index.html" class="nav-link active">
+            <span class="lang-en">Home</span><span class="lang-ar d-none">الرئيسية</span>
+        </a>
+        <a href="editing.html" class="nav-link">
+            <span class="lang-en">Editing</span><span class="lang-ar d-none">المونتاج</span>
+        </a>
+        <a href="ai.html" class="nav-link">
+            <span class="lang-en">AI Studio</span><span class="lang-ar d-none">الذكاء الاصطناعي</span>
+        </a>
     </nav>
+    
     <button class="lang-switch" onclick="toggleLanguage()">AR / EN</button>
 
     <header>
@@ -127,10 +152,30 @@
         particlesJS("particles-js",{"particles":{"number":{"value":60},"color":{"value":"#ffffff"},"opacity":{"value":0.5},"size":{"value":3,"random":true},"line_linked":{"enable":true,"distance":150,"color":"#FFD700","opacity":0.4,"width":1},"move":{"enable":true,"speed":3}},"interactivity":{"events":{"onhover":{"enable":true,"mode":"repulse"}}}});
         const cursorGlow = document.getElementById('cursorGlow');
         document.addEventListener('mousemove', (e) => {cursorGlow.style.left = e.clientX + 'px';cursorGlow.style.top = e.clientY + 'px';});
-        let currentLang = 'en';
-        function toggleLanguage() {
-            document.body.classList.toggle('ltr'); document.body.classList.toggle('rtl');
-            document.querySelectorAll('.lang-en, .lang-ar').forEach(el => el.classList.toggle('d-none'));
+
+        // --- كود حفظ اللغة الجديد ---
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedLang = localStorage.getItem('chef-lang');
+            if(savedLang === 'ar'){
+                toggleLanguage(false);
+            }
+        });
+
+        function toggleLanguage(save = true) {
+            const body = document.body;
+            const isRTL = body.classList.contains('rtl');
+            
+            if(isRTL) { // Switch to English
+                body.classList.remove('rtl'); body.classList.add('ltr');
+                document.querySelectorAll('.lang-ar').forEach(el => el.classList.add('d-none'));
+                document.querySelectorAll('.lang-en').forEach(el => el.classList.remove('d-none'));
+                if(save) localStorage.setItem('chef-lang', 'en');
+            } else { // Switch to Arabic
+                body.classList.remove('ltr'); body.classList.add('rtl');
+                document.querySelectorAll('.lang-en').forEach(el => el.classList.add('d-none'));
+                document.querySelectorAll('.lang-ar').forEach(el => el.classList.remove('d-none'));
+                if(save) localStorage.setItem('chef-lang', 'ar');
+            }
         }
     </script>
 </body>
