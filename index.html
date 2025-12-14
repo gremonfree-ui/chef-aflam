@@ -9,34 +9,55 @@
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     
     <style>
-        /* الستايل الأصلي بتاعك */
+        /* --- الأساسيات --- */
         :root{--bg-color:#050505;--chef-yellow:#FFD700;--aflam-pink:#FF69B4;--text-light:#ffffff;}
         body{background:var(--bg-color);color:var(--text-light);font-family:'Montserrat',sans-serif;margin:0;overflow-x:hidden}
         
-        /* القائمة الجديدة (بشكل أشيك) */
-        .nav-bar{
-            display:flex;justify-content:center;gap:30px;padding:20px;
-            background:linear-gradient(180deg, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0) 100%);
-            position:fixed;width:100%;z-index:999;top:0;
+        /* --- القائمة العلوية الجديدة --- */
+        .nav-bar {
+            display: flex; justify-content: center; gap: 40px; padding: 25px;
+            background: rgba(0,0,0,0.8); backdrop-filter: blur(10px);
+            position: fixed; width: 100%; top: 0; z-index: 1000;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
         }
-        .nav-link{
-            color:#fff;font-weight:900;text-transform:uppercase;text-decoration:none;
-            font-size:1.1rem;padding:10px 15px;position:relative;transition:0.3s;
+        .nav-link {
+            color: #fff; text-decoration: none; text-transform: uppercase;
+            font-weight: 900; font-size: 1rem; letter-spacing: 1px;
+            transition: 0.3s; position: relative;
         }
-        .nav-link:hover, .nav-link.active{color:var(--chef-yellow);text-shadow:0 0 10px var(--chef-yellow)}
+        .nav-link:hover, .nav-link.active { color: var(--chef-yellow); }
+        .nav-link.active::after {
+            content:''; position: absolute; bottom: -5px; left: 0; width: 100%; height: 3px; background: var(--chef-yellow);
+        }
+
+        /* --- الهيدر الرئيسي (الشكل القديم) --- */
+        header {
+            height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center;
+            background: radial-gradient(circle, rgba(20,20,20,1) 0%, rgba(5,5,5,1) 100%);
+            text-align: center; padding-top: 60px;
+        }
+        .brand-title { font-size: 5rem; font-weight: 900; margin: 0; line-height: 1.1; }
+        .subtitle { color: #ccc; font-size: 1.2rem; margin-top: 10px; letter-spacing: 3px; text-transform: uppercase; }
         
-        /* الهيدر والعناوين */
-        header{height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;background:radial-gradient(circle at center, #1a1a1a 0%, #050505 70%);}
-        .brand-name{font-size:6rem;margin:0;line-height:1;text-shadow:0 0 20px rgba(255,105,180,0.3)}
+        /* --- قسم الفيديوهات --- */
+        .section-title { text-align: center; font-size: 3rem; margin: 80px 0 50px; text-transform: uppercase; }
+        .grid-container {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px; max-width: 1200px; margin: 0 auto; padding: 20px;
+        }
         
-        /* شبكة الفيديوهات */
-        .grid-3{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:30px;padding:20px}
-        .video-container{position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:15px;border:2px solid #222;transition:0.3s}
-        .video-container:hover{border-color:var(--chef-yellow);transform:scale(1.02)}
-        .video-container iframe{position:absolute;top:0;left:0;width:100%;height:100%}
+        /* كارت الفيديو */
+        .video-card {
+            background: #111; border-radius: 15px; overflow: hidden; transition: 0.4s;
+            border: 1px solid #222; position: relative;
+        }
+        .video-card:hover { transform: translateY(-10px); border-color: var(--chef-yellow); box-shadow: 0 10px 30px rgba(255, 215, 0, 0.1); }
+        .video-wrapper { position: relative; padding-bottom: 56.25%; height: 0; }
+        .video-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+        .card-info { padding: 20px; text-align: center; }
+        .card-info h3 { margin: 0; font-size: 1.1rem; color: #fff; }
         
-        .card-body h3{margin-top:15px;font-size:1.2rem;text-align:center}
-        .d-none{display:none} .rtl{direction:rtl}
+        .d-none { display: none; }
     </style>
 </head>
 <body class="ltr">
@@ -48,22 +69,22 @@
     </nav>
 
     <header>
-        <div data-aos="zoom-in" data-aos-duration="1000">
-            <h1 class="brand-name">CHEF <span style="color:var(--aflam-pink)">AFLAM</span></h1>
-            <p style="font-size:1.5rem;letter-spacing:2px;color:#ccc;margin-top:10px">YOUTUBER | EDITOR | AI ARTIST</p>
-            <div style="margin-top:30px">
-                <a href="#reviews" style="color:#000;background:var(--chef-yellow);padding:10px 30px;text-decoration:none;font-weight:bold;border-radius:30px">LATEST WORK</a>
+        <div data-aos="zoom-in" data-aos-duration="1200">
+            <h1 class="brand-title">CHEF <span style="color:var(--aflam-pink)">AFLAM</span></h1>
+            <p class="subtitle">Video Editor & AI Creative Artist</p>
+            <div style="margin-top: 40px;">
+                <a href="#youtube-grid" style="color:#000; background:var(--chef-yellow); padding: 15px 40px; border-radius: 50px; text-decoration: none; font-weight: bold; font-size: 1.1rem;">LATEST WORK</a>
             </div>
         </div>
     </header>
 
-    <section id="reviews" style="padding:100px 20px;max-width:1200px;margin:0 auto">
-        <h2 style="text-align:center;font-size:3rem;margin-bottom:50px">LATEST <span style="color:var(--chef-yellow)">REVIEWS</span></h2>
-        
-        <div id="youtube-grid" class="grid-3"></div>
+    <section>
+        <h2 class="section-title" data-aos="fade-up">Latest <span style="color:var(--chef-yellow)">Reviews</span></h2>
+        <div id="youtube-grid" class="grid-container"></div>
     </section>
 
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script><script>AOS.init();</script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>AOS.init();</script>
     <script src="main.js"></script>
 </body>
 </html>
