@@ -62,55 +62,31 @@
     <div class="cursor-glow" id="cursorGlow"></div>
 
     <nav class="nav-bar">
-        <a href="index.html" class="nav-link">
-            <span class="lang-en">Home</span><span class="lang-ar d-none">الرئيسية</span>
-        </a>
-        <a href="editing.html" class="nav-link">
-            <span class="lang-en">Editing</span><span class="lang-ar d-none">المونتاج</span>
-        </a>
-        <a href="ai.html" class="nav-link active">
-            <span class="lang-en">AI Studio</span><span class="lang-ar d-none">الذكاء الاصطناعي</span>
-        </a>
+        <a href="index.html" class="nav-link"><span class="lang-en">Home</span><span class="lang-ar d-none">الرئيسية</span></a>
+        <a href="editing.html" class="nav-link"><span class="lang-en">Editing</span><span class="lang-ar d-none">المونتاج</span></a>
+        <a href="ai.html" class="nav-link active"><span class="lang-en">AI Studio</span><span class="lang-ar d-none">الذكاء الاصطناعي</span></a>
     </nav>
     <button class="lang-switch" onclick="toggleLanguage()">AR / EN</button>
 
     <section style="margin-top:120px;">
-        <div class="lang-en" data-aos="fade-up"><h2 class="section-title">Dubai AI Competition Promo 2425 <div class="title-underline"></div></h2></div>
-        <div class="lang-ar d-none" data-aos="fade-up"><h2 class="section-title">برومو مسابقة دبي للذكاء الاصطناعي 2425 <div class="title-underline"></div></h2></div>
+        <div class="lang-en" data-aos="fade-up"><h2 class="section-title" id="feat_title_en"></h2><div class="title-underline"></div></div>
+        <div class="lang-ar d-none" data-aos="fade-up"><h2 class="section-title" id="feat_title_ar"></h2><div class="title-underline"></div></div>
         
         <div class="featured-video" data-aos="zoom-in">
-             <video controls style="width:100%;display:block;" src="ai_videos/trailer.mp4"></video>
+             <video controls style="width:100%;display:block;" id="feat_video_src"></video>
         </div>
     </section>
 
     <section>
         <div class="lang-en" data-aos="fade-up"><h2 class="section-title">AI Videos <div class="title-underline"></div></h2></div>
         <div class="lang-ar d-none" data-aos="fade-up"><h2 class="section-title">فيديوهات الذكاء الاصطناعي <div class="title-underline"></div></h2></div>
-        <div class="grid-vertical">
-            <div class="card-hover" data-aos="fade-up">
-                <div class="video-container-vertical"><video controls src="ai_videos/ai1.mp4"></video></div>
-                <div class="card-body"><h3 class="lang-en">Tiny Figure & The Ring</h3><h3 class="lang-ar d-none">تايني فيجر والخاتم</h3></div>
-            </div>
-            <div class="card-hover" data-aos="fade-up" data-aos-delay="100">
-                <div class="video-container-vertical"><video controls src="ai_videos/ai2.mp4"></video></div>
-                <div class="card-body"><h3 class="lang-en">UAE National Day</h3><h3 class="lang-ar d-none">اليوم الوطني للإمارات</h3></div>
-            </div>
-             <div class="card-hover" data-aos="fade-up" data-aos-delay="200">
-                <div class="video-container-vertical"><video controls src="ai_videos/ai3.mp4"></video></div>
-                <div class="card-body"><h3 class="lang-en">AI Model</h3><h3 class="lang-ar d-none">موديل الذكاء الاصطناعي</h3></div>
-            </div>
-        </div>
+        <div class="grid-vertical" id="ai-grid"></div>
     </section>
 
     <section id="gallery">
         <div class="lang-en" data-aos="fade-up"><h2 class="section-title">Design Gallery <div class="title-underline"></div></h2></div>
         <div class="lang-ar d-none" data-aos="fade-up"><h2 class="section-title">معرض التصميمات <div class="title-underline"></div></h2></div>
-        <div class="gallery-grid">
-            <div class="gallery-item" data-aos="fade-up"><img src="images/design1.jpg" alt="Design 1"></div>
-            <div class="gallery-item" data-aos="fade-up" data-aos-delay="100"><img src="images/design2.jpg" alt="Design 2"></div>
-            <div class="gallery-item" data-aos="fade-up" data-aos-delay="200"><img src="images/design3.jpg" alt="Design 3"></div>
-            <div class="gallery-item" data-aos="fade-up" data-aos-delay="300"><img src="images/design4.jpg" alt="Design 4"></div>
-        </div>
+        <div class="gallery-grid" id="gallery-grid"></div>
     </section>
 
     <footer>
@@ -123,17 +99,35 @@
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
-    <script>
+    <script src="db.js"></script> <script>
         AOS.init({mirror:true,duration:800});
         particlesJS("particles-js",{"particles":{"number":{"value":60},"color":{"value":"#ffffff"},"opacity":{"value":0.5},"size":{"value":3,"random":true},"line_linked":{"enable":true,"distance":150,"color":"#FFD700","opacity":0.4,"width":1},"move":{"enable":true,"speed":3}},"interactivity":{"events":{"onhover":{"enable":true,"mode":"repulse"}}}});
         const cursorGlow = document.getElementById('cursorGlow');
         document.addEventListener('mousemove', (e) => {cursorGlow.style.left = e.clientX + 'px';cursorGlow.style.top = e.clientY + 'px';});
-        
-        // --- كود حفظ اللغة ---
-        document.addEventListener('DOMContentLoaded', () => {
-            const savedLang = localStorage.getItem('chef-lang');
-            if(savedLang === 'ar'){ toggleLanguage(false); }
+
+        // --- تعبئة بيانات الـ AI ---
+        // 1. Featured Video
+        document.getElementById('feat_video_src').src = db.ai_featured.file;
+        document.getElementById('feat_title_en').innerText = db.ai_featured.title_en;
+        document.getElementById('feat_title_ar').innerText = db.ai_featured.title_ar;
+
+        // 2. AI Videos Grid
+        const aiGrid = document.getElementById('ai-grid');
+        db.ai_videos.forEach(v => {
+            aiGrid.innerHTML += `
+            <div class="card-hover" data-aos="fade-up">
+                <div class="video-container-vertical"><video controls src="${v.file}"></video></div>
+                <div class="card-body"><h3 class="lang-en">${v.title_en}</h3><h3 class="lang-ar d-none">${v.title_ar}</h3></div>
+            </div>`;
         });
+
+        // 3. Gallery Grid
+        const galGrid = document.getElementById('gallery-grid');
+        db.gallery.forEach(img => {
+            galGrid.innerHTML += `<div class="gallery-item" data-aos="fade-up"><img src="${img}" alt="Design"></div>`;
+        });
+
+        document.addEventListener('DOMContentLoaded', () => { if(localStorage.getItem('chef-lang') === 'ar') toggleLanguage(false); });
         function toggleLanguage(save = true) {
             const body = document.body;
             const isRTL = body.classList.contains('rtl');

@@ -39,9 +39,7 @@
         .section-title {font-size:3rem;font-weight:900;text-align:center;margin-bottom:50px;text-transform:uppercase;color:#fff;}
         .title-underline {width:80px;height:5px;background:linear-gradient(90deg,var(--chef-yellow),var(--aflam-pink));margin:15px auto 0;border-radius:10px;}
 
-        /* تنسيق الشبكة الجديد (زي باقي الصفحات) */
         .grid-3 {display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:30px;}
-        
         .card-hover {background:rgba(30,30,30,0.5);border-radius:15px;overflow:hidden;border:1px solid rgba(255,255,255,0.1);transition:0.3s;}
         .card-hover:hover {transform:translateY(-10px);border-color:var(--chef-yellow);box-shadow:0 0 30px rgba(255,215,0,0.1);}
         .video-container {position:relative;width:100%;height:220px;}
@@ -53,22 +51,14 @@
         .social-icons a:hover {background:var(--chef-yellow);color:#000;}
 
         .d-none {display:none !important;}
-        
-        /* تعديل الموبايل (2 كارد جنب بعض) */
         @media(max-width:768px){
             .brand-name{font-size:3.5rem;}
             .bio-container{flex-direction:column;text-align:center;}
             .chef-avatar{width:180px;height:180px;}
             .cursor-glow{display:none;}
-            
-            .grid-3 {
-                grid-template-columns: repeat(2, 1fr); /* فيديوهين جنب بعض */
-                gap: 15px;
-            }
-            .video-container {height: 120px;} /* تصغير الفيديو شوية عشان يساع */
-            .card-body {padding: 10px;}
-            .card-body h3 {font-size: 0.9rem;}
-            .section-title {font-size: 2rem;}
+            .grid-3 {grid-template-columns: repeat(2, 1fr); gap: 15px;}
+            .video-container {height: 120px;}
+            .card-body {padding: 10px;} .card-body h3 {font-size: 0.9rem;} .section-title {font-size: 2rem;}
         }
     </style>
 </head>
@@ -77,17 +67,10 @@
     <div class="cursor-glow" id="cursorGlow"></div>
     
     <nav class="nav-bar">
-        <a href="index.html" class="nav-link active">
-            <span class="lang-en">Home</span><span class="lang-ar d-none">الرئيسية</span>
-        </a>
-        <a href="editing.html" class="nav-link">
-            <span class="lang-en">Editing</span><span class="lang-ar d-none">المونتاج</span>
-        </a>
-        <a href="ai.html" class="nav-link">
-            <span class="lang-en">AI Studio</span><span class="lang-ar d-none">الذكاء الاصطناعي</span>
-        </a>
+        <a href="index.html" class="nav-link active"><span class="lang-en">Home</span><span class="lang-ar d-none">الرئيسية</span></a>
+        <a href="editing.html" class="nav-link"><span class="lang-en">Editing</span><span class="lang-ar d-none">المونتاج</span></a>
+        <a href="ai.html" class="nav-link"><span class="lang-en">AI Studio</span><span class="lang-ar d-none">الذكاء الاصطناعي</span></a>
     </nav>
-    
     <button class="lang-switch" onclick="toggleLanguage()">AR / EN</button>
 
     <header>
@@ -106,10 +89,10 @@
         <div class="lang-en" data-aos="fade-up"><h2 class="section-title">The Chef <div class="title-underline"></div></h2></div>
         <div class="lang-ar d-none" data-aos="fade-up"><h2 class="section-title">الشيف <div class="title-underline"></div></h2></div>
         <div class="bio-container">
-            <img src="images/profile.jpg" alt="Chef Aflam" class="chef-avatar" data-aos="zoom-in">
+            <img id="profile_img" src="" alt="Chef Aflam" class="chef-avatar" data-aos="zoom-in">
             <div style="max-width:600px;font-size:1.1rem;line-height:1.6;color:#ddd;" data-aos="fade-left">
-                <div class="lang-en">I’m Remon — chef aflam who blends real filmmaking with AI magic, creating bold YouTube content, smart edits, and visuals that hit different.</div>
-                <div class="lang-ar d-none">أنا ريمون… شيف أفلام بدمج صناعة الفيديو الحقيقية مع شغل الـذكاء الاصطناعي، وبقدّم محتوى يوتيوب جريء، ومونتاج ذكي، وفيديوهات ليها بصمة مختلفة.</div>
+                <div class="lang-en" id="bio_en_txt"></div>
+                <div class="lang-ar d-none" id="bio_ar_txt"></div>
             </div>
         </div>
     </section>
@@ -117,20 +100,7 @@
     <section id="movie-breakdown">
         <div class="lang-en" data-aos="fade-up"><h2 class="section-title">Latest Reviews <div class="title-underline"></div></h2></div>
         <div class="lang-ar d-none" data-aos="fade-up"><h2 class="section-title">أحدث المراجعات <div class="title-underline"></div></h2></div>
-        <div class="grid-3">
-            <div class="card-hover" data-aos="fade-up">
-                <div class="video-container"><iframe src="https://www.youtube.com/embed/qqF4nTBr0PY" allowfullscreen></iframe></div>
-                <div class="card-body"><h3 class="lang-en">Stranger Things S5 Analysis</h3><h3 class="lang-ar d-none">تحليل سترينجر ثينجز: من هو الشرير الحقيقي؟</h3></div>
-            </div>
-            <div class="card-hover" data-aos="fade-up" data-aos-delay="100">
-                <div class="video-container"><iframe src="https://www.youtube.com/embed/y5C-9763pgg" allowfullscreen></iframe></div>
-                <div class="card-body"><h3 class="lang-en">Mission Impossible Explained</h3><h3 class="lang-ar d-none">شرح وتفصيل فيلم المهمة المستحيلة</h3></div>
-            </div>
-             <div class="card-hover" data-aos="fade-up" data-aos-delay="200">
-                <div class="video-container"><iframe src="https://www.youtube.com/embed/2l9AR_7EAX8" allowfullscreen></iframe></div>
-                <div class="card-body"><h3 class="lang-en">Predator Badlands Review</h3><h3 class="lang-ar d-none">مراجعة فيلم بريداتور بادلاندز</h3></div>
-            </div>
-        </div>
+        <div class="grid-3" id="youtube-grid"></div>
     </section>
 
     <footer id="contact">
@@ -147,30 +117,37 @@
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
-    <script>
+    <script src="db.js"></script> <script>
         AOS.init({mirror:true,duration:800});
         particlesJS("particles-js",{"particles":{"number":{"value":60},"color":{"value":"#ffffff"},"opacity":{"value":0.5},"size":{"value":3,"random":true},"line_linked":{"enable":true,"distance":150,"color":"#FFD700","opacity":0.4,"width":1},"move":{"enable":true,"speed":3}},"interactivity":{"events":{"onhover":{"enable":true,"mode":"repulse"}}}});
         const cursorGlow = document.getElementById('cursorGlow');
         document.addEventListener('mousemove', (e) => {cursorGlow.style.left = e.clientX + 'px';cursorGlow.style.top = e.clientY + 'px';});
 
-        // --- كود حفظ اللغة الجديد ---
-        document.addEventListener('DOMContentLoaded', () => {
-            const savedLang = localStorage.getItem('chef-lang');
-            if(savedLang === 'ar'){
-                toggleLanguage(false);
-            }
+        // --- كود قراءة البيانات من db.js ---
+        document.getElementById('profile_img').src = db.profile.image;
+        document.getElementById('bio_en_txt').innerText = db.profile.bio_en;
+        document.getElementById('bio_ar_txt').innerText = db.profile.bio_ar;
+        
+        const ytGrid = document.getElementById('youtube-grid');
+        db.home_videos.forEach(v => {
+            ytGrid.innerHTML += `
+            <div class="card-hover" data-aos="fade-up">
+                <div class="video-container"><iframe src="https://www.youtube.com/embed/${v.id}" allowfullscreen></iframe></div>
+                <div class="card-body"><h3 class="lang-en">${v.title_en}</h3><h3 class="lang-ar d-none">${v.title_ar}</h3></div>
+            </div>`;
         });
 
+        // --- كود اللغة ---
+        document.addEventListener('DOMContentLoaded', () => { if(localStorage.getItem('chef-lang') === 'ar') toggleLanguage(false); });
         function toggleLanguage(save = true) {
             const body = document.body;
             const isRTL = body.classList.contains('rtl');
-            
-            if(isRTL) { // Switch to English
+            if(isRTL) {
                 body.classList.remove('rtl'); body.classList.add('ltr');
                 document.querySelectorAll('.lang-ar').forEach(el => el.classList.add('d-none'));
                 document.querySelectorAll('.lang-en').forEach(el => el.classList.remove('d-none'));
                 if(save) localStorage.setItem('chef-lang', 'en');
-            } else { // Switch to Arabic
+            } else {
                 body.classList.remove('ltr'); body.classList.add('rtl');
                 document.querySelectorAll('.lang-en').forEach(el => el.classList.add('d-none'));
                 document.querySelectorAll('.lang-ar').forEach(el => el.classList.remove('d-none'));
