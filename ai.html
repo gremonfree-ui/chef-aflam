@@ -1,23 +1,92 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Studio | Chef Aflam</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CHEF AFLAM | AI Studio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;900&family=Cairo:wght@400;900&display=swap" rel="stylesheet">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    <style>body{background:#050505;color:#fff;font-family:sans-serif}.nav{padding:20px;text-align:center}.nav a{color:#fff;margin:0 15px;text-decoration:none;font-size:1.2rem;font-weight:bold}.nav a.active{color:#FFD700}</style>
+    <style>
+        :root{--bg-color:#050505;--chef-yellow:#FFD700;--aflam-pink:#FF69B4;--text-light:#ffffff;}
+        body{margin:0;padding:0;font-family:'Montserrat',sans-serif;background-color:var(--bg-color);color:var(--text-light);overflow-x:hidden;}
+        body.rtl{font-family:'Cairo',sans-serif;direction:rtl;text-align:right;}
+        
+        .nav-bar{display:flex;justify-content:center;gap:30px;padding:20px;background:rgba(0,0,0,0.9);position:fixed;width:100%;z-index:1000;}
+        .nav-link{color:#fff;text-decoration:none;font-weight:900;text-transform:uppercase;transition:0.3s;}
+        .nav-link:hover, .nav-link.active{color:var(--chef-yellow);}
+        .lang-switch{position:fixed;top:80px;right:20px;z-index:9999;background:#000;padding:5px 15px;border:1px solid var(--chef-yellow);color:var(--chef-yellow);cursor:pointer;}
+
+        section{padding:50px 20px;max-width:1200px;margin:0 auto;}
+        .section-title{text-align:center;font-size:3rem;margin:50px 0;text-transform:uppercase;}
+        
+        .grid-vertical{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:40px;}
+        .card-hover{background:#111;border-radius:15px;overflow:hidden;border:1px solid #333;transition:0.3s;}
+        .card-hover:hover{transform:translateY(-10px);border-color:var(--aflam-pink);} /* لون وردي للـ AI */
+        
+        .video-container-vertical{position:relative;width:100%;padding-top:177.77%;background:#000;}
+        .video-container-vertical video{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;}
+        
+        /* تنسيق المعرض (الصور) */
+        .gallery-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:20px;}
+        .gallery-item{border-radius:15px;overflow:hidden;height:250px;border:1px solid #333;transition:0.3s;}
+        .gallery-item:hover{transform:scale(1.05);border-color:var(--aflam-pink);}
+        .gallery-item img{width:100%;height:100%;object-fit:cover;}
+
+        .card-body{padding:20px;text-align:center;color:#fff;}
+        .d-none{display:none !important;}
+    </style>
 </head>
 <body class="ltr">
-    <div class="nav">
-        <a href="index.html">Home</a>
-        <a href="editing.html">Editing</a>
-        <a href="ai.html" class="active">AI Studio</a> </div>
+    <button class="lang-switch" onclick="toggleLanguage()">AR / EN</button>
 
-    <h1 style="text-align:center;margin:50px 0;font-size:3rem">AI <span style="color:#FFD700">Studio</span></h1>
-    
-    <div id="ai-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:30px;padding:20px;max-width:1200px;margin:0 auto"></div>
+    <nav class="nav-bar">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="editing.html" class="nav-link">Editing</a>
+        <a href="ai.html" class="nav-link active">AI Studio</a>
+    </nav>
 
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script><script>AOS.init();</script>
-    <script src="main.js"></script>
-    <script>function toggleLanguage(){document.body.classList.toggle('rtl');document.querySelectorAll('.lang-en,.lang-ar').forEach(e=>e.classList.toggle('d-none'));}</script>
+    <section style="margin-top:100px">
+        <h2 class="section-title lang-en">Featured <span style="color:var(--aflam-pink)">Project</span></h2>
+        <h2 class="section-title lang-ar d-none">عمل <span style="color:var(--aflam-pink)">مميز</span></h2>
+        
+        <div data-aos="zoom-in" style="border:2px solid #333;border-radius:20px;overflow:hidden;box-shadow:0 0 30px rgba(255,105,180,0.2)">
+            <video controls style="width:100%;display:block;max-height:500px;object-fit:contain;background:#000" src="ai_videos/trailer.mp4"></video>
+        </div>
+    </section>
+
+    <section>
+        <h2 class="section-title lang-en">AI <span style="color:var(--chef-yellow)">Videos</span></h2>
+        <h2 class="section-title lang-ar d-none">فيديوهات <span style="color:var(--chef-yellow)">الذكاء الاصطناعي</span></h2>
+        
+        <div class="grid-vertical">
+            <div class="card-hover" data-aos="fade-up">
+                <div class="video-container-vertical"><video controls src="ai_videos/ai1.mp4"></video></div>
+                <div class="card-body"><h3 class="lang-en">Tiny Figure</h3><h3 class="lang-ar d-none">تايني فيجر</h3></div>
+            </div>
+            <div class="card-hover" data-aos="fade-up" data-aos-delay="100">
+                <div class="video-container-vertical"><video controls src="ai_videos/ai2.mp4"></video></div>
+                <div class="card-body"><h3 class="lang-en">UAE National Day</h3><h3 class="lang-ar d-none">العيد الوطني</h3></div>
+            </div>
+             <div class="card-hover" data-aos="fade-up" data-aos-delay="200">
+                <div class="video-container-vertical"><video controls src="ai_videos/ai3.mp4"></video></div>
+                <div class="card-body"><h3 class="lang-en">AI Model</h3><h3 class="lang-ar d-none">موديل الذكاء الاصطناعي</h3></div>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <h2 class="section-title lang-en">Design <span style="color:var(--aflam-pink)">Gallery</span></h2>
+        <h2 class="section-title lang-ar d-none">معرض <span style="color:var(--aflam-pink)">التصميمات</span></h2>
+        
+        <div class="gallery-grid">
+            <div class="gallery-item" data-aos="fade-up"><img src="images/design1.jpg" alt="Design 1"></div>
+            <div class="gallery-item" data-aos="fade-up" data-aos-delay="100"><img src="images/design2.jpg" alt="Design 2"></div>
+            <div class="gallery-item" data-aos="fade-up" data-aos-delay="200"><img src="images/design3.jpg" alt="Design 3"></div>
+            <div class="gallery-item" data-aos="fade-up" data-aos-delay="300"><img src="images/design4.jpg" alt="Design 4"></div>
+        </div>
+    </section>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>AOS.init(); function toggleLanguage(){document.body.classList.toggle('rtl');document.querySelectorAll('.lang-en, .lang-ar').forEach(el => el.classList.toggle('d-none'));}</script>
 </body>
 </html>
