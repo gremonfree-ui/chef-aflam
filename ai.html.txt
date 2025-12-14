@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Studio | Chef Aflam</title>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <style>body{background:#050505;color:#fff;font-family:sans-serif}.nav{padding:20px;text-align:center}.nav a{color:#fff;margin:0 15px;text-decoration:none;font-size:1.2rem;font-weight:bold}.nav a.active{color:#FFD700}</style>
+</head>
+<body class="ltr">
+    <div class="nav">
+        <a href="index.html">Home</a>
+        <a href="editing.html">Editing</a>
+        <a href="ai.html" class="active">AI Studio</a> </div>
+
+    <h1 style="text-align:center;margin:50px 0;font-size:3rem">AI <span style="color:#FFD700">Studio</span></h1>
+    
+    <div id="ai-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:30px;padding:20px;max-width:1200px;margin:0 auto"></div>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script><script>AOS.init();</script>
+    <script src="main.js"></script>
+    <script>function toggleLanguage(){document.body.classList.toggle('rtl');document.querySelectorAll('.lang-en,.lang-ar').forEach(e=>e.classList.toggle('d-none'));}</script>
+</body>
+</html>

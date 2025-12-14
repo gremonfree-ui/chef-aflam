@@ -1,0 +1,14 @@
+{
+  "youtubeVideos": [
+    { "id": "qqF4nTBr0PY", "title_en": "Stranger Things S5", "title_ar": "تحليل سترينجر ثينجز" },
+    { "id": "y5C-9763pgg", "title_en": "Mission Impossible", "title_ar": "المهمة المستحيلة" }
+  ],
+  "editingVideos": [
+    { "file": "edit1.mp4", "title_en": "Rushd Market", "title_ar": "رشد: السوق" },
+    { "file": "edit2.mp4", "title_en": "Rushd UGC", "title_ar": "رشد: UGC" }
+  ],
+  "aiVideos": [
+    { "file": "ai1.mp4", "title_en": "Tiny Figure", "title_ar": "تايني فيجر" },
+    { "file": "ai2.mp4", "title_en": "UAE National Day", "title_ar": "اليوم الوطني" }
+  ]
+}
