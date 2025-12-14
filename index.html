@@ -3,62 +3,55 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Chef Aflam Portfolio">
     <title>CHEF AFLAM | Home</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <style>
-        :root {--bg-color: #050505;--chef-yellow: #FFD700;--aflam-pink: #FF69B4;--text-light: #ffffff;--card-bg: rgba(20, 20, 20, 0.6);}
-        body {margin:0;padding:0;font-family:'Montserrat',sans-serif;background-color:var(--bg-color);color:var(--text-light);overflow-x:hidden;scroll-behavior:smooth;}
+        :root {--bg-color: #050505;--chef-yellow: #FFD700;--aflam-pink: #FF69B4;--text-light: #ffffff;}
+        body {margin:0;padding:0;font-family:'Montserrat',sans-serif;background-color:var(--bg-color);color:var(--text-light);overflow-x:hidden;}
         #particles-js {position:fixed;width:100%;height:100%;top:0;left:0;z-index:-1;background-color:#050505;}
         .cursor-glow {width:400px;height:400px;background:radial-gradient(circle, rgba(255,215,0,0.08) 0%, transparent 70%);position:fixed;top:0;left:0;pointer-events:none;z-index:0;transform:translate(-50%,-50%);transition:0.05s ease;}
-        ::-webkit-scrollbar {width:6px;} ::-webkit-scrollbar-track {background:#000;} ::-webkit-scrollbar-thumb {background:var(--chef-yellow);border-radius:4px;}
-        body.rtl {font-family:'Cairo',sans-serif;direction:rtl;text-align:right;} a{text-decoration:none;color:inherit;transition:0.3s;}
+        body.rtl {font-family:'Cairo',sans-serif;direction:rtl;text-align:right;} a{text-decoration:none;transition:0.3s;}
         
-        .nav-bar{display:flex;justify-content:center;gap:30px;padding:25px;background:rgba(0,0,0,0.8);position:fixed;width:100%;z-index:1000;backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,255,255,0.05);}
-        .nav-link{color:#fff;text-decoration:none;font-weight:900;text-transform:uppercase;font-size:1rem;position:relative;padding:5px 10px;}
+        .nav-bar{display:flex;justify-content:center;gap:30px;padding:20px;background:rgba(0,0,0,0.9);position:fixed;width:100%;top:0;z-index:1000;backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,255,255,0.05);}
+        .nav-link{color:#fff;font-weight:900;text-transform:uppercase;font-size:1rem;padding:5px 10px;position:relative;}
         .nav-link:hover, .nav-link.active{color:var(--chef-yellow);text-shadow:0 0 10px var(--chef-yellow);}
-        .nav-link.active::after{content:'';position:absolute;bottom:-5px;left:0;width:100%;height:2px;background:var(--chef-yellow);box-shadow:0 0 10px var(--chef-yellow);}
+        .nav-link.active::after{content:'';position:absolute;bottom:-5px;left:0;width:100%;height:2px;background:var(--chef-yellow);}
 
-        .lang-switch {position:fixed;top:90px;left:25px;z-index:9999;background:rgba(0,0,0,0.8);padding:8px 20px;border-radius:50px;font-size:0.9rem;cursor:pointer;font-weight:800;border:2px solid var(--chef-yellow);color:var(--chef-yellow);backdrop-filter:blur(5px);}
-        body.rtl .lang-switch {left:auto;right:25px;}
+        .lang-switch {position:fixed;top:85px;left:20px;z-index:9999;background:rgba(0,0,0,0.8);padding:8px 20px;border-radius:50px;font-size:0.9rem;cursor:pointer;font-weight:800;border:2px solid var(--chef-yellow);color:var(--chef-yellow);}
+        body.rtl .lang-switch {left:auto;right:20px;}
 
-        header {height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;position:relative;z-index:2;padding:0 20px;}
-        .brand-name {font-size:6rem;font-weight:900;line-height:0.9;text-transform:uppercase;margin-bottom:25px;letter-spacing:-2px;animation:floatLogo 4s ease-in-out infinite;}
-        @keyframes floatLogo {0%,100%{transform:translateY(0);text-shadow:0 0 30px rgba(255,215,0,0.2);}50%{transform:translateY(-15px);text-shadow:0 0 60px rgba(255,215,0,0.6);}}
+        header {height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:0 20px;}
+        .brand-name {font-size:6rem;font-weight:900;line-height:0.9;text-transform:uppercase;margin-bottom:20px;animation:floatLogo 4s infinite;}
+        @keyframes floatLogo {0%,100%{transform:translateY(0);text-shadow:0 0 30px rgba(255,215,0,0.2);}50%{transform:translateY(-15px);text-shadow:0 0 60px rgba(255,215,0,0.5);}}
         .brand-chef {color:var(--chef-yellow);} .brand-aflam {color:var(--aflam-pink);}
-        .hero-subtitle {font-size:1.4rem;color:#ccc;margin-bottom:40px;letter-spacing:2px;}
-        .btn-glow {padding:15px 40px;margin:10px;border-radius:50px;font-weight:800;font-size:1.1rem;display:inline-block;position:relative;overflow:hidden;transition:0.3s;z-index:10;}
-        .btn-yellow {background:var(--chef-yellow);color:#000;} .btn-pink {border:3px solid var(--aflam-pink);color:var(--aflam-pink);}
-        .btn-glow:hover {transform:scale(1.05);box-shadow:0 0 30px currentColor;}
-
-        .bio-container {display:flex;align-items:center;justify-content:center;gap:60px;margin:100px 0;}
-        body.rtl .bio-container {flex-direction:row-reverse;}
-        .chef-avatar {width:250px;height:250px;border-radius:50%;border:5px solid var(--chef-yellow);box-shadow:0 0 30px rgba(255,215,0,0.2);object-fit:cover;flex-shrink:0;transition:0.5s;}
-        .chef-avatar:hover {transform:rotate(5deg) scale(1.05);border-color:var(--aflam-pink);}
-        .bio-text {font-size:1.2rem;line-height:1.7;color:#ddd;max-width:600px;}
-
-        section {padding:50px 20px;max-width:1200px;margin:0 auto;position:relative;z-index:2;}
-        .section-title {font-size:3rem;font-weight:900;text-align:center;margin-bottom:60px;text-transform:uppercase;color:#fff;}
-        .title-underline {width:80px;height:6px;background:linear-gradient(90deg,var(--chef-yellow),var(--aflam-pink));margin:15px auto 0;border-radius:20px;transition:0.6s;}
-        section:hover .title-underline {width:200px;box-shadow:0 0 20px var(--aflam-pink);}
         
-        .grid-3 {display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:30px;}
-        .card-hover {background:rgba(30,30,30,0.4);border-radius:15px;overflow:hidden;border:1px solid rgba(255,255,255,0.1);backdrop-filter:blur(5px);transition:all 0.3s ease;}
-        .card-hover:hover {transform:translateY(-10px) scale(1.02);border-color:var(--chef-yellow);background:rgba(30,30,30,0.9);box-shadow:0 0 40px rgba(255,215,0,0.2);z-index:10;}
-        .video-container {position:relative;width:100%;height:220px;background:#000;}
-        .video-container iframe {width:100%;height:100%;}
-        .card-body {padding:25px;} .card-body h3 {margin:0 0 10px;color:var(--chef-yellow);font-size:1.3rem;font-weight:800;}
-        .card-hover:hover .card-body h3 {color:#fff;text-shadow:0 0 15px var(--chef-yellow);}
+        .btn-glow {padding:15px 40px;margin:10px;border-radius:50px;font-weight:800;font-size:1.1rem;display:inline-block;border:none;cursor:pointer;}
+        .btn-yellow {background:var(--chef-yellow);color:#000;} .btn-pink {border:3px solid var(--aflam-pink);color:var(--aflam-pink);background:transparent;}
+        .btn-glow:hover {transform:scale(1.05);box-shadow:0 0 20px currentColor;}
 
-        footer {border-top:1px solid #333;padding:60px 20px;text-align:center;background:#000;margin-top:80px;}
-        .social-icons {margin:40px 0;display:flex;justify-content:center;gap:20px;flex-wrap:wrap;}
-        .social-icons a {width:50px;height:50px;border-radius:50%;background:#111;display:flex;align-items:center;justify-content:center;font-size:1.4rem;color:#666;transition:0.3s;border:1px solid #333;}
-        .social-icons a:hover {background:var(--chef-yellow);color:#000;transform:translateY(-5px) rotate(360deg);box-shadow:0 0 30px var(--chef-yellow);}
+        .bio-container {display:flex;align-items:center;justify-content:center;gap:50px;margin:100px 0;}
+        body.rtl .bio-container {flex-direction:row-reverse;}
+        .chef-avatar {width:250px;height:250px;border-radius:50%;border:5px solid var(--chef-yellow);box-shadow:0 0 30px rgba(255,215,0,0.2);object-fit:cover;}
+        
+        section {padding:50px 20px;max-width:1200px;margin:0 auto;}
+        .section-title {font-size:3rem;font-weight:900;text-align:center;margin-bottom:50px;text-transform:uppercase;color:#fff;}
+        .title-underline {width:80px;height:5px;background:linear-gradient(90deg,var(--chef-yellow),var(--aflam-pink));margin:15px auto 0;border-radius:10px;}
+
+        .grid-3 {display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:30px;}
+        .card-hover {background:rgba(30,30,30,0.5);border-radius:15px;overflow:hidden;border:1px solid rgba(255,255,255,0.1);transition:0.3s;}
+        .card-hover:hover {transform:translateY(-10px);border-color:var(--chef-yellow);box-shadow:0 0 30px rgba(255,215,0,0.1);}
+        .video-container {position:relative;width:100%;height:220px;}
+        .video-container iframe {width:100%;height:100%;border:none;}
+        .card-body {padding:20px;} .card-body h3 {margin:0;color:var(--chef-yellow);font-size:1.1rem;}
+
+        footer {border-top:1px solid #333;padding:50px 20px;text-align:center;background:#000;margin-top:80px;}
+        .social-icons a {width:50px;height:50px;border-radius:50%;background:#111;display:inline-flex;align-items:center;justify-content:center;font-size:1.4rem;color:#666;margin:0 10px;transition:0.3s;}
+        .social-icons a:hover {background:var(--chef-yellow);color:#000;}
 
         .d-none {display:none !important;}
-        @media(max-width:768px){.brand-name{font-size:3.5rem;}.bio-container{flex-direction:column;text-align:center;gap:30px;}.chef-avatar{width:180px;height:180px;}.cursor-glow{display:none;}}
+        @media(max-width:768px){.brand-name{font-size:3.5rem;}.bio-container{flex-direction:column;text-align:center;}.chef-avatar{width:180px;height:180px;}.cursor-glow{display:none;}}
     </style>
 </head>
 <body class="ltr">
@@ -70,17 +63,16 @@
         <a href="editing.html" class="nav-link">Editing</a>
         <a href="ai.html" class="nav-link">AI Studio</a>
     </nav>
-    
     <button class="lang-switch" onclick="toggleLanguage()">AR / EN</button>
 
     <header>
-        <div data-aos="zoom-out" data-aos-duration="1000">
+        <div data-aos="zoom-out">
             <div class="brand-name"><div class="brand-chef">CHEF</div><div class="brand-aflam">AFLAM</div></div>
-            <p class="hero-subtitle lang-en" data-aos="fade-up" data-aos-delay="200">Video Editor & AI Artist | Movie Review</p>
-            <p class="hero-subtitle lang-ar d-none" data-aos="fade-up" data-aos-delay="200">مونتير وفنان ذكاء اصطناعي | مراجعة افلام</p>
-            <div style="margin-top:20px;" data-aos="fade-up" data-aos-delay="400">
+            <p class="lang-en" style="color:#ccc;font-size:1.2rem;letter-spacing:2px;margin-bottom:30px">Video Editor & AI Artist | Movie Review</p>
+            <p class="lang-ar d-none" style="color:#ccc;font-size:1.2rem;margin-bottom:30px">مونتير وفنان ذكاء اصطناعي | مراجعة افلام</p>
+            <div data-aos="fade-up" data-aos-delay="200">
                 <a href="#movie-breakdown" class="btn-glow btn-yellow"><span class="lang-en">Latest Reviews</span><span class="lang-ar d-none">أحدث المراجعات</span></a>
-                <a href="#contact" class="btn-glow btn-pink"><span class="lang-en">Get in Touch</span><span class="lang-ar d-none">تواصل معي</span></a>
+                <a href="#contact" class="btn-glow btn-pink"><span class="lang-en">Contact Me</span><span class="lang-ar d-none">تواصل معي</span></a>
             </div>
         </div>
     </header>
@@ -90,7 +82,7 @@
         <div class="lang-ar d-none" data-aos="fade-up"><h2 class="section-title">الشيف <div class="title-underline"></div></h2></div>
         <div class="bio-container">
             <img src="images/profile.jpg" alt="Chef Aflam" class="chef-avatar" data-aos="zoom-in">
-            <div class="bio-text" data-aos="fade-up">
+            <div style="max-width:600px;font-size:1.1rem;line-height:1.6;color:#ddd;" data-aos="fade-left">
                 <div class="lang-en">I’m Remon — chef aflam who blends real filmmaking with AI magic, creating bold YouTube content, smart edits, and visuals that hit different.</div>
                 <div class="lang-ar d-none">أنا ريمون… شيف أفلام بدمج صناعة الفيديو الحقيقية مع شغل الـذكاء الاصطناعي، وبقدّم محتوى يوتيوب جريء، ومونتاج ذكي، وفيديوهات ليها بصمة مختلفة.</div>
             </div>
@@ -98,51 +90,47 @@
     </section>
 
     <section id="movie-breakdown">
-        <div class="lang-en" data-aos="fade-up"><h2 class="section-title">Movie Breakdown <div class="title-underline"></div></h2></div>
-        <div class="lang-ar d-none" data-aos="fade-up"><h2 class="section-title">تحليل أفلام <div class="title-underline"></div></h2></div>
+        <div class="lang-en" data-aos="fade-up"><h2 class="section-title">Latest Reviews <div class="title-underline"></div></h2></div>
+        <div class="lang-ar d-none" data-aos="fade-up"><h2 class="section-title">أحدث المراجعات <div class="title-underline"></div></h2></div>
         <div class="grid-3">
             <div class="card-hover" data-aos="fade-up">
-                <div class="video-container"><iframe src="https://www.youtube.com/embed/qqF4nTBr0PY" frameborder="0" allowfullscreen></iframe></div>
-                <div class="card-body"><h3 class="lang-en">Stranger Things S5 Analysis</h3><h3 class="lang-ar d-none">تحليل سترينجر ثينجز</h3></div>
+                <div class="video-container"><iframe src="https://www.youtube.com/embed/qqF4nTBr0PY" allowfullscreen></iframe></div>
+                <div class="card-body"><h3 class="lang-en">Stranger Things S5 Analysis</h3><h3 class="lang-ar d-none">تحليل سترينجر ثينجز: من هو الشرير الحقيقي؟</h3></div>
             </div>
             <div class="card-hover" data-aos="fade-up" data-aos-delay="100">
-                <div class="video-container"><iframe src="https://www.youtube.com/embed/y5C-9763pgg" frameborder="0" allowfullscreen></iframe></div>
-                <div class="card-body"><h3 class="lang-en">Mission Impossible Explained</h3><h3 class="lang-ar d-none">شرح المهمة المستحيلة</h3></div>
+                <div class="video-container"><iframe src="https://www.youtube.com/embed/y5C-9763pgg" allowfullscreen></iframe></div>
+                <div class="card-body"><h3 class="lang-en">Mission Impossible Explained</h3><h3 class="lang-ar d-none">شرح وتفصيل فيلم المهمة المستحيلة</h3></div>
             </div>
              <div class="card-hover" data-aos="fade-up" data-aos-delay="200">
-                <div class="video-container"><iframe src="https://www.youtube.com/embed/2l9AR_7EAX8" frameborder="0" allowfullscreen></iframe></div>
-                <div class="card-body"><h3 class="lang-en">Predator Badlands Review</h3><h3 class="lang-ar d-none">مراجعة بريداتور</h3></div>
+                <div class="video-container"><iframe src="https://www.youtube.com/embed/2l9AR_7EAX8" allowfullscreen></iframe></div>
+                <div class="card-body"><h3 class="lang-en">Predator Badlands Review</h3><h3 class="lang-ar d-none">مراجعة فيلم بريداتور بادلاندز</h3></div>
             </div>
         </div>
     </section>
 
     <footer id="contact">
-        <h2 class="lang-en" data-aos="zoom-in" style="font-size:2rem;color:#fff;">Let's Cook Something <span style="color:var(--chef-yellow)">Amazing</span></h2>
-        <h2 class="lang-ar d-none" data-aos="zoom-in" style="font-size:2rem;color:#fff;">لنطبخ شيئاً <span style="color:var(--chef-yellow)">مذهلاً</span></h2>
-        <div class="social-icons" data-aos="fade-up">
+        <h2 class="lang-en" style="font-size:2rem;color:#fff;margin-bottom:30px">Let's Create Something <span style="color:var(--chef-yellow)">Amazing</span></h2>
+        <h2 class="lang-ar d-none" style="font-size:2rem;color:#fff;margin-bottom:30px">لنصنع شيئاً <span style="color:var(--chef-yellow)">مذهلاً</span></h2>
+        <div class="social-icons">
             <a href="https://www.youtube.com/@chefaflam/" target="_blank"><i class="fab fa-youtube"></i></a>
             <a href="https://www.tiktok.com/@chefaflam" target="_blank"><i class="fab fa-tiktok"></i></a>
             <a href="https://www.instagram.com/chefaflam" target="_blank"><i class="fab fa-instagram"></i></a>
-            <a href="https://www.linkedin.com/in/remongeorge1/" target="_blank"><i class="fab fa-linkedin"></i></a>
             <a href="mailto:contact@chefaflam.com"><i class="fas fa-envelope"></i></a>
         </div>
-        <p style="color:#444;margin-top:30px;font-size:0.9rem;">&copy; 2025 CHEF AFLAM</p>
+        <p style="color:#444;margin-top:30px;">&copy; 2025 CHEF AFLAM</p>
     </footer>
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <script>
-        AOS.init({mirror:true,duration:800,offset:50});
-        particlesJS("particles-js",{"particles":{"number":{"value":60},"color":{"value":"#ffffff"},"shape":{"type":"circle"},"opacity":{"value":0.5},"size":{"value":3,"random":true},"line_linked":{"enable":true,"distance":150,"color":"#FFD700","opacity":0.4,"width":1},"move":{"enable":true,"speed":4}},"interactivity":{"detect_on":"canvas","events":{"onhover":{"enable":true,"mode":"repulse"},"onclick":{"enable":true,"mode":"push"},"resize":true}},"retina_detect":true});
+        AOS.init({mirror:true,duration:800});
+        particlesJS("particles-js",{"particles":{"number":{"value":60},"color":{"value":"#ffffff"},"opacity":{"value":0.5},"size":{"value":3,"random":true},"line_linked":{"enable":true,"distance":150,"color":"#FFD700","opacity":0.4,"width":1},"move":{"enable":true,"speed":3}},"interactivity":{"events":{"onhover":{"enable":true,"mode":"repulse"}}}});
         const cursorGlow = document.getElementById('cursorGlow');
         document.addEventListener('mousemove', (e) => {cursorGlow.style.left = e.clientX + 'px';cursorGlow.style.top = e.clientY + 'px';});
         let currentLang = 'en';
         function toggleLanguage() {
-            const body = document.body;
-            const enElements = document.querySelectorAll('.lang-en');
-            const arElements = document.querySelectorAll('.lang-ar');
-            if (currentLang === 'en') {body.classList.remove('ltr');body.classList.add('rtl');enElements.forEach(el => el.classList.add('d-none'));arElements.forEach(el => el.classList.remove('d-none'));currentLang = 'ar';} 
-            else {body.classList.remove('rtl');body.classList.add('ltr');arElements.forEach(el => el.classList.add('d-none'));enElements.forEach(el => el.classList.remove('d-none'));currentLang = 'en';}
+            document.body.classList.toggle('ltr'); document.body.classList.toggle('rtl');
+            document.querySelectorAll('.lang-en, .lang-ar').forEach(el => el.classList.toggle('d-none'));
         }
     </script>
 </body>
