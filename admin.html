@@ -3,136 +3,268 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CHEF AFLAM | Admin Dashboard</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+    <title>CHEF AFLAM | Admin Console</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body { background: #111; color: #fff; font-family: 'Cairo', sans-serif; margin: 0; padding: 20px; direction: rtl; }
-        .container { max-width: 800px; margin: 0 auto; background: #222; padding: 20px; border-radius: 10px; box-shadow: 0 0 20px rgba(0,0,0,0.5); }
-        h1, h2 { color: #FFD700; text-align: center; }
-        .section { margin-bottom: 30px; border: 1px solid #444; padding: 15px; border-radius: 8px; }
-        label { display: block; margin: 10px 0 5px; color: #ccc; }
-        input, textarea { width: 100%; padding: 10px; background: #333; border: 1px solid #555; color: #fff; border-radius: 5px; box-sizing: border-box; }
-        .item { background: #1a1a1a; padding: 10px; margin-bottom: 10px; border-radius: 5px; position: relative; border-right: 3px solid #FFD700; }
-        .btn { padding: 10px 20px; border: none; cursor: pointer; border-radius: 5px; font-weight: bold; margin-top: 10px; }
-        .btn-save { background: #FFD700; color: #000; width: 100%; font-size: 1.2rem; }
-        .btn-add { background: #28a745; color: #fff; }
-        .btn-del { background: #dc3545; color: #fff; position: absolute; top: 10px; left: 10px; }
+        :root { --primary: #FFD700; --bg: #0f0f0f; --panel: #1a1a1a; --border: #333; --text: #eee; --danger: #ff4d4d; }
+        body { margin: 0; font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); display: flex; height: 100vh; overflow: hidden; }
+        
+        /* Sidebar */
+        .sidebar { width: 250px; background: #000; border-right: 1px solid var(--border); display: flex; flex-direction: column; padding: 20px; }
+        .logo { font-size: 1.5rem; font-weight: 900; color: #fff; margin-bottom: 40px; text-transform: uppercase; letter-spacing: -1px; }
+        .logo span { color: var(--primary); }
+        .nav-item { padding: 12px 15px; margin-bottom: 5px; cursor: pointer; border-radius: 8px; transition: 0.2s; color: #888; display: flex; align-items: center; gap: 10px; font-weight: 500; }
+        .nav-item:hover, .nav-item.active { background: var(--panel); color: #fff; }
+        .nav-item.active { color: var(--primary); }
+        .nav-item i { width: 20px; text-align: center; }
+        
+        /* Main Content */
+        .main { flex: 1; padding: 30px; overflow-y: auto; position: relative; }
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; border-bottom: 1px solid var(--border); padding-bottom: 20px; }
+        .page-title { font-size: 1.8rem; font-weight: 800; margin: 0; }
+        
+        /* Forms & Inputs */
+        .form-group { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 8px; font-size: 0.85rem; color: #aaa; font-weight: 600; text-transform: uppercase; }
+        input, textarea { width: 100%; background: #222; border: 1px solid var(--border); color: #fff; padding: 12px; border-radius: 6px; font-family: inherit; font-size: 0.95rem; transition: 0.2s; box-sizing: border-box; }
+        input:focus, textarea:focus { border-color: var(--primary); outline: none; }
+        
+        /* Items List */
+        .item-card { background: var(--panel); border: 1px solid var(--border); padding: 20px; border-radius: 8px; margin-bottom: 15px; display: grid; gap: 15px; position: relative; transition: 0.2s; }
+        .item-card:hover { border-color: #555; }
+        .card-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 10px; }
+        .btn-icon { background: #333; color: #fff; border: none; width: 32px; height: 32px; border-radius: 4px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.2s; }
+        .btn-icon:hover { background: #444; }
+        .btn-delete { background: rgba(255, 77, 77, 0.1); color: var(--danger); }
+        .btn-delete:hover { background: var(--danger); color: #fff; }
+
+        /* Buttons */
+        .btn { padding: 12px 25px; border: none; border-radius: 6px; cursor: pointer; font-weight: 700; font-size: 0.9rem; transition: 0.2s; display: inline-flex; align-items: center; gap: 8px; }
+        .btn-primary { background: var(--primary); color: #000; }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(255, 215, 0, 0.2); }
+        .btn-add { background: #222; color: var(--primary); border: 1px dashed var(--border); width: 100%; justify-content: center; margin-top: 10px; }
+        .btn-add:hover { background: #333; border-color: var(--primary); }
+
+        /* Tabs Logic */
+        .section { display: none; animation: fadeIn 0.3s ease; }
+        .section.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg); }
+        ::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #555; }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>لوحة تحكم شيف أفلام 🛠️</h1>
+
+    <div class="sidebar">
+        <div class="logo">CHEF <span>AFLAM</span></div>
+        <div class="nav-item active" onclick="switchTab('profile')"><i class="fas fa-user-circle"></i> Profile & Bio</div>
+        <div class="nav-item" onclick="switchTab('home')"><i class="fab fa-youtube"></i> Home Reviews</div>
+        <div class="nav-item" onclick="switchTab('editing')"><i class="fas fa-cut"></i> Video Editing</div>
+        <div class="nav-item" onclick="switchTab('ai')"><i class="fas fa-robot"></i> AI Studio</div>
+        <div class="nav-item" onclick="switchTab('gallery')"><i class="fas fa-images"></i> Gallery</div>
+        <div style="flex:1"></div>
+        <button class="btn btn-primary" style="width:100%; justify-content:center" onclick="saveData()">
+            <i class="fas fa-save"></i> Export Config
+        </button>
+    </div>
+
+    <div class="main">
         
-        <div class="section">
-            <h2>👤 البيانات الشخصية</h2>
-            <label>البايو (إنجليزي)</label><textarea id="bio_en" rows="3"></textarea>
-            <label>البايو (عربي)</label><textarea id="bio_ar" rows="3"></textarea>
+        <div id="profile" class="section active">
+            <div class="header">
+                <h2 class="page-title">Profile Settings</h2>
+            </div>
+            <div class="item-card">
+                <div class="form-group">
+                    <label>Profile Image Path</label>
+                    <input type="text" id="prof_img">
+                </div>
+                <div class="form-group">
+                    <label>Bio (English)</label>
+                    <textarea id="bio_en" rows="3"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Bio (Arabic)</label>
+                    <textarea id="bio_ar" rows="3" style="direction: rtl;"></textarea>
+                </div>
+            </div>
         </div>
 
-        <div class="section">
-            <h2>🎬 فيديوهات اليوتيوب (Home)</h2>
+        <div id="home" class="section">
+            <div class="header"><h2 class="page-title">YouTube Reviews</h2></div>
             <div id="home_list"></div>
-            <button class="btn btn-add" onclick="addItem('home_list')">+ إضافة فيديو</button>
+            <button class="btn btn-add" onclick="addHome()">+ Add New Video</button>
         </div>
 
-        <div class="section">
-            <h2>✂️ فيديوهات المونتاج (Editing)</h2>
+        <div id="editing" class="section">
+            <div class="header"><h2 class="page-title">Editing Portfolio</h2></div>
             <div id="editing_list"></div>
-            <button class="btn btn-add" onclick="addItem('editing_list')">+ إضافة فيديو</button>
+            <button class="btn btn-add" onclick="addEditing()">+ Add New Video</button>
         </div>
 
-        <div class="section">
-            <h2>🤖 فيديوهات الذكاء الاصطناعي (AI)</h2>
-            <h3>✨ الفيديو المميز (Trailer)</h3>
-            <label>اسم الملف</label><input id="ai_feat_file">
-            <label>العنوان (EN)</label><input id="ai_feat_en">
-            <label>العنوان (AR)</label><input id="ai_feat_ar">
-            <hr style="border-color:#444; margin:20px 0">
-            <h3>قائمة الفيديوهات</h3>
+        <div id="ai" class="section">
+            <div class="header"><h2 class="page-title">AI Studio Manager</h2></div>
+            
+            <h3 style="color:#888; margin-top:0">Featured Trailer</h3>
+            <div class="item-card" style="border-color: var(--primary);">
+                <div class="form-group"><label>Video File</label><input id="ai_feat_file"></div>
+                <div class="form-group"><label>Title (EN)</label><input id="ai_feat_en"></div>
+                <div class="form-group"><label>Title (AR)</label><input id="ai_feat_ar" style="direction:rtl"></div>
+            </div>
+
+            <h3 style="color:#888; margin-top:30px">AI Videos List</h3>
             <div id="ai_list"></div>
-            <button class="btn btn-add" onclick="addItem('ai_list')">+ إضافة فيديو</button>
+            <button class="btn btn-add" onclick="addAi()">+ Add New Video</button>
         </div>
 
-        <button class="btn btn-save" onclick="saveData()">💾 حفظ وتحميل التحديث</button>
+        <div id="gallery" class="section">
+            <div class="header"><h2 class="page-title">Design Gallery</h2></div>
+            <div id="gallery_list" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap:15px"></div>
+            <button class="btn btn-add" onclick="addImg()">+ Add Image</button>
+        </div>
+
     </div>
 
     <script src="db.js"></script>
     <script>
-        // تحميل البيانات الحالية
+        // --- Navigation Logic ---
+        function switchTab(tabId) {
+            document.querySelectorAll('.section').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+            event.currentTarget.classList.add('active');
+        }
+
+        // --- Load Data ---
+        document.getElementById('prof_img').value = db.profile.image;
         document.getElementById('bio_en').value = db.profile.bio_en;
         document.getElementById('bio_ar').value = db.profile.bio_ar;
-        
-        // التريلر
         document.getElementById('ai_feat_file').value = db.ai_featured.file;
         document.getElementById('ai_feat_en').value = db.ai_featured.title_en;
         document.getElementById('ai_feat_ar').value = db.ai_featured.title_ar;
 
-        // دالة رسم العناصر
-        function renderList(id, data, isFile = false) {
-            const container = document.getElementById(id);
+        // --- Renders ---
+        function renderHome() {
+            const container = document.getElementById('home_list');
             container.innerHTML = '';
-            data.forEach((item, index) => {
-                let html = `<div class="item">
-                    <button class="btn btn-del" onclick="delItem('${id}', ${index})">حذف</button>
-                    <label>${isFile ? 'اسم ملف الفيديو/الصورة' : 'YouTube ID'}</label>
-                    <input class="val-link" value="${item.id || item.file || item}">`;
-                
-                if(item.title_en !== undefined) {
-                    html += `<label>العنوان (EN)</label><input class="val-en" value="${item.title_en}">
-                             <label>العنوان (AR)</label><input class="val-ar" value="${item.title_ar}">`;
-                }
-                html += `</div>`;
-                container.innerHTML += html;
+            db.home_videos.forEach((item, i) => {
+                container.innerHTML += createCard(i, 'home', 'YouTube ID', item.id, item.title_en, item.title_ar);
             });
         }
 
-        renderList('home_list', db.home_videos);
-        renderList('editing_list', db.editing_videos, true);
-        renderList('ai_list', db.ai_videos, true);
-
-        // دوال الإضافة والحذف
-        window.addItem = (id) => {
-            const template = id === 'home_list' ? {id:'', title_en:'', title_ar:''} : {file:'', title_en:'', title_ar:''};
-            if(id === 'home_list') db.home_videos.push(template);
-            else if(id === 'editing_list') db.editing_videos.push(template);
-            else if(id === 'ai_list') db.ai_videos.push(template);
-            renderList(id, id==='home_list'?db.home_videos:id==='editing_list'?db.editing_videos:db.ai_videos, id!=='home_list');
+        function renderEditing() {
+            const container = document.getElementById('editing_list');
+            container.innerHTML = '';
+            db.editing_videos.forEach((item, i) => {
+                container.innerHTML += createCard(i, 'editing', 'Video File Path', item.file, item.title_en, item.title_ar);
+            });
         }
 
-        window.delItem = (id, index) => {
-            if(!confirm('متاكد عايز تمسح؟')) return;
-            if(id === 'home_list') db.home_videos.splice(index, 1);
-            else if(id === 'editing_list') db.editing_videos.splice(index, 1);
-            else if(id === 'ai_list') db.ai_videos.splice(index, 1);
-            renderList(id, id==='home_list'?db.home_videos:id==='editing_list'?db.editing_videos:db.ai_videos, id!=='home_list');
+        function renderAi() {
+            const container = document.getElementById('ai_list');
+            container.innerHTML = '';
+            db.ai_videos.forEach((item, i) => {
+                container.innerHTML += createCard(i, 'ai', 'Video File Path', item.file, item.title_en, item.title_ar);
+            });
         }
 
-        // الحفظ
+        function renderGallery() {
+            const container = document.getElementById('gallery_list');
+            container.innerHTML = '';
+            db.gallery.forEach((img, i) => {
+                container.innerHTML += `
+                <div class="item-card" style="margin:0">
+                    <div class="form-group">
+                        <label>Image Path</label>
+                        <input value="${img}" onchange="updateGallery(${i}, this.value)">
+                    </div>
+                    <div class="card-actions">
+                        <button class="btn-icon" onclick="moveGallery(${i}, -1)"><i class="fas fa-arrow-up"></i></button>
+                        <button class="btn-icon" onclick="moveGallery(${i}, 1)"><i class="fas fa-arrow-down"></i></button>
+                        <button class="btn-icon btn-delete" onclick="delGallery(${i})"><i class="fas fa-trash"></i></button>
+                    </div>
+                </div>`;
+            });
+        }
+
+        // --- Templates ---
+        function createCard(index, type, label, val1, val2, val3) {
+            return `
+            <div class="item-card">
+                <div style="display:grid; grid-template-columns: 1fr 2fr 2fr; gap:15px">
+                    <div><label>${label}</label><input value="${val1}" onchange="updateItem('${type}', ${index}, 'file', this.value)"></div>
+                    <div><label>Title (EN)</label><input value="${val2}" onchange="updateItem('${type}', ${index}, 'en', this.value)"></div>
+                    <div><label>Title (AR)</label><input value="${val3}" onchange="updateItem('${type}', ${index}, 'ar', this.value)" style="direction:rtl"></div>
+                </div>
+                <div class="card-actions">
+                    <button class="btn-icon" onclick="moveItem('${type}', ${index}, -1)" title="Move Up"><i class="fas fa-arrow-up"></i></button>
+                    <button class="btn-icon" onclick="moveItem('${type}', ${index}, 1)" title="Move Down"><i class="fas fa-arrow-down"></i></button>
+                    <button class="btn-icon btn-delete" onclick="delItem('${type}', ${index})" title="Delete"><i class="fas fa-trash"></i></button>
+                </div>
+            </div>`;
+        }
+
+        // --- Logic Operations ---
+        window.updateItem = (type, index, field, value) => {
+            const target = type === 'home' ? db.home_videos : type === 'editing' ? db.editing_videos : db.ai_videos;
+            if(field === 'file') target[index][type === 'home' ? 'id' : 'file'] = value;
+            if(field === 'en') target[index].title_en = value;
+            if(field === 'ar') target[index].title_ar = value;
+        };
+
+        window.moveItem = (type, index, direction) => {
+            const target = type === 'home' ? db.home_videos : type === 'editing' ? db.editing_videos : db.ai_videos;
+            if (index + direction < 0 || index + direction >= target.length) return;
+            [target[index], target[index + direction]] = [target[index + direction], target[index]];
+            refresh(type);
+        };
+
+        window.delItem = (type, index) => {
+            if(!confirm('Are you sure?')) return;
+            const target = type === 'home' ? db.home_videos : type === 'editing' ? db.editing_videos : db.ai_videos;
+            target.splice(index, 1);
+            refresh(type);
+        };
+
+        // Add Functions
+        window.addHome = () => { db.home_videos.push({id:'', title_en:'', title_ar:''}); refresh('home'); };
+        window.addEditing = () => { db.editing_videos.push({file:'', title_en:'', title_ar:''}); refresh('editing'); };
+        window.addAi = () => { db.ai_videos.push({file:'', title_en:'', title_ar:''}); refresh('ai'); };
+
+        // Gallery Specifics
+        window.updateGallery = (i, val) => db.gallery[i] = val;
+        window.moveGallery = (i, dir) => {
+            if (i + dir < 0 || i + dir >= db.gallery.length) return;
+            [db.gallery[i], db.gallery[i + dir]] = [db.gallery[i + dir], db.gallery[i]];
+            renderGallery();
+        };
+        window.delGallery = (i) => { if(confirm('Delete image?')) { db.gallery.splice(i, 1); renderGallery(); }};
+        window.addImg = () => { db.gallery.push('images/new.jpg'); renderGallery(); };
+
+        function refresh(type) {
+            if(type === 'home') renderHome();
+            if(type === 'editing') renderEditing();
+            if(type === 'ai') renderAi();
+        }
+
+        // Initial Render
+        renderHome(); renderEditing(); renderAi(); renderGallery();
+
+        // --- Save & Export ---
         window.saveData = () => {
-            // تحديث الداتا من الخانات
+            // Update Profile & Featured Data before saving
+            db.profile.image = document.getElementById('prof_img').value;
             db.profile.bio_en = document.getElementById('bio_en').value;
             db.profile.bio_ar = document.getElementById('bio_ar').value;
-            db.ai_featured = {
-                file: document.getElementById('ai_feat_file').value,
-                title_en: document.getElementById('ai_feat_en').value,
-                title_ar: document.getElementById('ai_feat_ar').value
-            };
-            
-            // دالة لسحب البيانات من القوائم
-            const scrape = (id, isFile) => {
-                const items = document.querySelectorAll(`#${id} .item`);
-                return Array.from(items).map(div => ({
-                    [isFile ? 'file' : 'id']: div.querySelector('.val-link').value,
-                    title_en: div.querySelector('.val-en').value,
-                    title_ar: div.querySelector('.val-ar').value
-                }));
-            };
+            db.ai_featured.file = document.getElementById('ai_feat_file').value;
+            db.ai_featured.title_en = document.getElementById('ai_feat_en').value;
+            db.ai_featured.title_ar = document.getElementById('ai_feat_ar').value;
 
-            db.home_videos = scrape('home_list', false);
-            db.editing_videos = scrape('editing_list', true);
-            db.ai_videos = scrape('ai_list', true);
-
-            // تحميل الملف الجديد
             const content = "const db = " + JSON.stringify(db, null, 4) + ";";
             const blob = new Blob([content], {type: "text/javascript"});
             const url = URL.createObjectURL(blob);
@@ -140,7 +272,7 @@
             a.href = url;
             a.download = 'db.js';
             a.click();
-            alert('تم إنشاء ملف التحديث! \n1. الملف نزل عندك في الـ Downloads\n2. خده وحطه مكان الملف القديم في فولدر الموقع\n3. ارفعه على GitHub ومبروك عليك التحديث!');
+            alert('Config Exported! \nReplace the old db.js file with this new one.');
         };
     </script>
 </body>
