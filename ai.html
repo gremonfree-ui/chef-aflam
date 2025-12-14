@@ -4,68 +4,85 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CHEF AFLAM | AI Studio</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;900&family=Cairo:wght@400;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <style>
-        :root{--bg-color:#050505;--chef-yellow:#FFD700;--aflam-pink:#FF69B4;--text-light:#ffffff;}
-        body{margin:0;padding:0;font-family:'Montserrat',sans-serif;background-color:var(--bg-color);color:var(--text-light);overflow-x:hidden;}
-        body.rtl{font-family:'Cairo',sans-serif;direction:rtl;text-align:right;}
-        
-        .nav-bar{display:flex;justify-content:center;gap:30px;padding:20px;background:rgba(0,0,0,0.9);position:fixed;width:100%;z-index:1000;}
-        .nav-link{color:#fff;text-decoration:none;font-weight:900;text-transform:uppercase;transition:0.3s;}
-        .nav-link:hover, .nav-link.active{color:var(--chef-yellow);}
-        .lang-switch{position:fixed;top:80px;right:20px;z-index:9999;background:#000;padding:5px 15px;border:1px solid var(--chef-yellow);color:var(--chef-yellow);cursor:pointer;}
+        :root {--bg-color: #050505;--chef-yellow: #FFD700;--aflam-pink: #FF69B4;--text-light: #ffffff;--card-bg: rgba(20, 20, 20, 0.6);}
+        body {margin:0;padding:0;font-family:'Montserrat',sans-serif;background-color:var(--bg-color);color:var(--text-light);overflow-x:hidden;}
+        #particles-js {position:fixed;width:100%;height:100%;top:0;left:0;z-index:-1;background-color:#050505;}
+        .cursor-glow {width:400px;height:400px;background:radial-gradient(circle, rgba(255,105,180,0.15) 0%, transparent 70%);position:fixed;top:0;left:0;pointer-events:none;z-index:0;transform:translate(-50%,-50%);transition:0.05s ease;}
+        body.rtl {font-family:'Cairo',sans-serif;direction:rtl;text-align:right;}
 
-        section{padding:50px 20px;max-width:1200px;margin:0 auto;}
-        .section-title{text-align:center;font-size:3rem;margin:50px 0;text-transform:uppercase;}
-        
-        .grid-vertical{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:40px;}
-        .card-hover{background:#111;border-radius:15px;overflow:hidden;border:1px solid #333;transition:0.3s;}
-        .card-hover:hover{transform:translateY(-10px);border-color:var(--aflam-pink);} /* لون وردي للـ AI */
-        
-        .video-container-vertical{position:relative;width:100%;padding-top:177.77%;background:#000;}
-        .video-container-vertical video{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;}
-        
-        /* تنسيق المعرض (الصور) */
-        .gallery-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:20px;}
-        .gallery-item{border-radius:15px;overflow:hidden;height:250px;border:1px solid #333;transition:0.3s;}
-        .gallery-item:hover{transform:scale(1.05);border-color:var(--aflam-pink);}
-        .gallery-item img{width:100%;height:100%;object-fit:cover;}
+        .nav-bar{display:flex;justify-content:center;gap:30px;padding:25px;background:rgba(0,0,0,0.8);position:fixed;width:100%;z-index:1000;backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,255,255,0.05);}
+        .nav-link{color:#fff;text-decoration:none;font-weight:900;text-transform:uppercase;font-size:1rem;position:relative;padding:5px 10px;}
+        .nav-link:hover, .nav-link.active{color:var(--chef-yellow);text-shadow:0 0 10px var(--chef-yellow);}
+        .nav-link.active::after{content:'';position:absolute;bottom:-5px;left:0;width:100%;height:2px;background:var(--chef-yellow);box-shadow:0 0 10px var(--chef-yellow);}
 
-        .card-body{padding:20px;text-align:center;color:#fff;}
-        .d-none{display:none !important;}
+        .lang-switch {position:fixed;top:90px;left:25px;z-index:9999;background:rgba(0,0,0,0.8);padding:8px 20px;border-radius:50px;font-size:0.9rem;cursor:pointer;font-weight:800;border:2px solid var(--chef-yellow);color:var(--chef-yellow);backdrop-filter:blur(5px);}
+        body.rtl .lang-switch {left:auto;right:25px;}
+
+        section {padding:50px 20px;max-width:1200px;margin:0 auto;position:relative;z-index:2;}
+        .section-title {font-size:3rem;font-weight:900;text-align:center;margin-bottom:60px;text-transform:uppercase;color:#fff;}
+        .title-underline {width:80px;height:6px;background:linear-gradient(90deg,var(--chef-yellow),var(--aflam-pink));margin:15px auto 0;border-radius:20px;}
+        
+        .featured-video {position:relative;max-width:900px;margin:0 auto 80px;border:2px solid #333;border-radius:15px;overflow:hidden;background:#000;box-shadow:0 0 30px rgba(255,105,180,0.3);}
+        
+        .grid-vertical {display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:40px;}
+        .card-hover {background:rgba(30,30,30,0.4);border-radius:15px;overflow:hidden;border:1px solid rgba(255,255,255,0.1);backdrop-filter:blur(5px);transition:all 0.3s ease;}
+        .card-hover:hover {transform:translateY(-10px);border-color:var(--aflam-pink);background:rgba(30,30,30,0.9);box-shadow:0 0 40px rgba(255,105,180,0.2);}
+        
+        .video-container-vertical {position:relative;width:100%;padding-top:177.77%;background:#000;}
+        .video-container-vertical video {position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;}
+        
+        .gallery-grid {display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:20px;grid-auto-rows:250px;}
+        .gallery-item {border-radius:15px;overflow:hidden;height:100%;cursor:pointer;border:1px solid #333;}
+        .gallery-item img {width:100%;height:100%;object-fit:cover;transition:0.6s;}
+        .gallery-item:hover img {transform:scale(1.1);}
+        .gallery-item:hover {border-color:var(--aflam-pink);box-shadow:0 0 30px var(--aflam-pink);}
+
+        .card-body {padding:25px;text-align:center;} .card-body h3 {margin:0;color:var(--chef-yellow);font-size:1.2rem;font-weight:800;}
+        
+        footer {border-top:1px solid #333;padding:40px 20px;text-align:center;background:#000;margin-top:50px;}
+        .social-icons {margin:20px 0;display:flex;justify-content:center;gap:20px;}
+        .social-icons a {width:40px;height:40px;border-radius:50%;background:#111;display:flex;align-items:center;justify-content:center;color:#666;border:1px solid #333;}
+        .social-icons a:hover {background:var(--chef-yellow);color:#000;}
+
+        .d-none {display:none !important;}
+        @media(max-width:768px){.grid-vertical{grid-template-columns:1fr;gap:30px;}}
     </style>
 </head>
 <body class="ltr">
-    <button class="lang-switch" onclick="toggleLanguage()">AR / EN</button>
+    <div id="particles-js"></div>
+    <div class="cursor-glow" id="cursorGlow"></div>
 
     <nav class="nav-bar">
         <a href="index.html" class="nav-link">Home</a>
         <a href="editing.html" class="nav-link">Editing</a>
         <a href="ai.html" class="nav-link active">AI Studio</a>
     </nav>
+    <button class="lang-switch" onclick="toggleLanguage()">AR / EN</button>
 
-    <section style="margin-top:100px">
-        <h2 class="section-title lang-en">Featured <span style="color:var(--aflam-pink)">Project</span></h2>
-        <h2 class="section-title lang-ar d-none">عمل <span style="color:var(--aflam-pink)">مميز</span></h2>
+    <section style="margin-top:120px;">
+        <div class="lang-en" data-aos="fade-up"><h2 class="section-title">Featured <span style="color:var(--aflam-pink)">Project</span> <div class="title-underline"></div></h2></div>
+        <div class="lang-ar d-none" data-aos="fade-up"><h2 class="section-title">عمل <span style="color:var(--aflam-pink)">مميز</span> <div class="title-underline"></div></h2></div>
         
-        <div data-aos="zoom-in" style="border:2px solid #333;border-radius:20px;overflow:hidden;box-shadow:0 0 30px rgba(255,105,180,0.2)">
-            <video controls style="width:100%;display:block;max-height:500px;object-fit:contain;background:#000" src="ai_videos/trailer.mp4"></video>
+        <div class="featured-video" data-aos="zoom-in">
+             <video controls style="width:100%;display:block;" src="ai_videos/trailer.mp4"></video>
         </div>
     </section>
 
     <section>
-        <h2 class="section-title lang-en">AI <span style="color:var(--chef-yellow)">Videos</span></h2>
-        <h2 class="section-title lang-ar d-none">فيديوهات <span style="color:var(--chef-yellow)">الذكاء الاصطناعي</span></h2>
-        
+        <div class="lang-en" data-aos="fade-up"><h2 class="section-title">AI Videos <div class="title-underline"></div></h2></div>
+        <div class="lang-ar d-none" data-aos="fade-up"><h2 class="section-title">فيديوهات الذكاء الاصطناعي <div class="title-underline"></div></h2></div>
         <div class="grid-vertical">
             <div class="card-hover" data-aos="fade-up">
                 <div class="video-container-vertical"><video controls src="ai_videos/ai1.mp4"></video></div>
-                <div class="card-body"><h3 class="lang-en">Tiny Figure</h3><h3 class="lang-ar d-none">تايني فيجر</h3></div>
+                <div class="card-body"><h3 class="lang-en">Tiny Figure & The Ring</h3><h3 class="lang-ar d-none">تايني فيجر والخاتم</h3></div>
             </div>
             <div class="card-hover" data-aos="fade-up" data-aos-delay="100">
                 <div class="video-container-vertical"><video controls src="ai_videos/ai2.mp4"></video></div>
-                <div class="card-body"><h3 class="lang-en">UAE National Day</h3><h3 class="lang-ar d-none">العيد الوطني</h3></div>
+                <div class="card-body"><h3 class="lang-en">UAE National Day</h3><h3 class="lang-ar d-none">العيد الوطني للإمارات</h3></div>
             </div>
              <div class="card-hover" data-aos="fade-up" data-aos-delay="200">
                 <div class="video-container-vertical"><video controls src="ai_videos/ai3.mp4"></video></div>
@@ -74,10 +91,9 @@
         </div>
     </section>
 
-    <section>
-        <h2 class="section-title lang-en">Design <span style="color:var(--aflam-pink)">Gallery</span></h2>
-        <h2 class="section-title lang-ar d-none">معرض <span style="color:var(--aflam-pink)">التصميمات</span></h2>
-        
+    <section id="gallery">
+        <div class="lang-en" data-aos="fade-up"><h2 class="section-title">Design Gallery <div class="title-underline"></div></h2></div>
+        <div class="lang-ar d-none" data-aos="fade-up"><h2 class="section-title">معرض التصميمات <div class="title-underline"></div></h2></div>
         <div class="gallery-grid">
             <div class="gallery-item" data-aos="fade-up"><img src="images/design1.jpg" alt="Design 1"></div>
             <div class="gallery-item" data-aos="fade-up" data-aos-delay="100"><img src="images/design2.jpg" alt="Design 2"></div>
@@ -86,7 +102,29 @@
         </div>
     </section>
 
+    <footer>
+        <div class="social-icons">
+            <a href="https://www.youtube.com/@chefaflam/" target="_blank"><i class="fab fa-youtube"></i></a>
+            <a href="https://www.instagram.com/chefaflam" target="_blank"><i class="fab fa-instagram"></i></a>
+        </div>
+        <p style="color:#444;font-size:0.9rem;">&copy; 2025 CHEF AFLAM</p>
+    </footer>
+
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script>AOS.init(); function toggleLanguage(){document.body.classList.toggle('rtl');document.querySelectorAll('.lang-en, .lang-ar').forEach(el => el.classList.toggle('d-none'));}</script>
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+        AOS.init({mirror:true,duration:800});
+        particlesJS("particles-js",{"particles":{"number":{"value":60},"color":{"value":"#ffffff"},"shape":{"type":"circle"},"opacity":{"value":0.5},"size":{"value":3,"random":true},"line_linked":{"enable":true,"distance":150,"color":"#FFD700","opacity":0.4,"width":1},"move":{"enable":true,"speed":4}},"interactivity":{"detect_on":"canvas","events":{"onhover":{"enable":true,"mode":"repulse"},"resize":true}},"retina_detect":true});
+        const cursorGlow = document.getElementById('cursorGlow');
+        document.addEventListener('mousemove', (e) => {cursorGlow.style.left = e.clientX + 'px';cursorGlow.style.top = e.clientY + 'px';});
+        let currentLang = 'en';
+        function toggleLanguage() {
+            const body = document.body;
+            const enElements = document.querySelectorAll('.lang-en');
+            const arElements = document.querySelectorAll('.lang-ar');
+            if (currentLang === 'en') {body.classList.remove('ltr');body.classList.add('rtl');enElements.forEach(el => el.classList.add('d-none'));arElements.forEach(el => el.classList.remove('d-none'));currentLang = 'ar';} 
+            else {body.classList.remove('rtl');body.classList.add('ltr');arElements.forEach(el => el.classList.add('d-none'));enElements.forEach(el => el.classList.remove('d-none'));currentLang = 'en';}
+        }
+    </script>
 </body>
 </html>
