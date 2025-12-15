@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CHEF AFLAM | FINAL ADMIN</title>
+    <title>CHEF AFLAM | CONTROL PANEL</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
         :root { --primary: #FFD700; --bg: #121212; --panel: #1E1E1E; --text: #E0E0E0; --border: #333; }
         body { margin: 0; font-family: 'Segoe UI', monospace; background: var(--bg); color: var(--text); display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
         
         #login-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-        .login-box { background: var(--panel); padding: 40px; border-radius: 12px; border: 1px solid var(--border); text-align: center; width: 90%; max-width: 400px; }
-        .input-field { width: 100%; padding: 12px; margin: 15px 0; background: #222; border: 1px solid var(--border); color: #fff; border-radius: 6px; box-sizing: border-box; }
+        .login-box { background: var(--panel); padding: 40px; border-radius: 12px; border: 1px solid var(--border); text-align: center; width: 90%; max-width: 400px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .input-field { width: 100%; padding: 12px; margin: 15px 0; background: #222; border: 1px solid var(--border); color: #fff; border-radius: 6px; box-sizing: border-box; font-family: monospace; }
         
         .container { display: flex; flex: 1; overflow: hidden; }
         .sidebar { width: 260px; background: #080808; border-right: 1px solid var(--border); padding: 20px; display: flex; flex-direction: column; gap: 10px; }
@@ -19,8 +19,8 @@
         
         .btn { padding: 10px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; width: 100%; display: flex; align-items: center; justify-content: center; gap: 8px; }
         .btn-primary { background: var(--primary); color: #000; font-weight: 800; margin-top: 10px; padding: 15px; }
-        .btn-fix { background: #ff4444; color: #fff; margin-bottom: 20px; animation: pulse 2s infinite; }
-        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.8; } 100% { opacity: 1; } }
+        .btn-fix { background: #e91e63; color: #fff; margin-bottom: 20px; box-shadow: 0 0 15px rgba(233, 30, 99, 0.4); }
+        .btn-fix:hover { background: #c2185b; }
         
         .nav-item { background: transparent; color: #888; justify-content: flex-start; padding: 12px; text-align: left; }
         .nav-item:hover, .nav-item.active { background: var(--panel); color: #fff; border-left: 3px solid var(--primary); }
@@ -111,7 +111,7 @@
             </div>
 
             <div id="tab-designs" class="tab-content">
-                <h2>Graphic Designs</h2>
+                <h2>Graphic Designs (In 'images' folder)</h2>
                 <div id="list-designs"></div>
                 <button class="btn" style="background:#222; color:#fff" onclick="addItem('designs')">+ Add Design</button>
             </div>
@@ -155,51 +155,56 @@
                     const jsonPart = content.replace(/const\s+db\s*=\s*/, '').replace(/;$/, '');
                     
                     const loaded = JSON.parse(jsonPart);
-                    // Merge and Rescue Data
+                    // Merge data (Safe Mode)
                     db = { ...db, ...loaded };
-                    if(!db.ai_videos.length && loaded.ai) db.ai_videos = loaded.ai;
-                    if(!db.editing_videos.length && loaded.editing) db.editing_videos = loaded.editing;
-                    if(!db.designs.length && loaded.gallery) db.designs = loaded.gallery;
+                    
+                    // SAFETY: Check for old 'gallery' key and merge it into 'designs'
+                    if (loaded.gallery && loaded.gallery.length > 0) {
+                        if (!db.designs) db.designs = [];
+                        // Only add if not already there to avoid duplicates
+                        loaded.gallery.forEach(item => {
+                            if (!db.designs.some(d => d.url === item.url)) {
+                                db.designs.push(item);
+                            }
+                        });
+                    }
                 }
                 renderUI();
             } catch(e) { console.error(e); }
         }
 
-        // === THE MAGIC FIX FUNCTION ===
+        // === THE FIXER: Scans for YOUR specific files ===
         function autoFixFiles() {
-            if(!confirm('This will auto-add trailer.mp4, edit1-3.mp4, and designs if missing. Proceed?')) return;
+            let addedCount = 0;
             
-            // 1. Fix Dubai Trailer
-            const hasTrailer = db.ai_videos.some(v => v.file.includes('trailer.mp4'));
-            if(!hasTrailer) {
-                db.ai_videos.unshift({ 
-                    file: "ai_videos/trailer.mp4", 
-                    title_en: "Dubai Competition Trailer", 
-                    title_ar: "تريلر مسابقة دبي" 
-                });
-            }
+            // 1. Check for AI Videos (ai_videos folder)
+            const aiFiles = ["trailer.mp4", "ai1.mp4", "ai2.mp4", "ai3.mp4"];
+            aiFiles.forEach((vid) => {
+                const exists = db.ai_videos.some(v => v.file && v.file.includes(vid));
+                if(!exists) {
+                    let title = vid === "trailer.mp4" ? "Dubai Trailer" : "AI Video";
+                    db.ai_videos.unshift({ file: `ai_videos/${vid}`, title_en: title, title_ar: title });
+                    addedCount++;
+                }
+            });
 
-            // 2. Fix Editing Videos
-            if(db.editing_videos.length === 0) {
-                db.editing_videos.push(
-                    { file: "videos/edit1.mp4", title_en: "Project 1", title_ar: "مشروع 1" },
-                    { file: "videos/edit2.mp4", title_en: "Project 2", title_ar: "مشروع 2" },
-                    { file: "videos/edit3.mp4", title_en: "Project 3", title_ar: "مشروع 3" }
-                );
-            }
-
-            // 3. Fix Designs
-            if(db.designs.length === 0) {
-                db.designs.push(
-                    { url: "images/design1.jpg", desc: "Design 1" },
-                    { url: "images/design2.jpg", desc: "Design 2" },
-                    { url: "images/design3.jpg", desc: "Design 3" },
-                    { url: "images/design4.jpg", desc: "Design 4" }
-                );
-            }
+            // 2. Check for Designs (images folder) [BASED ON YOUR SCREENSHOT]
+            const designs = ["design1.jpg", "design2.jpg", "design3.jpg", "design4.jpg"];
+            designs.forEach((img, i) => {
+                // Check if this image URL exists in the DB
+                const exists = db.designs.some(d => d.url && d.url.includes(img));
+                if(!exists) {
+                    db.designs.push({ url: `images/${img}`, desc: `Design ${i+1}` });
+                    addedCount++;
+                }
+            });
             
-            alert('Files Detected & Added! Click "Publish Changes" to save them permanently.');
-            renderUI();
+            if(addedCount > 0) {
+                alert(`Detected & Synced ${addedCount} files from your folders! \nClick 'PUBLISH CHANGES' to save.`);
+                renderUI();
+            } else {
+                alert('All files are already synced! No missing files found.');
+            }
         }
 
         function renderUI() {
@@ -219,7 +224,10 @@
         function renderList(type, list, mode) {
             const container = document.getElementById('list-' + type);
             container.innerHTML = '';
-            list.forEach((item, i) => {
+            // Filter nulls
+            const validList = list ? list : []; 
+
+            validList.forEach((item, i) => {
                 let val = item.file || item.url || item.id || "";
                 
                 let preview = '';
@@ -243,6 +251,7 @@
                     </div>
                     <div class="form-group"><label>Title (EN)</label><input class="input-field" value="${item.title_en||''}" onchange="updateItem('${type}', ${i}, 'title_en', this.value)"></div>
                     <div class="form-group"><label>Title (AR)</label><input class="input-field" value="${item.title_ar||''}" onchange="updateItem('${type}', ${i}, 'title_ar', this.value)" style="direction:rtl"></div>
+                    ${type === 'designs' ? `<div class="form-group"><label>Description</label><input class="input-field" value="${item.desc||''}" onchange="updateItem('${type}', ${i}, 'desc', this.value)"></div>` : ''}
                 </div>`;
             });
         }
@@ -323,6 +332,17 @@
                     const url = `https://${GITHUB_USERNAME}.github.io/${REPO_NAME}/${path}`;
                     document.getElementById(targetId).value = url;
                     if(targetId === 'prof-img') { db.profile.image = url; renderUI(); }
+                    
+                    if(listType) {
+                        // Smart update for lists
+                        if(listType === 'designs') db.designs[index].url = url;
+                        else if(listType === 'ai_videos' || listType === 'editing_videos') {
+                            db[listType][index].file = url;
+                            db[listType][index].url = url;
+                        }
+                        renderUI();
+                    }
+                    
                     alert('Uploaded!');
                 } catch(e) { alert('Upload Error'); }
             };
