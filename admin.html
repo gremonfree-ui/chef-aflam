@@ -3,41 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CHEF AFLAM | CONTROL PANEL</title>
+    <title>CHEF AFLAM ADMIN</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
         :root { --primary: #FFD700; --bg: #121212; --panel: #1E1E1E; --text: #E0E0E0; --border: #333; }
-        body { margin: 0; font-family: 'Segoe UI', monospace; background: var(--bg); color: var(--text); display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
-        
+        body { margin: 0; font-family: sans-serif; background: var(--bg); color: var(--text); display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
         #login-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-        .login-box { background: var(--panel); padding: 40px; border-radius: 12px; border: 1px solid var(--border); text-align: center; width: 90%; max-width: 400px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-        .input-field { width: 100%; padding: 12px; margin: 15px 0; background: #222; border: 1px solid var(--border); color: #fff; border-radius: 6px; box-sizing: border-box; font-family: monospace; }
-        
+        .login-box { background: var(--panel); padding: 40px; border-radius: 12px; border: 1px solid var(--border); text-align: center; width: 90%; max-width: 400px; }
+        .input-field { width: 100%; padding: 12px; margin: 15px 0; background: #222; border: 1px solid var(--border); color: #fff; border-radius: 6px; box-sizing: border-box; }
         .container { display: flex; flex: 1; overflow: hidden; }
         .sidebar { width: 260px; background: #080808; border-right: 1px solid var(--border); padding: 20px; display: flex; flex-direction: column; gap: 10px; }
         .main { flex: 1; padding: 30px; overflow-y: auto; background: #121212; }
-        
         .btn { padding: 10px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; width: 100%; display: flex; align-items: center; justify-content: center; gap: 8px; }
         .btn-primary { background: var(--primary); color: #000; font-weight: 800; margin-top: 10px; padding: 15px; }
-        .btn-fix { background: #e91e63; color: #fff; margin-bottom: 20px; box-shadow: 0 0 15px rgba(233, 30, 99, 0.4); }
-        .btn-fix:hover { background: #c2185b; }
-        
+        .btn-fix { background: #e91e63; color: #fff; margin-bottom: 20px; }
         .nav-item { background: transparent; color: #888; justify-content: flex-start; padding: 12px; text-align: left; }
         .nav-item:hover, .nav-item.active { background: var(--panel); color: #fff; border-left: 3px solid var(--primary); }
         .nav-item.active { color: var(--primary); font-weight: 700; }
-
         .card { background: var(--panel); padding: 20px; border-radius: 8px; margin-bottom: 20px; border: 1px solid var(--border); position: relative; }
         .form-group { margin-bottom: 15px; }
         label { display: block; margin-bottom: 6px; color: #aaa; font-size: 0.85rem; font-weight: 600; }
-        
         .controls { position: absolute; top: 15px; right: 15px; display: flex; gap: 5px; }
         .btn-icon { width: 30px; height: 30px; padding: 0; border-radius: 4px; display: flex; align-items: center; justify-content: center; cursor: pointer; color: #fff; border: 1px solid #444; background: #333; }
         .btn-danger { background: #5a1a1a; border-color: #ff4444; color: #ff4444; }
-
         .tab-content { display: none; }
         .tab-content.active { display: block; }
         .preview-media { width: 100%; max-height: 200px; object-fit: contain; background: #000; border-radius: 6px; margin-top: 10px; border: 1px solid #333; }
-        
         .loader { width: 20px; height: 20px; border: 3px solid #000; border-top-color: #fff; border-radius: 50%; animation: spin 1s infinite; display: none; }
         @keyframes spin { to { transform: rotate(360deg); } }
     </style>
@@ -72,7 +63,6 @@
         </div>
 
         <div class="main">
-            
             <div id="tab-profile" class="tab-content active">
                 <h2>Profile Settings</h2>
                 <div class="card">
@@ -99,7 +89,7 @@
             </div>
 
             <div id="tab-ai" class="tab-content">
-                <h2>AI Studio (Dubai Trailer & Others)</h2>
+                <h2>AI Studio</h2>
                 <div id="list-ai_videos"></div>
                 <button class="btn" style="background:#222; color:#fff" onclick="addItem('ai_videos')">+ Add Video</button>
             </div>
@@ -111,11 +101,10 @@
             </div>
 
             <div id="tab-designs" class="tab-content">
-                <h2>Graphic Designs (In 'images' folder)</h2>
+                <h2>Graphic Designs</h2>
                 <div id="list-designs"></div>
                 <button class="btn" style="background:#222; color:#fff" onclick="addItem('designs')">+ Add Design</button>
             </div>
-
         </div>
     </div>
 
@@ -125,7 +114,7 @@
         const DB_FILE = 'db.js';
 
         let db = {
-            profile: { name: "Chef Aflam", image: "", bio_en: "", bio_ar: "" },
+            profile: { name: "", image: "", bio_en: "", bio_ar: "" },
             home_videos: [],
             editing_videos: [],
             ai_videos: [],
@@ -153,68 +142,62 @@
                     fileSha = data.sha;
                     const content = decodeURIComponent(escape(atob(data.content)));
                     const jsonPart = content.replace(/const\s+db\s*=\s*/, '').replace(/;$/, '');
-                    
                     const loaded = JSON.parse(jsonPart);
-                    // Merge data (Safe Mode)
                     db = { ...db, ...loaded };
-                    
-                    // SAFETY: Check for old 'gallery' key and merge it into 'designs'
-                    if (loaded.gallery && loaded.gallery.length > 0) {
-                        if (!db.designs) db.designs = [];
-                        // Only add if not already there to avoid duplicates
-                        loaded.gallery.forEach(item => {
-                            if (!db.designs.some(d => d.url === item.url)) {
-                                db.designs.push(item);
-                            }
-                        });
-                    }
+                    if((!db.ai_videos || !db.ai_videos.length) && loaded.ai) db.ai_videos = loaded.ai;
+                    if((!db.editing_videos || !db.editing_videos.length) && loaded.editing) db.editing_videos = loaded.editing;
+                    if((!db.designs || !db.designs.length) && loaded.gallery) db.designs = loaded.gallery;
                 }
                 renderUI();
             } catch(e) { console.error(e); }
         }
 
-        // === THE FIXER: Scans for YOUR specific files ===
         function autoFixFiles() {
             let addedCount = 0;
-            
-            // 1. Check for AI Videos (ai_videos folder)
             const aiFiles = ["trailer.mp4", "ai1.mp4", "ai2.mp4", "ai3.mp4"];
             aiFiles.forEach((vid) => {
                 const exists = db.ai_videos.some(v => v.file && v.file.includes(vid));
                 if(!exists) {
-                    let title = vid === "trailer.mp4" ? "Dubai Trailer" : "AI Video";
+                    let title = vid === "trailer.mp4" ? "Dubai Competition Trailer" : "AI Video";
                     db.ai_videos.unshift({ file: `ai_videos/${vid}`, title_en: title, title_ar: title });
                     addedCount++;
                 }
             });
-
-            // 2. Check for Designs (images folder) [BASED ON YOUR SCREENSHOT]
-            const designs = ["design1.jpg", "design2.jpg", "design3.jpg", "design4.jpg"];
-            designs.forEach((img, i) => {
-                // Check if this image URL exists in the DB
-                const exists = db.designs.some(d => d.url && d.url.includes(img));
+            const editFiles = ["edit1.mp4", "edit2.mp4", "edit3.mp4"];
+            editFiles.forEach((vid) => {
+                const exists = db.editing_videos.some(v => v.file && v.file.includes(vid));
                 if(!exists) {
-                    db.designs.push({ url: `images/${img}`, desc: `Design ${i+1}` });
+                    db.editing_videos.push({ file: `videos/${vid}`, title_en: "Project", title_ar: "مشروع" });
                     addedCount++;
                 }
             });
-            
+            const designs = ["design1.jpg", "design2.jpg", "design3.jpg", "design4.jpg"];
+            designs.forEach((img, i) => {
+                const exists = db.designs.some(d => d.url && d.url.includes(img));
+                if(!exists) {
+                    db.designs.push({ 
+                        url: `images/${img}`, 
+                        desc: `Design ${i+1}`,
+                        title_en: `Design ${i+1}`,
+                        title_ar: `تصميم ${i+1}`
+                    });
+                    addedCount++;
+                }
+            });
             if(addedCount > 0) {
-                alert(`Detected & Synced ${addedCount} files from your folders! \nClick 'PUBLISH CHANGES' to save.`);
+                alert(`Added ${addedCount} files! Click PUBLISH CHANGES.`);
                 renderUI();
             } else {
-                alert('All files are already synced! No missing files found.');
+                alert('All files are present.');
             }
         }
 
         function renderUI() {
-            // Profile
             document.getElementById('prof-name').value = db.profile.name || '';
             document.getElementById('prof-img').value = db.profile.image || '';
             document.getElementById('preview-prof').src = db.profile.image || '';
             document.getElementById('bio-en').value = db.profile.bio_en || '';
             document.getElementById('bio-ar').value = db.profile.bio_ar || '';
-
             renderList('home_videos', db.home_videos, 'youtube');
             renderList('ai_videos', db.ai_videos, 'video');
             renderList('editing_videos', db.editing_videos, 'video');
@@ -224,19 +207,15 @@
         function renderList(type, list, mode) {
             const container = document.getElementById('list-' + type);
             container.innerHTML = '';
-            // Filter nulls
             const validList = list ? list : []; 
-
             validList.forEach((item, i) => {
                 let val = item.file || item.url || item.id || "";
-                
                 let preview = '';
                 if(val) {
                     if(mode === 'video') preview = `<video src="${val}" controls class="preview-media"></video>`;
                     if(mode === 'image') preview = `<img src="${val}" class="preview-media">`;
                     if(mode === 'youtube') preview = `<iframe src="https://www.youtube.com/embed/${val}" style="width:100%;height:150px;margin-top:10px;border:none"></iframe>`;
                 }
-
                 container.innerHTML += `
                 <div class="card">
                     <div class="controls">
@@ -256,7 +235,6 @@
             });
         }
 
-        // Logic
         window.updateItem = (type, i, key, val) => {
             if(key === 'val') {
                 if(type === 'home_videos') db[type][i].id = val;
@@ -291,16 +269,12 @@
         async function saveChanges() {
             const btn = document.getElementById('save-text');
             btn.innerText = 'SAVING...';
-            
-            // Sync Profile
             db.profile.name = document.getElementById('prof-name').value;
             db.profile.bio_en = document.getElementById('bio-en').value;
             db.profile.bio_ar = document.getElementById('bio-ar').value;
             db.profile.image = document.getElementById('prof-img').value;
-
             const jsContent = `const db = ${JSON.stringify(db, null, 4)};`;
             const encoded = btoa(unescape(encodeURIComponent(jsContent)));
-            
             try {
                 const res = await fetch(`https://api.github.com/repos/${GITHUB_USERNAME}/${REPO_NAME}/contents/${DB_FILE}`, {
                     method: 'PUT',
@@ -332,9 +306,7 @@
                     const url = `https://${GITHUB_USERNAME}.github.io/${REPO_NAME}/${path}`;
                     document.getElementById(targetId).value = url;
                     if(targetId === 'prof-img') { db.profile.image = url; renderUI(); }
-                    
                     if(listType) {
-                        // Smart update for lists
                         if(listType === 'designs') db.designs[index].url = url;
                         else if(listType === 'ai_videos' || listType === 'editing_videos') {
                             db[listType][index].file = url;
@@ -342,7 +314,6 @@
                         }
                         renderUI();
                     }
-                    
                     alert('Uploaded!');
                 } catch(e) { alert('Upload Error'); }
             };
