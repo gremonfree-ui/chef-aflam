@@ -3,48 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CHEF AFLAM | CONTROL PANEL</title>
+    <title>CHEF AFLAM | FINAL ADMIN</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
         :root { --primary: #FFD700; --bg: #121212; --panel: #1E1E1E; --text: #E0E0E0; --border: #333; }
-        body { margin: 0; font-family: 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
+        body { margin: 0; font-family: 'Segoe UI', monospace; background: var(--bg); color: var(--text); display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
         
-        /* Login Screen */
         #login-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-        .login-box { background: var(--panel); padding: 40px; border-radius: 12px; border: 1px solid var(--border); text-align: center; width: 90%; max-width: 400px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-        .input-field { width: 100%; padding: 12px; margin: 15px 0; background: #222; border: 1px solid var(--border); color: #fff; border-radius: 6px; box-sizing: border-box; font-family: monospace; }
+        .login-box { background: var(--panel); padding: 40px; border-radius: 12px; border: 1px solid var(--border); text-align: center; width: 90%; max-width: 400px; }
+        .input-field { width: 100%; padding: 12px; margin: 15px 0; background: #222; border: 1px solid var(--border); color: #fff; border-radius: 6px; box-sizing: border-box; }
         
-        /* Layout */
         .container { display: flex; flex: 1; overflow: hidden; }
-        .sidebar { width: 260px; background: #080808; border-right: 1px solid var(--border); padding: 20px; display: flex; flex-direction: column; gap: 5px; }
+        .sidebar { width: 260px; background: #080808; border-right: 1px solid var(--border); padding: 20px; display: flex; flex-direction: column; gap: 10px; }
         .main { flex: 1; padding: 30px; overflow-y: auto; background: #121212; }
         
-        /* Buttons & Nav */
-        .btn { padding: 10px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; transition: 0.2s; width: 100%; display: flex; align-items: center; justify-content: center; gap: 8px; }
-        .btn-primary { background: var(--primary); color: #000; font-weight: 800; margin-top: 10px; padding: 12px; }
-        .btn-primary:hover { transform: scale(1.02); box-shadow: 0 0 15px rgba(255, 215, 0, 0.2); }
+        .btn { padding: 10px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; width: 100%; display: flex; align-items: center; justify-content: center; gap: 8px; }
+        .btn-primary { background: var(--primary); color: #000; font-weight: 800; margin-top: 10px; padding: 15px; }
+        .btn-fix { background: #ff4444; color: #fff; margin-bottom: 20px; animation: pulse 2s infinite; }
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.8; } 100% { opacity: 1; } }
         
-        .nav-item { background: transparent; color: #888; justify-content: flex-start; padding: 12px 15px; text-align: left; font-size: 0.95rem; }
+        .nav-item { background: transparent; color: #888; justify-content: flex-start; padding: 12px; text-align: left; }
         .nav-item:hover, .nav-item.active { background: var(--panel); color: #fff; border-left: 3px solid var(--primary); }
         .nav-item.active { color: var(--primary); font-weight: 700; }
-        .nav-header { font-size: 0.8rem; color: #555; text-transform: uppercase; margin: 15px 0 5px 10px; font-weight: bold; letter-spacing: 1px; }
 
-        /* Cards & Forms */
         .card { background: var(--panel); padding: 20px; border-radius: 8px; margin-bottom: 20px; border: 1px solid var(--border); position: relative; }
         .form-group { margin-bottom: 15px; }
         label { display: block; margin-bottom: 6px; color: #aaa; font-size: 0.85rem; font-weight: 600; }
         
         .controls { position: absolute; top: 15px; right: 15px; display: flex; gap: 5px; }
         .btn-icon { width: 30px; height: 30px; padding: 0; border-radius: 4px; display: flex; align-items: center; justify-content: center; cursor: pointer; color: #fff; border: 1px solid #444; background: #333; }
-        .btn-icon:hover { background: #555; }
-        .btn-danger { background: #3a1111; border-color: #ff4444; color: #ff4444; }
+        .btn-danger { background: #5a1a1a; border-color: #ff4444; color: #ff4444; }
 
-        .tab-content { display: none; animation: fadeIn 0.3s; }
+        .tab-content { display: none; }
         .tab-content.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        
-        .preview-img { width: 100px; height: 100px; object-fit: cover; border-radius: 50%; border: 2px solid var(--primary); margin-top: 10px; }
-        .design-preview { width: 100%; height: 180px; object-fit: cover; border-radius: 6px; margin-top: 10px; border: 1px solid #333; }
+        .preview-media { width: 100%; max-height: 200px; object-fit: contain; background: #000; border-radius: 6px; margin-top: 10px; border: 1px solid #333; }
         
         .loader { width: 20px; height: 20px; border: 3px solid #000; border-top-color: #fff; border-radius: 50%; animation: spin 1s infinite; display: none; }
         @keyframes spin { to { transform: rotate(360deg); } }
@@ -54,29 +46,23 @@
 
     <div id="login-screen">
         <div class="login-box">
-            <h2 style="color:var(--primary); margin-top:0"><i class="fas fa-fingerprint"></i> ADMIN ACCESS</h2>
-            <p style="color:#777; font-size:0.9rem">Enter your GitHub Token to manage Chef Aflam</p>
-            <input type="password" id="token-input" class="input-field" placeholder="ghp_xxxxxxxxxxxx...">
-            <button class="btn btn-primary" onclick="login()">LOGIN TO DASHBOARD</button>
+            <h2 style="color:var(--primary); margin-top:0">ADMIN PANEL</h2>
+            <input type="password" id="token-input" class="input-field" placeholder="Paste GitHub Token">
+            <button class="btn btn-primary" onclick="login()">LOGIN</button>
         </div>
     </div>
 
     <div class="container">
         <div class="sidebar">
-            <div style="text-align:center; margin-bottom:20px">
-                <h2 style="color:#fff; margin:0">CHEF <span style="color:var(--primary)">AFLAM</span></h2>
-                <small style="color:#555">v3.0 Final Structure</small>
-            </div>
-
-            <button class="btn nav-item active" onclick="switchTab('tab-profile', this)"><i class="fas fa-user-circle"></i> Profile & Social</button>
+            <h2 style="color:#fff; text-align:center;">CHEF <span style="color:var(--primary)">AFLAM</span></h2>
             
-            <div class="nav-header">Home Page</div>
-            <button class="btn nav-item" onclick="switchTab('tab-home', this)"><i class="fab fa-youtube"></i> Latest Reviews</button>
+            <button class="btn btn-fix" onclick="autoFixFiles()"><i class="fas fa-magic"></i> Auto-Detect Files</button>
             
-            <div class="nav-header">Pages Content</div>
-            <button class="btn nav-item" onclick="switchTab('tab-editing', this)"><i class="fas fa-video"></i> Editing Portfolio</button>
-            <button class="btn nav-item" onclick="switchTab('tab-ai', this)"><i class="fas fa-robot"></i> AI Studio (Dubai)</button>
-            <button class="btn nav-item" onclick="switchTab('tab-designs', this)"><i class="fas fa-palette"></i> Graphic Designs</button>
+            <button class="btn nav-item active" onclick="switchTab('tab-profile', this)"><i class="fas fa-user"></i> Profile</button>
+            <button class="btn nav-item" onclick="switchTab('tab-home', this)"><i class="fab fa-youtube"></i> Home Reviews</button>
+            <button class="btn nav-item" onclick="switchTab('tab-ai', this)"><i class="fas fa-robot"></i> AI Studio</button>
+            <button class="btn nav-item" onclick="switchTab('tab-editing', this)"><i class="fas fa-film"></i> Editing Works</button>
+            <button class="btn nav-item" onclick="switchTab('tab-designs', this)"><i class="fas fa-palette"></i> Designs Gallery</button>
             
             <div style="flex:1"></div>
             <button class="btn btn-primary" onclick="saveChanges()">
@@ -88,78 +74,66 @@
         <div class="main">
             
             <div id="tab-profile" class="tab-content active">
-                <h2 style="border-bottom:1px solid #333; padding-bottom:15px">Profile Settings</h2>
+                <h2>Profile Settings</h2>
                 <div class="card">
-                    <div style="display:flex; gap:20px; align-items:start">
+                    <div style="display:flex; gap:20px;">
                         <div style="flex:1">
                             <div class="form-group"><label>Name</label><input id="prof-name" class="input-field"></div>
-                            <div class="form-group"><label>Bio (English)</label><textarea id="bio-en" class="input-field" rows="2"></textarea></div>
-                            <div class="form-group"><label>Bio (Arabic)</label><textarea id="bio-ar" class="input-field" rows="2" style="direction:rtl"></textarea></div>
+                            <div class="form-group"><label>Bio (EN)</label><textarea id="bio-en" class="input-field" rows="3"></textarea></div>
+                            <div class="form-group"><label>Bio (AR)</label><textarea id="bio-ar" class="input-field" rows="3" style="direction:rtl"></textarea></div>
                         </div>
-                        <div style="text-align:center">
-                            <label>Profile Image</label>
-                            <img id="preview-prof" src="" class="preview-img" onerror="this.style.display='none'">
-                            <input type="text" id="prof-img" class="input-field" style="margin-top:10px" placeholder="Image URL">
-                            <input type="file" id="upload-prof" hidden onchange="uploadImage(this, 'prof-img')">
-                            <button class="btn" style="background:#333; color:#fff; margin-top:5px" onclick="document.getElementById('upload-prof').click()">Upload New</button>
+                        <div style="width:150px;">
+                            <img id="preview-prof" src="" class="preview-media" style="height:150px; border-radius:50%">
+                            <input type="text" id="prof-img" class="input-field" placeholder="Image URL">
+                            <input type="file" id="upload-prof" hidden onchange="uploadFile(this, 'prof-img', null, null)">
+                            <button class="btn" style="background:#333; color:#fff" onclick="document.getElementById('upload-prof').click()">Upload</button>
                         </div>
                     </div>
                 </div>
             </div>
 
             <div id="tab-home" class="tab-content">
-                <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #333; padding-bottom:15px; margin-bottom:20px">
-                    <h2>Home: Latest Reviews (YouTube)</h2>
-                    <button class="btn" style="width:auto; background:#222; color:var(--primary); border:1px solid #444" onclick="addItem('home_videos')">+ Add Review</button>
-                </div>
+                <h2>Home Reviews (YouTube IDs)</h2>
                 <div id="list-home_videos"></div>
-            </div>
-
-            <div id="tab-editing" class="tab-content">
-                <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #333; padding-bottom:15px; margin-bottom:20px">
-                    <h2>Page: Editing Portfolio</h2>
-                    <button class="btn" style="width:auto; background:#222; color:var(--primary); border:1px solid #444" onclick="addItem('editing_videos')">+ Add Video</button>
-                </div>
-                <div id="list-editing_videos"></div>
+                <button class="btn" style="background:#222; color:#fff" onclick="addItem('home_videos')">+ Add Review</button>
             </div>
 
             <div id="tab-ai" class="tab-content">
-                <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #333; padding-bottom:15px; margin-bottom:20px">
-                    <h2>Page: AI Studio</h2>
-                    <button class="btn" style="width:auto; background:#222; color:var(--primary); border:1px solid #444" onclick="addItem('ai_videos')">+ Add Video</button>
-                </div>
+                <h2>AI Studio (Dubai Trailer & Others)</h2>
                 <div id="list-ai_videos"></div>
+                <button class="btn" style="background:#222; color:#fff" onclick="addItem('ai_videos')">+ Add Video</button>
+            </div>
+
+            <div id="tab-editing" class="tab-content">
+                <h2>Editing Portfolio</h2>
+                <div id="list-editing_videos"></div>
+                <button class="btn" style="background:#222; color:#fff" onclick="addItem('editing_videos')">+ Add Video</button>
             </div>
 
             <div id="tab-designs" class="tab-content">
-                <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #333; padding-bottom:15px; margin-bottom:20px">
-                    <h2>Page: Design Gallery</h2>
-                    <button class="btn" style="width:auto; background:#222; color:var(--primary); border:1px solid #444" onclick="addItem('designs')">+ Add Design</button>
-                </div>
+                <h2>Graphic Designs</h2>
                 <div id="list-designs"></div>
+                <button class="btn" style="background:#222; color:#fff" onclick="addItem('designs')">+ Add Design</button>
             </div>
 
         </div>
     </div>
 
     <script>
-        // --- CONFIGURATION ---
         const GITHUB_USERNAME = 'gremonfree-ui'; 
         const REPO_NAME = 'chef-aflam';
         const DB_FILE = 'db.js';
 
-        // --- STATE ---
         let db = {
-            profile: { name: "", image: "", bio_en: "", bio_ar: "" },
-            home_videos: [],     // For Index Page (YouTube IDs)
-            editing_videos: [],  // For Editing Page
-            ai_videos: [],       // For AI Page (Dubai video here)
-            designs: []          // For Gallery
+            profile: { name: "Chef Aflam", image: "", bio_en: "", bio_ar: "" },
+            home_videos: [],
+            editing_videos: [],
+            ai_videos: [],
+            designs: []
         };
         let token = localStorage.getItem('gh_token');
         let fileSha = null;
 
-        // --- INIT ---
         if(token) { document.getElementById('login-screen').style.display = 'none'; fetchData(); }
 
         function login() {
@@ -181,42 +155,80 @@
                     const jsonPart = content.replace(/const\s+db\s*=\s*/, '').replace(/;$/, '');
                     
                     const loaded = JSON.parse(jsonPart);
-                    // Merge loaded data carefully
+                    // Merge and Rescue Data
                     db = { ...db, ...loaded };
-                    
-                    // Fix naming if older version used different keys
-                    if(loaded.gallery && !loaded.designs) db.designs = loaded.gallery;
+                    if(!db.ai_videos.length && loaded.ai) db.ai_videos = loaded.ai;
+                    if(!db.editing_videos.length && loaded.editing) db.editing_videos = loaded.editing;
+                    if(!db.designs.length && loaded.gallery) db.designs = loaded.gallery;
                 }
                 renderUI();
-            } catch(e) { console.error(e); alert('Error loading DB. Check console.'); }
+            } catch(e) { console.error(e); }
         }
 
-        // --- RENDERING ---
+        // === THE MAGIC FIX FUNCTION ===
+        function autoFixFiles() {
+            if(!confirm('This will auto-add trailer.mp4, edit1-3.mp4, and designs if missing. Proceed?')) return;
+            
+            // 1. Fix Dubai Trailer
+            const hasTrailer = db.ai_videos.some(v => v.file.includes('trailer.mp4'));
+            if(!hasTrailer) {
+                db.ai_videos.unshift({ 
+                    file: "ai_videos/trailer.mp4", 
+                    title_en: "Dubai Competition Trailer", 
+                    title_ar: "تريلر مسابقة دبي" 
+                });
+            }
+
+            // 2. Fix Editing Videos
+            if(db.editing_videos.length === 0) {
+                db.editing_videos.push(
+                    { file: "videos/edit1.mp4", title_en: "Project 1", title_ar: "مشروع 1" },
+                    { file: "videos/edit2.mp4", title_en: "Project 2", title_ar: "مشروع 2" },
+                    { file: "videos/edit3.mp4", title_en: "Project 3", title_ar: "مشروع 3" }
+                );
+            }
+
+            // 3. Fix Designs
+            if(db.designs.length === 0) {
+                db.designs.push(
+                    { url: "images/design1.jpg", desc: "Design 1" },
+                    { url: "images/design2.jpg", desc: "Design 2" },
+                    { url: "images/design3.jpg", desc: "Design 3" },
+                    { url: "images/design4.jpg", desc: "Design 4" }
+                );
+            }
+            
+            alert('Files Detected & Added! Click "Publish Changes" to save them permanently.');
+            renderUI();
+        }
+
         function renderUI() {
             // Profile
             document.getElementById('prof-name').value = db.profile.name || '';
             document.getElementById('prof-img').value = db.profile.image || '';
             document.getElementById('preview-prof').src = db.profile.image || '';
-            document.getElementById('preview-prof').style.display = db.profile.image ? 'block' : 'none';
             document.getElementById('bio-en').value = db.profile.bio_en || '';
             document.getElementById('bio-ar').value = db.profile.bio_ar || '';
 
-            // Lists
-            renderList('home_videos', db.home_videos, 'Youtube ID (e.g. dQw4w9WgXcQ)');
-            renderList('editing_videos', db.editing_videos, 'Video Path/URL');
-            renderList('ai_videos', db.ai_videos, 'Video Path/URL');
-            renderDesignList(db.designs);
+            renderList('home_videos', db.home_videos, 'youtube');
+            renderList('ai_videos', db.ai_videos, 'video');
+            renderList('editing_videos', db.editing_videos, 'video');
+            renderList('designs', db.designs, 'image');
         }
 
-        function renderList(type, list, placeholder) {
+        function renderList(type, list, mode) {
             const container = document.getElementById('list-' + type);
             container.innerHTML = '';
-            if(!list) return;
-
             list.forEach((item, i) => {
-                // Determine value based on old/new structure
-                let val = item.id || item.file || item.url || "";
+                let val = item.file || item.url || item.id || "";
                 
+                let preview = '';
+                if(val) {
+                    if(mode === 'video') preview = `<video src="${val}" controls class="preview-media"></video>`;
+                    if(mode === 'image') preview = `<img src="${val}" class="preview-media">`;
+                    if(mode === 'youtube') preview = `<iframe src="https://www.youtube.com/embed/${val}" style="width:100%;height:150px;margin-top:10px;border:none"></iframe>`;
+                }
+
                 container.innerHTML += `
                 <div class="card">
                     <div class="controls">
@@ -225,8 +237,9 @@
                         <button class="btn-icon btn-danger" onclick="delItem('${type}', ${i})"><i class="fas fa-trash"></i></button>
                     </div>
                     <div class="form-group">
-                        <label>${placeholder}</label>
+                        <label>File Path / URL</label>
                         <input class="input-field" value="${val}" onchange="updateItem('${type}', ${i}, 'val', this.value)">
+                        ${preview}
                     </div>
                     <div class="form-group"><label>Title (EN)</label><input class="input-field" value="${item.title_en||''}" onchange="updateItem('${type}', ${i}, 'title_en', this.value)"></div>
                     <div class="form-group"><label>Title (AR)</label><input class="input-field" value="${item.title_ar||''}" onchange="updateItem('${type}', ${i}, 'title_ar', this.value)" style="direction:rtl"></div>
@@ -234,64 +247,31 @@
             });
         }
 
-        function renderDesignList(list) {
-            const container = document.getElementById('list-designs');
-            container.innerHTML = '';
-            if(!list) return;
-
-            list.forEach((item, i) => {
-                container.innerHTML += `
-                <div class="card">
-                    <div class="controls">
-                        <button class="btn-icon" onclick="moveItem('designs', ${i}, -1)"><i class="fas fa-arrow-up"></i></button>
-                        <button class="btn-icon" onclick="moveItem('designs', ${i}, 1)"><i class="fas fa-arrow-down"></i></button>
-                        <button class="btn-icon btn-danger" onclick="delItem('designs', ${i})"><i class="fas fa-trash"></i></button>
-                    </div>
-                    <div class="form-group">
-                        <label>Image URL</label>
-                        <div style="display:flex; gap:10px">
-                            <input class="input-field" style="margin:0" id="design-url-${i}" value="${item.url||''}" onchange="updateItem('designs', ${i}, 'url', this.value)">
-                            <input type="file" id="upload-design-${i}" hidden onchange="uploadImage(this, 'design-url-${i}', 'designs', ${i})">
-                            <button class="btn-icon" style="width:auto; padding:0 20px" onclick="document.getElementById('upload-design-${i}').click()"><i class="fas fa-upload"></i></button>
-                        </div>
-                        ${item.url ? `<img src="${item.url}" class="design-preview">` : ''}
-                    </div>
-                    <div class="form-group"><label>Description</label><input class="input-field" value="${item.desc||''}" onchange="updateItem('designs', ${i}, 'desc', this.value)"></div>
-                </div>`;
-            });
-        }
-
-        // --- ACTIONS ---
+        // Logic
         window.updateItem = (type, i, key, val) => {
             if(key === 'val') {
-                // Map the main input back to correct key
                 if(type === 'home_videos') db[type][i].id = val;
-                else db[type][i].file = val; // Using 'file' as universal key for video paths
-            } else {
-                db[type][i][key] = val;
-            }
+                else { db[type][i].file = val; db[type][i].url = val; }
+            } else db[type][i][key] = val;
         };
 
         window.addItem = (type) => {
-            if(!db[type]) db[type] = [];
-            let newItem = { title_en: "New Item", title_ar: "عنصر جديد" };
-            if(type === 'home_videos') newItem.id = ""; 
-            else if(type === 'designs') { newItem = { url: "", desc: "" }; }
-            else newItem.file = "";
-            
+            let newItem = { title_en: "New", title_ar: "جديد" };
+            if(type === 'home_videos') newItem.id = "";
+            else if(type === 'ai_videos') { newItem.file = "ai_videos/"; }
+            else if(type === 'editing_videos') { newItem.file = "videos/"; }
+            else if(type === 'designs') { newItem.url = "images/"; }
             db[type].push(newItem);
             renderUI();
         };
 
         window.delItem = (type, i) => { if(confirm('Delete?')) { db[type].splice(i, 1); renderUI(); } };
-        
         window.moveItem = (type, i, dir) => {
             if(dir === -1 && i === 0) return;
             if(dir === 1 && i === db[type].length - 1) return;
             [db[type][i], db[type][i+dir]] = [db[type][i+dir], db[type][i]];
             renderUI();
         };
-
         window.switchTab = (id, btn) => {
             document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
             document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
@@ -299,43 +279,11 @@
             btn.classList.add('active');
         };
 
-        // --- UPLOAD ---
-        async function uploadImage(input, targetId, listType, index) {
-            const file = input.files[0];
-            if(!file) return;
-            
-            const reader = new FileReader();
-            reader.onload = async (e) => {
-                const content = e.target.result.split(',')[1];
-                const path = `images/${Date.now()}_${file.name.replace(/\s/g,'_')}`;
-                
-                try {
-                    const res = await fetch(`https://api.github.com/repos/${GITHUB_USERNAME}/${REPO_NAME}/contents/${path}`, {
-                        method: 'PUT',
-                        headers: { Authorization: `token ${token}` },
-                        body: JSON.stringify({ message: "Upload Image", content: content })
-                    });
-                    if(res.ok) {
-                        const url = `https://${GITHUB_USERNAME}.github.io/${REPO_NAME}/${path}`;
-                        document.getElementById(targetId).value = url;
-                        
-                        if(listType === 'designs') { db.designs[index].url = url; renderUI(); }
-                        else if(targetId === 'prof-img') { db.profile.image = url; document.getElementById('preview-prof').src = url; document.getElementById('preview-prof').style.display='block'; }
-                        
-                        alert('Uploaded! ✅');
-                    }
-                } catch(e) { console.error(e); alert('Upload Failed'); }
-            };
-            reader.readAsDataURL(file);
-        }
-
-        // --- SAVE ---
         async function saveChanges() {
             const btn = document.getElementById('save-text');
-            const loader = document.getElementById('save-loader');
-            btn.innerText = 'SAVING...'; loader.style.display = 'block';
-
-            // Prepare Data
+            btn.innerText = 'SAVING...';
+            
+            // Sync Profile
             db.profile.name = document.getElementById('prof-name').value;
             db.profile.bio_en = document.getElementById('bio-en').value;
             db.profile.bio_ar = document.getElementById('bio-ar').value;
@@ -344,22 +292,41 @@
             const jsContent = `const db = ${JSON.stringify(db, null, 4)};`;
             const encoded = btoa(unescape(encodeURIComponent(jsContent)));
             
-            const body = { message: "Update via Admin", content: encoded };
-            if(fileSha) body.sha = fileSha;
-
             try {
                 const res = await fetch(`https://api.github.com/repos/${GITHUB_USERNAME}/${REPO_NAME}/contents/${DB_FILE}`, {
                     method: 'PUT',
                     headers: { Authorization: `token ${token}` },
-                    body: JSON.stringify(body)
+                    body: JSON.stringify({ message: "Admin Update", content: encoded, sha: fileSha })
                 });
                 if(res.ok) {
                     const data = await res.json();
                     fileSha = data.content.sha;
-                    alert('Saved Successfully! 🎉');
-                } else alert('Save Failed');
+                    alert('SAVED! 🎉');
+                } else alert('Error Saving');
             } catch(e) { console.error(e); }
-            finally { btn.innerText = 'PUBLISH CHANGES'; loader.style.display = 'none'; }
+            btn.innerText = 'PUBLISH CHANGES';
+        }
+
+        async function uploadFile(input, targetId, listType, index) {
+            const file = input.files[0];
+            if(!file) return;
+            const reader = new FileReader();
+            reader.onload = async (e) => {
+                const content = e.target.result.split(',')[1];
+                const path = `images/${Date.now()}_${file.name.replace(/\s/g,'_')}`;
+                try {
+                    await fetch(`https://api.github.com/repos/${GITHUB_USERNAME}/${REPO_NAME}/contents/${path}`, {
+                        method: 'PUT',
+                        headers: { Authorization: `token ${token}` },
+                        body: JSON.stringify({ message: "Upload", content: content })
+                    });
+                    const url = `https://${GITHUB_USERNAME}.github.io/${REPO_NAME}/${path}`;
+                    document.getElementById(targetId).value = url;
+                    if(targetId === 'prof-img') { db.profile.image = url; renderUI(); }
+                    alert('Uploaded!');
+                } catch(e) { alert('Upload Error'); }
+            };
+            reader.readAsDataURL(file);
         }
     </script>
 </body>
