@@ -3,277 +3,237 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CHEF AFLAM | Admin Console</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>Admin Panel</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
-        :root { --primary: #FFD700; --bg: #0f0f0f; --panel: #1a1a1a; --border: #333; --text: #eee; --danger: #ff4d4d; }
-        body { margin: 0; font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); display: flex; height: 100vh; overflow: hidden; }
+        :root { --primary: #FFD700; --bg: #121212; --panel: #1E1E1E; --text: #E0E0E0; --border: #333; }
+        body { margin: 0; font-family: sans-serif; background: var(--bg); color: var(--text); display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
         
-        /* Sidebar */
-        .sidebar { width: 250px; background: #000; border-right: 1px solid var(--border); display: flex; flex-direction: column; padding: 20px; }
-        .logo { font-size: 1.5rem; font-weight: 900; color: #fff; margin-bottom: 40px; text-transform: uppercase; letter-spacing: -1px; }
-        .logo span { color: var(--primary); }
-        .nav-item { padding: 12px 15px; margin-bottom: 5px; cursor: pointer; border-radius: 8px; transition: 0.2s; color: #888; display: flex; align-items: center; gap: 10px; font-weight: 500; }
-        .nav-item:hover, .nav-item.active { background: var(--panel); color: #fff; }
-        .nav-item.active { color: var(--primary); }
-        .nav-item i { width: 20px; text-align: center; }
+        #login-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        .login-box { background: var(--panel); padding: 40px; border-radius: 10px; border: 1px solid var(--border); text-align: center; width: 90%; max-width: 400px; }
+        .input-field { width: 100%; padding: 12px; margin: 15px 0; background: #222; border: 1px solid var(--border); color: #fff; border-radius: 5px; box-sizing: border-box; }
         
-        /* Main Content */
-        .main { flex: 1; padding: 30px; overflow-y: auto; position: relative; }
-        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; border-bottom: 1px solid var(--border); padding-bottom: 20px; }
-        .page-title { font-size: 1.8rem; font-weight: 800; margin: 0; }
+        .container { display: flex; flex: 1; overflow: hidden; }
+        .sidebar { width: 250px; background: #000; border-right: 1px solid var(--border); padding: 20px; display: flex; flex-direction: column; gap: 10px; }
+        .main { flex: 1; padding: 30px; overflow-y: auto; }
         
-        /* Forms & Inputs */
-        .form-group { margin-bottom: 20px; }
-        label { display: block; margin-bottom: 8px; font-size: 0.85rem; color: #aaa; font-weight: 600; text-transform: uppercase; }
-        input, textarea { width: 100%; background: #222; border: 1px solid var(--border); color: #fff; padding: 12px; border-radius: 6px; font-family: inherit; font-size: 0.95rem; transition: 0.2s; box-sizing: border-box; }
-        input:focus, textarea:focus { border-color: var(--primary); outline: none; }
-        
-        /* Items List */
-        .item-card { background: var(--panel); border: 1px solid var(--border); padding: 20px; border-radius: 8px; margin-bottom: 15px; display: grid; gap: 15px; position: relative; transition: 0.2s; }
-        .item-card:hover { border-color: #555; }
-        .card-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 10px; }
-        .btn-icon { background: #333; color: #fff; border: none; width: 32px; height: 32px; border-radius: 4px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.2s; }
-        .btn-icon:hover { background: #444; }
-        .btn-delete { background: rgba(255, 77, 77, 0.1); color: var(--danger); }
-        .btn-delete:hover { background: var(--danger); color: #fff; }
-
-        /* Buttons */
-        .btn { padding: 12px 25px; border: none; border-radius: 6px; cursor: pointer; font-weight: 700; font-size: 0.9rem; transition: 0.2s; display: inline-flex; align-items: center; gap: 8px; }
+        .btn { padding: 10px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; transition: 0.2s; width: 100%; display: flex; align-items: center; justify-content: center; gap: 10px; }
         .btn-primary { background: var(--primary); color: #000; }
-        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(255, 215, 0, 0.2); }
-        .btn-add { background: #222; color: var(--primary); border: 1px dashed var(--border); width: 100%; justify-content: center; margin-top: 10px; }
-        .btn-add:hover { background: #333; border-color: var(--primary); }
+        .btn-nav { background: transparent; color: #888; justify-content: flex-start; }
+        .btn-nav:hover, .btn-nav.active { background: var(--panel); color: #fff; }
+        .btn-nav.active { color: var(--primary); }
+        .btn-danger { background: #ff4444; color: #fff; width: auto; padding: 5px 10px; }
 
-        /* Tabs Logic */
-        .section { display: none; animation: fadeIn 0.3s ease; }
-        .section.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-        /* Scrollbar */
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: var(--bg); }
-        ::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #555; }
+        .card { background: var(--panel); padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid var(--border); }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; color: #aaa; font-size: 0.9rem; }
+        
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+        
+        .loader { width: 20px; height: 20px; border: 3px solid #333; border-top-color: var(--primary); border-radius: 50%; animation: spin 1s infinite; display: none; }
+        @keyframes spin { to { transform: rotate(360deg); } }
     </style>
 </head>
 <body>
 
-    <div class="sidebar">
-        <div class="logo">CHEF <span>AFLAM</span></div>
-        <div class="nav-item active" onclick="switchTab('profile')"><i class="fas fa-user-circle"></i> Profile & Bio</div>
-        <div class="nav-item" onclick="switchTab('home')"><i class="fab fa-youtube"></i> Home Reviews</div>
-        <div class="nav-item" onclick="switchTab('editing')"><i class="fas fa-cut"></i> Video Editing</div>
-        <div class="nav-item" onclick="switchTab('ai')"><i class="fas fa-robot"></i> AI Studio</div>
-        <div class="nav-item" onclick="switchTab('gallery')"><i class="fas fa-images"></i> Gallery</div>
-        <div style="flex:1"></div>
-        <button class="btn btn-primary" style="width:100%; justify-content:center" onclick="saveData()">
-            <i class="fas fa-save"></i> Export Config
-        </button>
+    <div id="login-screen">
+        <div class="login-box">
+            <h2 style="color:var(--primary)"><i class="fas fa-lock"></i> Security Check</h2>
+            <input type="password" id="token-input" class="input-field" placeholder="Paste GitHub Token">
+            <button class="btn btn-primary" onclick="login()">Login</button>
+        </div>
     </div>
 
-    <div class="main">
-        
-        <div id="profile" class="section active">
-            <div class="header">
-                <h2 class="page-title">Profile Settings</h2>
-            </div>
-            <div class="item-card">
-                <div class="form-group">
-                    <label>Profile Image Path</label>
-                    <input type="text" id="prof_img">
-                </div>
-                <div class="form-group">
-                    <label>Bio (English)</label>
-                    <textarea id="bio_en" rows="3"></textarea>
-                </div>
-                <div class="form-group">
-                    <label>Bio (Arabic)</label>
-                    <textarea id="bio_ar" rows="3" style="direction: rtl;"></textarea>
-                </div>
-            </div>
+    <div class="container">
+        <div class="sidebar">
+            <h2 style="color:#fff; text-align:center; margin:0 0 20px 0">ADMIN <span style="color:var(--primary)">PANEL</span></h2>
+            <button class="btn btn-nav active" onclick="switchTab('profile', this)"><i class="fas fa-user"></i> Profile</button>
+            <button class="btn btn-nav" onclick="switchTab('editing', this)"><i class="fas fa-video"></i> Editing</button>
+            <button class="btn btn-nav" onclick="switchTab('ai', this)"><i class="fas fa-robot"></i> AI Studio</button>
+            <div style="flex:1"></div>
+            <button class="btn btn-primary" onclick="saveChanges()">
+                <span id="save-text">Publish Changes</span>
+                <div class="loader" id="save-loader"></div>
+            </button>
         </div>
 
-        <div id="home" class="section">
-            <div class="header"><h2 class="page-title">YouTube Reviews</h2></div>
-            <div id="home_list"></div>
-            <button class="btn btn-add" onclick="addHome()">+ Add New Video</button>
-        </div>
-
-        <div id="editing" class="section">
-            <div class="header"><h2 class="page-title">Editing Portfolio</h2></div>
-            <div id="editing_list"></div>
-            <button class="btn btn-add" onclick="addEditing()">+ Add New Video</button>
-        </div>
-
-        <div id="ai" class="section">
-            <div class="header"><h2 class="page-title">AI Studio Manager</h2></div>
-            
-            <h3 style="color:#888; margin-top:0">Featured Trailer</h3>
-            <div class="item-card" style="border-color: var(--primary);">
-                <div class="form-group"><label>Video File</label><input id="ai_feat_file"></div>
-                <div class="form-group"><label>Title (EN)</label><input id="ai_feat_en"></div>
-                <div class="form-group"><label>Title (AR)</label><input id="ai_feat_ar" style="direction:rtl"></div>
-            </div>
-
-            <h3 style="color:#888; margin-top:30px">AI Videos List</h3>
-            <div id="ai_list"></div>
-            <button class="btn btn-add" onclick="addAi()">+ Add New Video</button>
-        </div>
-
-        <div id="gallery" class="section">
-            <div class="header"><h2 class="page-title">Design Gallery</h2></div>
-            <div id="gallery_list" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap:15px"></div>
-            <button class="btn btn-add" onclick="addImg()">+ Add Image</button>
-        </div>
-
-    </div>
-
-    <script src="db.js"></script>
-    <script>
-        // --- Navigation Logic ---
-        function switchTab(tabId) {
-            document.querySelectorAll('.section').forEach(el => el.classList.remove('active'));
-            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
-            document.getElementById(tabId).classList.add('active');
-            event.currentTarget.classList.add('active');
-        }
-
-        // --- Load Data ---
-        document.getElementById('prof_img').value = db.profile.image;
-        document.getElementById('bio_en').value = db.profile.bio_en;
-        document.getElementById('bio_ar').value = db.profile.bio_ar;
-        document.getElementById('ai_feat_file').value = db.ai_featured.file;
-        document.getElementById('ai_feat_en').value = db.ai_featured.title_en;
-        document.getElementById('ai_feat_ar').value = db.ai_featured.title_ar;
-
-        // --- Renders ---
-        function renderHome() {
-            const container = document.getElementById('home_list');
-            container.innerHTML = '';
-            db.home_videos.forEach((item, i) => {
-                container.innerHTML += createCard(i, 'home', 'YouTube ID', item.id, item.title_en, item.title_ar);
-            });
-        }
-
-        function renderEditing() {
-            const container = document.getElementById('editing_list');
-            container.innerHTML = '';
-            db.editing_videos.forEach((item, i) => {
-                container.innerHTML += createCard(i, 'editing', 'Video File Path', item.file, item.title_en, item.title_ar);
-            });
-        }
-
-        function renderAi() {
-            const container = document.getElementById('ai_list');
-            container.innerHTML = '';
-            db.ai_videos.forEach((item, i) => {
-                container.innerHTML += createCard(i, 'ai', 'Video File Path', item.file, item.title_en, item.title_ar);
-            });
-        }
-
-        function renderGallery() {
-            const container = document.getElementById('gallery_list');
-            container.innerHTML = '';
-            db.gallery.forEach((img, i) => {
-                container.innerHTML += `
-                <div class="item-card" style="margin:0">
+        <div class="main">
+            <div id="profile" class="tab-content active">
+                <h2>Profile Settings</h2>
+                <div class="card">
                     <div class="form-group">
-                        <label>Image Path</label>
-                        <input value="${img}" onchange="updateGallery(${i}, this.value)">
+                        <label>Profile Image URL</label>
+                        <div style="display:flex; gap:10px">
+                            <input type="text" id="prof-img" class="input-field" style="margin:0">
+                            <input type="file" id="file-prof" hidden onchange="uploadImage(this, 'prof-img')">
+                            <button class="btn" style="background:#333; color:#fff; width:auto" onclick="document.getElementById('file-prof').click()"><i class="fas fa-upload"></i></button>
+                        </div>
                     </div>
-                    <div class="card-actions">
-                        <button class="btn-icon" onclick="moveGallery(${i}, -1)"><i class="fas fa-arrow-up"></i></button>
-                        <button class="btn-icon" onclick="moveGallery(${i}, 1)"><i class="fas fa-arrow-down"></i></button>
-                        <button class="btn-icon btn-delete" onclick="delGallery(${i})"><i class="fas fa-trash"></i></button>
+                    <div class="form-group"><label>Bio (EN)</label><textarea id="bio-en" class="input-field" rows="3"></textarea></div>
+                    <div class="form-group"><label>Bio (AR)</label><textarea id="bio-ar" class="input-field" rows="3" style="direction:rtl"></textarea></div>
+                </div>
+            </div>
+
+            <div id="editing" class="tab-content">
+                <h2>Editing Portfolio</h2>
+                <div id="editing-list"></div>
+                <button class="btn" style="background:#333; color:var(--primary); border:1px dashed #555" onclick="addItem('editing')">+ Add Video</button>
+            </div>
+
+            <div id="ai" class="tab-content">
+                <h2>AI Studio</h2>
+                <div id="ai-list"></div>
+                <button class="btn" style="background:#333; color:var(--primary); border:1px dashed #555" onclick="addItem('ai')">+ Add Video</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const GITHUB_USERNAME = 'gremonfree-ui'; 
+        const REPO_NAME = 'chef-aflam';
+        const DB_FILE = 'db.js';
+
+        let db = { 
+            profile: { image: "", bio_en: "", bio_ar: "" },
+            home_videos: [], editing_videos: [], ai_videos: [], gallery: [],
+            ai_featured: { file: "", title_en: "", title_ar: "" }
+        };
+        let token = localStorage.getItem('gh_token');
+        let fileSha = null;
+
+        if(token) {
+            document.getElementById('login-screen').style.display = 'none';
+            fetchData();
+        }
+
+        function login() {
+            const t = document.getElementById('token-input').value.trim();
+            if(!t) return;
+            localStorage.setItem('gh_token', t);
+            token = t;
+            document.getElementById('login-screen').style.display = 'none';
+            fetchData();
+        }
+
+        async function fetchData() {
+            try {
+                const url = `https://api.github.com/repos/${GITHUB_USERNAME}/${REPO_NAME}/contents/${DB_FILE}`;
+                const res = await fetch(url, { headers: { Authorization: `token ${token}` } });
+                if(res.ok) {
+                    const data = await res.json();
+                    fileSha = data.sha;
+                    const content = decodeURIComponent(escape(atob(data.content)));
+                    const jsonPart = content.replace(/const\s+db\s*=\s*/, '').replace(/;$/, '');
+                    db = JSON.parse(jsonPart);
+                }
+                renderUI();
+            } catch(e) { console.error(e); }
+        }
+
+        function renderUI() {
+            document.getElementById('prof-img').value = db.profile.image || '';
+            document.getElementById('bio-en').value = db.profile.bio_en || '';
+            document.getElementById('bio-ar').value = db.profile.bio_ar || '';
+            renderList('editing', db.editing_videos);
+            renderList('ai', db.ai_videos);
+        }
+
+        function renderList(type, list) {
+            const container = document.getElementById(type + '-list');
+            container.innerHTML = '';
+            list.forEach((item, i) => {
+                container.innerHTML += `
+                <div class="card">
+                    <div style="display:flex; justify-content:space-between; margin-bottom:10px">
+                        <strong>#${i+1}</strong>
+                        <button class="btn btn-danger" onclick="delItem('${type}', ${i})"><i class="fas fa-trash"></i></button>
                     </div>
+                    <div class="form-group"><label>URL</label><input onchange="updateItem('${type}', ${i}, 'file', this.value)" value="${item.file||''}" class="input-field"></div>
+                    <div class="form-group"><label>Title (EN)</label><input onchange="updateItem('${type}', ${i}, 'title_en', this.value)" value="${item.title_en||''}" class="input-field"></div>
+                    <div class="form-group"><label>Title (AR)</label><input onchange="updateItem('${type}', ${i}, 'title_ar', this.value)" value="${item.title_ar||''}" class="input-field" style="direction:rtl"></div>
                 </div>`;
             });
         }
 
-        // --- Templates ---
-        function createCard(index, type, label, val1, val2, val3) {
-            return `
-            <div class="item-card">
-                <div style="display:grid; grid-template-columns: 1fr 2fr 2fr; gap:15px">
-                    <div><label>${label}</label><input value="${val1}" onchange="updateItem('${type}', ${index}, 'file', this.value)"></div>
-                    <div><label>Title (EN)</label><input value="${val2}" onchange="updateItem('${type}', ${index}, 'en', this.value)"></div>
-                    <div><label>Title (AR)</label><input value="${val3}" onchange="updateItem('${type}', ${index}, 'ar', this.value)" style="direction:rtl"></div>
-                </div>
-                <div class="card-actions">
-                    <button class="btn-icon" onclick="moveItem('${type}', ${index}, -1)" title="Move Up"><i class="fas fa-arrow-up"></i></button>
-                    <button class="btn-icon" onclick="moveItem('${type}', ${index}, 1)" title="Move Down"><i class="fas fa-arrow-down"></i></button>
-                    <button class="btn-icon btn-delete" onclick="delItem('${type}', ${index})" title="Delete"><i class="fas fa-trash"></i></button>
-                </div>
-            </div>`;
+        window.updateItem = (type, i, key, val) => {
+            if(type === 'editing') db.editing_videos[i][key] = val;
+            if(type === 'ai') db.ai_videos[i][key] = val;
+        };
+        window.addItem = (type) => {
+            const newItem = { file: "", title_en: "New", title_ar: "جديد" };
+            if(type === 'editing') db.editing_videos.push(newItem);
+            if(type === 'ai') db.ai_videos.push(newItem);
+            renderUI();
+        };
+        window.delItem = (type, i) => {
+            if(!confirm('Delete?')) return;
+            if(type === 'editing') db.editing_videos.splice(i, 1);
+            if(type === 'ai') db.ai_videos.splice(i, 1);
+            renderUI();
+        };
+        window.switchTab = (id, btn) => {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.btn-nav').forEach(el => el.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            btn.classList.add('active');
+        };
+
+        async function uploadImage(input, targetId) {
+            const file = input.files[0];
+            if(!file) return;
+            const reader = new FileReader();
+            reader.onload = async (e) => {
+                const content = e.target.result.split(',')[1];
+                const path = `images/${Date.now()}_${file.name}`;
+                try {
+                    const res = await fetch(`https://api.github.com/repos/${GITHUB_USERNAME}/${REPO_NAME}/contents/${path}`, {
+                        method: 'PUT',
+                        headers: { Authorization: `token ${token}` },
+                        body: JSON.stringify({ message: "Upload", content: content })
+                    });
+                    if(res.ok) {
+                        const imgUrl = `https://${GITHUB_USERNAME}.github.io/${REPO_NAME}/${path}`;
+                        document.getElementById(targetId).value = imgUrl;
+                        db.profile.image = imgUrl;
+                    }
+                } catch(err) { console.error(err); }
+            };
+            reader.readAsDataURL(file);
         }
 
-        // --- Logic Operations ---
-        window.updateItem = (type, index, field, value) => {
-            const target = type === 'home' ? db.home_videos : type === 'editing' ? db.editing_videos : db.ai_videos;
-            if(field === 'file') target[index][type === 'home' ? 'id' : 'file'] = value;
-            if(field === 'en') target[index].title_en = value;
-            if(field === 'ar') target[index].title_ar = value;
-        };
+        async function saveChanges() {
+            const btn = document.getElementById('save-text');
+            const loader = document.getElementById('save-loader');
+            
+            db.profile.image = document.getElementById('prof-img').value;
+            db.profile.bio_en = document.getElementById('bio-en').value;
+            db.profile.bio_ar = document.getElementById('bio-ar').value;
 
-        window.moveItem = (type, index, direction) => {
-            const target = type === 'home' ? db.home_videos : type === 'editing' ? db.editing_videos : db.ai_videos;
-            if (index + direction < 0 || index + direction >= target.length) return;
-            [target[index], target[index + direction]] = [target[index + direction], target[index]];
-            refresh(type);
-        };
+            btn.innerText = 'Saving...'; loader.style.display = 'block';
 
-        window.delItem = (type, index) => {
-            if(!confirm('Are you sure?')) return;
-            const target = type === 'home' ? db.home_videos : type === 'editing' ? db.editing_videos : db.ai_videos;
-            target.splice(index, 1);
-            refresh(type);
-        };
+            const jsContent = `const db = ${JSON.stringify(db, null, 4)};`;
+            const encodedContent = btoa(unescape(encodeURIComponent(jsContent)));
+            
+            const body = { message: "Update Content", content: encodedContent };
+            if(fileSha) body.sha = fileSha;
 
-        // Add Functions
-        window.addHome = () => { db.home_videos.push({id:'', title_en:'', title_ar:''}); refresh('home'); };
-        window.addEditing = () => { db.editing_videos.push({file:'', title_en:'', title_ar:''}); refresh('editing'); };
-        window.addAi = () => { db.ai_videos.push({file:'', title_en:'', title_ar:''}); refresh('ai'); };
-
-        // Gallery Specifics
-        window.updateGallery = (i, val) => db.gallery[i] = val;
-        window.moveGallery = (i, dir) => {
-            if (i + dir < 0 || i + dir >= db.gallery.length) return;
-            [db.gallery[i], db.gallery[i + dir]] = [db.gallery[i + dir], db.gallery[i]];
-            renderGallery();
-        };
-        window.delGallery = (i) => { if(confirm('Delete image?')) { db.gallery.splice(i, 1); renderGallery(); }};
-        window.addImg = () => { db.gallery.push('images/new.jpg'); renderGallery(); };
-
-        function refresh(type) {
-            if(type === 'home') renderHome();
-            if(type === 'editing') renderEditing();
-            if(type === 'ai') renderAi();
+            try {
+                const res = await fetch(`https://api.github.com/repos/${GITHUB_USERNAME}/${REPO_NAME}/contents/${DB_FILE}`, {
+                    method: 'PUT',
+                    headers: { Authorization: `token ${token}` },
+                    body: JSON.stringify(body)
+                });
+                if(res.ok) {
+                    const data = await res.json();
+                    fileSha = data.content.sha;
+                    alert('Saved Successfully!');
+                } else alert('Save Failed');
+            } catch(e) { console.error(e); } 
+            finally {
+                btn.innerText = 'Publish Changes'; loader.style.display = 'none';
+            }
         }
-
-        // Initial Render
-        renderHome(); renderEditing(); renderAi(); renderGallery();
-
-        // --- Save & Export ---
-        window.saveData = () => {
-            // Update Profile & Featured Data before saving
-            db.profile.image = document.getElementById('prof_img').value;
-            db.profile.bio_en = document.getElementById('bio_en').value;
-            db.profile.bio_ar = document.getElementById('bio_ar').value;
-            db.ai_featured.file = document.getElementById('ai_feat_file').value;
-            db.ai_featured.title_en = document.getElementById('ai_feat_en').value;
-            db.ai_featured.title_ar = document.getElementById('ai_feat_ar').value;
-
-            const content = "const db = " + JSON.stringify(db, null, 4) + ";";
-            const blob = new Blob([content], {type: "text/javascript"});
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'db.js';
-            a.click();
-            alert('Config Exported! \nReplace the old db.js file with this new one.');
-        };
     </script>
 </body>
 </html>
