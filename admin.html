@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Panel</title>
+    <title>Super Admin Panel</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
         :root { --primary: #FFD700; --bg: #121212; --panel: #1E1E1E; --text: #E0E0E0; --border: #333; }
@@ -11,35 +11,41 @@
         
         #login-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; }
         .login-box { background: var(--panel); padding: 40px; border-radius: 10px; border: 1px solid var(--border); text-align: center; width: 90%; max-width: 400px; }
-        .input-field { width: 100%; padding: 12px; margin: 15px 0; background: #222; border: 1px solid var(--border); color: #fff; border-radius: 5px; box-sizing: border-box; }
+        .input-field { width: 100%; padding: 12px; margin: 10px 0; background: #222; border: 1px solid var(--border); color: #fff; border-radius: 5px; box-sizing: border-box; }
         
         .container { display: flex; flex: 1; overflow: hidden; }
-        .sidebar { width: 250px; background: #000; border-right: 1px solid var(--border); padding: 20px; display: flex; flex-direction: column; gap: 10px; }
+        .sidebar { width: 260px; background: #000; border-right: 1px solid var(--border); padding: 20px; display: flex; flex-direction: column; gap: 8px; overflow-y: auto; }
         .main { flex: 1; padding: 30px; overflow-y: auto; }
         
         .btn { padding: 10px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; transition: 0.2s; width: 100%; display: flex; align-items: center; justify-content: center; gap: 10px; }
-        .btn-primary { background: var(--primary); color: #000; }
+        .btn-primary { background: var(--primary); color: #000; margin-top: 10px; }
         .btn-nav { background: transparent; color: #888; justify-content: flex-start; }
         .btn-nav:hover, .btn-nav.active { background: var(--panel); color: #fff; }
         .btn-nav.active { color: var(--primary); }
-        .btn-danger { background: #ff4444; color: #fff; width: auto; padding: 5px 10px; }
+        
+        .btn-icon { width: 30px; height: 30px; padding: 0; border-radius: 4px; display: flex; align-items: center; justify-content: center; cursor: pointer; color: #fff; border: 1px solid #444; background: #333; }
+        .btn-icon:hover { background: #555; }
+        .btn-danger { background: #5a1a1a; border-color: #ff4444; color: #ff4444; }
 
-        .card { background: var(--panel); padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid var(--border); }
+        .card { background: var(--panel); padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid var(--border); position: relative; }
         .form-group { margin-bottom: 15px; }
-        label { display: block; margin-bottom: 5px; color: #aaa; font-size: 0.9rem; }
+        label { display: block; margin-bottom: 5px; color: #aaa; font-size: 0.85rem; }
         
         .tab-content { display: none; }
         .tab-content.active { display: block; }
         
+        .controls { display: flex; gap: 5px; position: absolute; top: 20px; right: 20px; }
         .loader { width: 20px; height: 20px; border: 3px solid #333; border-top-color: var(--primary); border-radius: 50%; animation: spin 1s infinite; display: none; }
         @keyframes spin { to { transform: rotate(360deg); } }
+        
+        .preview-img { width: 100%; height: 150px; object-fit: cover; border-radius: 5px; margin-top: 10px; background: #000; }
     </style>
 </head>
 <body>
 
     <div id="login-screen">
         <div class="login-box">
-            <h2 style="color:var(--primary)"><i class="fas fa-lock"></i> Security Check</h2>
+            <h2 style="color:var(--primary)"><i class="fas fa-lock"></i> SUPER ADMIN</h2>
             <input type="password" id="token-input" class="input-field" placeholder="Paste GitHub Token">
             <button class="btn btn-primary" onclick="login()">Login</button>
         </div>
@@ -47,45 +53,94 @@
 
     <div class="container">
         <div class="sidebar">
-            <h2 style="color:#fff; text-align:center; margin:0 0 20px 0">ADMIN <span style="color:var(--primary)">PANEL</span></h2>
-            <button class="btn btn-nav active" onclick="switchTab('profile', this)"><i class="fas fa-user"></i> Profile</button>
-            <button class="btn btn-nav" onclick="switchTab('editing', this)"><i class="fas fa-video"></i> Editing</button>
-            <button class="btn btn-nav" onclick="switchTab('ai', this)"><i class="fas fa-robot"></i> AI Studio</button>
+            <h2 style="color:#fff; text-align:center; margin:0 0 20px 0">CHEF <span style="color:var(--primary)">AFLAM</span></h2>
+            
+            <button class="btn btn-nav active" onclick="switchTab('tab-general', this)"><i class="fas fa-sliders-h"></i> General & Hero</button>
+            <button class="btn btn-nav" onclick="switchTab('tab-profile', this)"><i class="fas fa-user-circle"></i> Profile & Social</button>
+            <hr style="width:100%; border:0; border-top:1px solid #333; margin:10px 0">
+            <button class="btn btn-nav" onclick="switchTab('tab-editing', this)"><i class="fas fa-film"></i> Editing Works</button>
+            <button class="btn btn-nav" onclick="switchTab('tab-ai', this)"><i class="fas fa-robot"></i> AI Videos</button>
+            <button class="btn btn-nav" onclick="switchTab('tab-designs', this)"><i class="fas fa-palette"></i> Design Gallery</button>
+            
             <div style="flex:1"></div>
             <button class="btn btn-primary" onclick="saveChanges()">
-                <span id="save-text">Publish Changes</span>
+                <span id="save-text">Publish All Changes</span>
                 <div class="loader" id="save-loader"></div>
             </button>
         </div>
 
         <div class="main">
-            <div id="profile" class="tab-content active">
-                <h2>Profile Settings</h2>
+            
+            <div id="tab-general" class="tab-content active">
+                <h2>General & Home Settings</h2>
                 <div class="card">
+                    <h3><i class="fas fa-scroll"></i> Ticker Tape</h3>
                     <div class="form-group">
-                        <label>Profile Image URL</label>
-                        <div style="display:flex; gap:10px">
-                            <input type="text" id="prof-img" class="input-field" style="margin:0">
-                            <input type="file" id="file-prof" hidden onchange="uploadImage(this, 'prof-img')">
-                            <button class="btn" style="background:#333; color:#fff; width:auto" onclick="document.getElementById('file-prof').click()"><i class="fas fa-upload"></i></button>
-                        </div>
+                        <label>Scrolling Text (Use | to separate)</label>
+                        <input class="input-field" id="ticker-text" placeholder="VIDEO EDITOR | AI ARTIST | FILM MAKER">
                     </div>
-                    <div class="form-group"><label>Bio (EN)</label><textarea id="bio-en" class="input-field" rows="3"></textarea></div>
-                    <div class="form-group"><label>Bio (AR)</label><textarea id="bio-ar" class="input-field" rows="3" style="direction:rtl"></textarea></div>
+                </div>
+
+                <div class="card">
+                    <h3><i class="fas fa-star"></i> Hero Video (Main)</h3>
+                    <div class="form-group">
+                        <label>Main Video URL (YouTube/Vimeo)</label>
+                        <input class="input-field" id="hero-url" placeholder="https://vimeo.com/...">
+                    </div>
+                    <div class="form-group"><label>Title (EN)</label><input class="input-field" id="hero-title-en"></div>
+                    <div class="form-group"><label>Title (AR)</label><input class="input-field" id="hero-title-ar" style="direction:rtl"></div>
                 </div>
             </div>
 
-            <div id="editing" class="tab-content">
-                <h2>Editing Portfolio</h2>
-                <div id="editing-list"></div>
-                <button class="btn" style="background:#333; color:var(--primary); border:1px dashed #555" onclick="addItem('editing')">+ Add Video</button>
+            <div id="tab-profile" class="tab-content">
+                <h2>Profile & Contact</h2>
+                <div class="card">
+                    <div class="form-group">
+                        <label>Profile Image</label>
+                        <div style="display:flex; gap:10px">
+                            <input type="text" id="prof-img" class="input-field" style="margin:0">
+                            <input type="file" id="file-prof" hidden onchange="uploadImage(this, 'prof-img')">
+                            <button class="btn-icon" style="width:auto; padding:0 15px" onclick="document.getElementById('file-prof').click()"><i class="fas fa-upload"></i> Upload</button>
+                        </div>
+                    </div>
+                    <div class="form-group"><label>Name</label><input class="input-field" id="prof-name"></div>
+                    <div class="form-group"><label>Bio (EN)</label><textarea id="bio-en" class="input-field" rows="3"></textarea></div>
+                    <div class="form-group"><label>Bio (AR)</label><textarea id="bio-ar" class="input-field" rows="3" style="direction:rtl"></textarea></div>
+                </div>
+
+                <div class="card">
+                    <h3>Social Media Links</h3>
+                    <div class="form-group"><label><i class="fab fa-linkedin"></i> LinkedIn</label><input class="input-field" id="social-linkedin"></div>
+                    <div class="form-group"><label><i class="fab fa-youtube"></i> YouTube Channel</label><input class="input-field" id="social-youtube"></div>
+                    <div class="form-group"><label><i class="fab fa-instagram"></i> Instagram</label><input class="input-field" id="social-instagram"></div>
+                    <div class="form-group"><label><i class="fas fa-envelope"></i> Email</label><input class="input-field" id="social-email"></div>
+                </div>
             </div>
 
-            <div id="ai" class="tab-content">
-                <h2>AI Studio</h2>
-                <div id="ai-list"></div>
-                <button class="btn" style="background:#333; color:var(--primary); border:1px dashed #555" onclick="addItem('ai')">+ Add Video</button>
+            <div id="tab-editing" class="tab-content">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px">
+                    <h2>Editing Portfolio</h2>
+                    <button class="btn" style="width:auto; background:#333; color:var(--primary)" onclick="addItem('editing')">+ Add Video</button>
+                </div>
+                <div id="list-editing"></div>
             </div>
+
+            <div id="tab-ai" class="tab-content">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px">
+                    <h2>AI Videos</h2>
+                    <button class="btn" style="width:auto; background:#333; color:var(--primary)" onclick="addItem('ai')">+ Add Video</button>
+                </div>
+                <div id="list-ai"></div>
+            </div>
+
+            <div id="tab-designs" class="tab-content">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px">
+                    <h2>Graphic Designs Gallery</h2>
+                    <button class="btn" style="width:auto; background:#333; color:var(--primary)" onclick="addDesign()">+ Add Design</button>
+                </div>
+                <div id="list-designs"></div>
+            </div>
+
         </div>
     </div>
 
@@ -94,18 +149,18 @@
         const REPO_NAME = 'chef-aflam';
         const DB_FILE = 'db.js';
 
-        let db = { 
-            profile: { image: "", bio_en: "", bio_ar: "" },
-            home_videos: [], editing_videos: [], ai_videos: [], gallery: [],
-            ai_featured: { file: "", title_en: "", title_ar: "" }
+        let db = {
+            general: { ticker: "", hero_video: "", hero_title_en: "", hero_title_ar: "" },
+            profile: { name: "Chef Aflam", image: "", bio_en: "", bio_ar: "", linkedin: "", youtube: "", instagram: "", email: "" },
+            editing: [],
+            ai: [],
+            designs: []
         };
+        
         let token = localStorage.getItem('gh_token');
         let fileSha = null;
 
-        if(token) {
-            document.getElementById('login-screen').style.display = 'none';
-            fetchData();
-        }
+        if(token) { document.getElementById('login-screen').style.display = 'none'; fetchData(); }
 
         function login() {
             const t = document.getElementById('token-input').value.trim();
@@ -118,60 +173,109 @@
 
         async function fetchData() {
             try {
-                const url = `https://api.github.com/repos/${GITHUB_USERNAME}/${REPO_NAME}/contents/${DB_FILE}`;
-                const res = await fetch(url, { headers: { Authorization: `token ${token}` } });
+                const res = await fetch(`https://api.github.com/repos/${GITHUB_USERNAME}/${REPO_NAME}/contents/${DB_FILE}`, { headers: { Authorization: `token ${token}` } });
                 if(res.ok) {
                     const data = await res.json();
                     fileSha = data.sha;
                     const content = decodeURIComponent(escape(atob(data.content)));
                     const jsonPart = content.replace(/const\s+db\s*=\s*/, '').replace(/;$/, '');
-                    db = JSON.parse(jsonPart);
+                    db = { ...db, ...JSON.parse(jsonPart) };
                 }
                 renderUI();
             } catch(e) { console.error(e); }
         }
 
         function renderUI() {
+            document.getElementById('ticker-text').value = db.general.ticker || '';
+            document.getElementById('hero-url').value = db.general.hero_video || '';
+            document.getElementById('hero-title-en').value = db.general.hero_title_en || '';
+            document.getElementById('hero-title-ar').value = db.general.hero_title_ar || '';
+
             document.getElementById('prof-img').value = db.profile.image || '';
+            document.getElementById('prof-name').value = db.profile.name || '';
             document.getElementById('bio-en').value = db.profile.bio_en || '';
             document.getElementById('bio-ar').value = db.profile.bio_ar || '';
-            renderList('editing', db.editing_videos);
-            renderList('ai', db.ai_videos);
+            
+            document.getElementById('social-linkedin').value = db.profile.linkedin || '';
+            document.getElementById('social-youtube').value = db.profile.youtube || '';
+            document.getElementById('social-instagram').value = db.profile.instagram || '';
+            document.getElementById('social-email').value = db.profile.email || '';
+
+            renderVideoList('editing', db.editing);
+            renderVideoList('ai', db.ai);
+            renderDesignList(db.designs);
         }
 
-        function renderList(type, list) {
-            const container = document.getElementById(type + '-list');
+        function renderVideoList(type, list) {
+            const container = document.getElementById('list-' + type);
             container.innerHTML = '';
             list.forEach((item, i) => {
                 container.innerHTML += `
                 <div class="card">
-                    <div style="display:flex; justify-content:space-between; margin-bottom:10px">
-                        <strong>#${i+1}</strong>
-                        <button class="btn btn-danger" onclick="delItem('${type}', ${i})"><i class="fas fa-trash"></i></button>
+                    <div class="controls">
+                        <button class="btn-icon" onclick="moveItem('${type}', ${i}, -1)"><i class="fas fa-arrow-up"></i></button>
+                        <button class="btn-icon" onclick="moveItem('${type}', ${i}, 1)"><i class="fas fa-arrow-down"></i></button>
+                        <button class="btn-icon btn-danger" onclick="delItem('${type}', ${i})"><i class="fas fa-trash"></i></button>
                     </div>
-                    <div class="form-group"><label>URL</label><input onchange="updateItem('${type}', ${i}, 'file', this.value)" value="${item.file||''}" class="input-field"></div>
-                    <div class="form-group"><label>Title (EN)</label><input onchange="updateItem('${type}', ${i}, 'title_en', this.value)" value="${item.title_en||''}" class="input-field"></div>
-                    <div class="form-group"><label>Title (AR)</label><input onchange="updateItem('${type}', ${i}, 'title_ar', this.value)" value="${item.title_ar||''}" class="input-field" style="direction:rtl"></div>
+                    <div class="form-group"><label>Video URL</label><input onchange="updateList('${type}', ${i}, 'url', this.value)" value="${item.url||''}" class="input-field"></div>
+                    <div class="form-group"><label>Title (EN)</label><input onchange="updateList('${type}', ${i}, 'title_en', this.value)" value="${item.title_en||''}" class="input-field"></div>
+                    <div class="form-group"><label>Title (AR)</label><input onchange="updateList('${type}', ${i}, 'title_ar', this.value)" value="${item.title_ar||''}" class="input-field" style="direction:rtl"></div>
                 </div>`;
             });
         }
 
-        window.updateItem = (type, i, key, val) => {
-            if(type === 'editing') db.editing_videos[i][key] = val;
-            if(type === 'ai') db.ai_videos[i][key] = val;
-        };
+        function renderDesignList(list) {
+            const container = document.getElementById('list-designs');
+            container.innerHTML = '';
+            list.forEach((item, i) => {
+                container.innerHTML += `
+                <div class="card">
+                    <div class="controls">
+                        <button class="btn-icon" onclick="moveItem('designs', ${i}, -1)"><i class="fas fa-arrow-up"></i></button>
+                        <button class="btn-icon" onclick="moveItem('designs', ${i}, 1)"><i class="fas fa-arrow-down"></i></button>
+                        <button class="btn-icon btn-danger" onclick="delItem('designs', ${i})"><i class="fas fa-trash"></i></button>
+                    </div>
+                    <div class="form-group">
+                        <label>Design Image</label>
+                        <div style="display:flex; gap:10px">
+                            <input type="text" id="design-img-${i}" onchange="updateList('designs', ${i}, 'url', this.value)" value="${item.url||''}" class="input-field" style="margin:0">
+                            <input type="file" id="file-design-${i}" hidden onchange="uploadImage(this, 'design-img-${i}', 'designs', ${i})">
+                            <button class="btn-icon" style="width:auto; padding:0 15px" onclick="document.getElementById('file-design-${i}').click()"><i class="fas fa-upload"></i></button>
+                        </div>
+                        ${item.url ? `<img src="${item.url}" class="preview-img">` : ''}
+                    </div>
+                    <div class="form-group"><label>Description</label><input onchange="updateList('designs', ${i}, 'desc', this.value)" value="${item.desc||''}" class="input-field"></div>
+                </div>`;
+            });
+        }
+
+        window.updateList = (type, i, key, val) => { db[type][i][key] = val; };
+        
         window.addItem = (type) => {
-            const newItem = { file: "", title_en: "New", title_ar: "جديد" };
-            if(type === 'editing') db.editing_videos.push(newItem);
-            if(type === 'ai') db.ai_videos.push(newItem);
+            db[type].push({ url: "", title_en: "New Project", title_ar: "مشروع جديد" });
             renderUI();
         };
+
+        window.addDesign = () => {
+            db.designs.push({ url: "", desc: "" });
+            renderUI();
+        };
+
         window.delItem = (type, i) => {
-            if(!confirm('Delete?')) return;
-            if(type === 'editing') db.editing_videos.splice(i, 1);
-            if(type === 'ai') db.ai_videos.splice(i, 1);
+            if(!confirm('Delete item?')) return;
+            db[type].splice(i, 1);
             renderUI();
         };
+
+        window.moveItem = (type, i, dir) => {
+            if (dir === -1 && i === 0) return;
+            if (dir === 1 && i === db[type].length - 1) return;
+            const temp = db[type][i];
+            db[type][i] = db[type][i + dir];
+            db[type][i + dir] = temp;
+            renderUI();
+        };
+
         window.switchTab = (id, btn) => {
             document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
             document.querySelectorAll('.btn-nav').forEach(el => el.classList.remove('active'));
@@ -179,43 +283,57 @@
             btn.classList.add('active');
         };
 
-        async function uploadImage(input, targetId) {
+        async function uploadImage(input, targetId, listType=null, index=null) {
             const file = input.files[0];
             if(!file) return;
+            
             const reader = new FileReader();
             reader.onload = async (e) => {
                 const content = e.target.result.split(',')[1];
-                const path = `images/${Date.now()}_${file.name}`;
+                const path = `images/${Date.now()}_${file.name.replace(/\s/g,'_')}`;
+                
                 try {
                     const res = await fetch(`https://api.github.com/repos/${GITHUB_USERNAME}/${REPO_NAME}/contents/${path}`, {
                         method: 'PUT',
                         headers: { Authorization: `token ${token}` },
-                        body: JSON.stringify({ message: "Upload", content: content })
+                        body: JSON.stringify({ message: "Upload Image", content: content })
                     });
                     if(res.ok) {
                         const imgUrl = `https://${GITHUB_USERNAME}.github.io/${REPO_NAME}/${path}`;
                         document.getElementById(targetId).value = imgUrl;
-                        db.profile.image = imgUrl;
+                        if(listType === 'designs') db.designs[index].url = imgUrl;
+                        else if(targetId === 'prof-img') db.profile.image = imgUrl;
+                        if(listType === 'designs') renderUI();
+                        alert('Image Uploaded! ✅');
                     }
-                } catch(err) { console.error(err); }
+                } catch(err) { console.error(err); alert('Upload Failed ❌'); }
             };
             reader.readAsDataURL(file);
         }
 
         async function saveChanges() {
-            const btn = document.getElementById('save-text');
-            const loader = document.getElementById('save-loader');
-            
+            db.general.ticker = document.getElementById('ticker-text').value;
+            db.general.hero_video = document.getElementById('hero-url').value;
+            db.general.hero_title_en = document.getElementById('hero-title-en').value;
+            db.general.hero_title_ar = document.getElementById('hero-title-ar').value;
+
+            db.profile.name = document.getElementById('prof-name').value;
             db.profile.image = document.getElementById('prof-img').value;
             db.profile.bio_en = document.getElementById('bio-en').value;
             db.profile.bio_ar = document.getElementById('bio-ar').value;
+            db.profile.linkedin = document.getElementById('social-linkedin').value;
+            db.profile.youtube = document.getElementById('social-youtube').value;
+            db.profile.instagram = document.getElementById('social-instagram').value;
+            db.profile.email = document.getElementById('social-email').value;
 
-            btn.innerText = 'Saving...'; loader.style.display = 'block';
+            const btn = document.getElementById('save-text');
+            const loader = document.getElementById('save-loader');
+            btn.innerText = 'Publishing...'; loader.style.display = 'block';
 
             const jsContent = `const db = ${JSON.stringify(db, null, 4)};`;
             const encodedContent = btoa(unescape(encodeURIComponent(jsContent)));
             
-            const body = { message: "Update Content", content: encodedContent };
+            const body = { message: "Update Content via Super Admin", content: encodedContent };
             if(fileSha) body.sha = fileSha;
 
             try {
@@ -227,12 +345,10 @@
                 if(res.ok) {
                     const data = await res.json();
                     fileSha = data.content.sha;
-                    alert('Saved Successfully!');
-                } else alert('Save Failed');
+                    alert('Saved Successfully! 🎉 Site will update in 1 minute.');
+                } else alert('Save Failed! Check console.');
             } catch(e) { console.error(e); } 
-            finally {
-                btn.innerText = 'Publish Changes'; loader.style.display = 'none';
-            }
+            finally { btn.innerText = 'Publish All Changes'; loader.style.display = 'none'; }
         }
     </script>
 </body>
