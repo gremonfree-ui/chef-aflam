@@ -55,105 +55,104 @@
         <div class="sidebar">
             <h2 style="color:#fff; text-align:center; margin:0 0 20px 0">CHEF <span style="color:var(--primary)">AFLAM</span></h2>
             
-            <button class="btn btn-nav active" onclick="switchTab('tab-general', this)"><i class="fas fa-sliders-h"></i> General & Hero</button>
-            <button class="btn btn-nav" onclick="switchTab('tab-profile', this)"><i class="fas fa-user-circle"></i> Profile & Social</button>
+            <button class="btn btn-nav active" onclick="switchTab('tab-ai', this)"><i class="fas fa-robot"></i> فيديوهات الذكاء الاصطناعي</button>
+            <button class="btn btn-nav" onclick="switchTab('tab-editing', this)"><i class="fas fa-film"></i> فيديوهات المونتاج</button>
+            <button class="btn btn-nav" onclick="switchTab('tab-designs', this)"><i class="fas fa-palette"></i> معرض التصميمات</button>
             <hr style="width:100%; border:0; border-top:1px solid #333; margin:10px 0">
-            <button class="btn btn-nav" onclick="switchTab('tab-editing', this)"><i class="fas fa-film"></i> Editing Works</button>
-            <button class="btn btn-nav" onclick="switchTab('tab-ai', this)"><i class="fas fa-robot"></i> AI Videos</button>
-            <button class="btn btn-nav" onclick="switchTab('tab-designs', this)"><i class="fas fa-palette"></i> Design Gallery</button>
+            <button class="btn btn-nav" onclick="switchTab('tab-general', this)"><i class="fas fa-sliders-h"></i> إعدادات الواجهة</button>
+            <button class="btn btn-nav" onclick="switchTab('tab-profile', this)"><i class="fas fa-user-circle"></i> البروفايل</button>
             
             <div style="flex:1"></div>
             <button class="btn btn-primary" onclick="saveChanges()">
-                <span id="save-text">Publish All Changes</span>
+                <span id="save-text">حفظ ونشر التعديلات</span>
                 <div class="loader" id="save-loader"></div>
             </button>
         </div>
 
         <div class="main">
             
-            <div id="tab-general" class="tab-content active">
-                <h2>General & Home Settings</h2>
-                <div class="card">
-                    <h3><i class="fas fa-scroll"></i> Ticker Tape</h3>
-                    <div class="form-group">
-                        <label>Scrolling Text (Use | to separate)</label>
-                        <input class="input-field" id="ticker-text" placeholder="VIDEO EDITOR | AI ARTIST | FILM MAKER">
-                    </div>
+            <div id="tab-ai" class="tab-content active">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px">
+                    <h2>فيديوهات الذكاء الاصطناعي (AI Videos)</h2>
+                    <button class="btn" style="width:auto; background:#333; color:var(--primary)" onclick="addItem('ai_videos')">+ فيديو جديد</button>
                 </div>
-
-                <div class="card">
-                    <h3><i class="fas fa-star"></i> Hero Video (Main)</h3>
-                    <div class="form-group">
-                        <label>Main Video URL (YouTube/Vimeo)</label>
-                        <input class="input-field" id="hero-url" placeholder="https://vimeo.com/...">
-                    </div>
-                    <div class="form-group"><label>Title (EN)</label><input class="input-field" id="hero-title-en"></div>
-                    <div class="form-group"><label>Title (AR)</label><input class="input-field" id="hero-title-ar" style="direction:rtl"></div>
-                </div>
-            </div>
-
-            <div id="tab-profile" class="tab-content">
-                <h2>Profile & Contact</h2>
-                <div class="card">
-                    <div class="form-group">
-                        <label>Profile Image</label>
-                        <div style="display:flex; gap:10px">
-                            <input type="text" id="prof-img" class="input-field" style="margin:0">
-                            <input type="file" id="file-prof" hidden onchange="uploadImage(this, 'prof-img')">
-                            <button class="btn-icon" style="width:auto; padding:0 15px" onclick="document.getElementById('file-prof').click()"><i class="fas fa-upload"></i> Upload</button>
-                        </div>
-                    </div>
-                    <div class="form-group"><label>Name</label><input class="input-field" id="prof-name"></div>
-                    <div class="form-group"><label>Bio (EN)</label><textarea id="bio-en" class="input-field" rows="3"></textarea></div>
-                    <div class="form-group"><label>Bio (AR)</label><textarea id="bio-ar" class="input-field" rows="3" style="direction:rtl"></textarea></div>
-                </div>
-
-                <div class="card">
-                    <h3>Social Media Links</h3>
-                    <div class="form-group"><label><i class="fab fa-linkedin"></i> LinkedIn</label><input class="input-field" id="social-linkedin"></div>
-                    <div class="form-group"><label><i class="fab fa-youtube"></i> YouTube Channel</label><input class="input-field" id="social-youtube"></div>
-                    <div class="form-group"><label><i class="fab fa-instagram"></i> Instagram</label><input class="input-field" id="social-instagram"></div>
-                    <div class="form-group"><label><i class="fas fa-envelope"></i> Email</label><input class="input-field" id="social-email"></div>
-                </div>
+                <div id="list-ai_videos"></div>
             </div>
 
             <div id="tab-editing" class="tab-content">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px">
-                    <h2>Editing Portfolio</h2>
-                    <button class="btn" style="width:auto; background:#333; color:var(--primary)" onclick="addItem('editing')">+ Add Video</button>
+                    <h2>فيديوهات المونتاج (Editing)</h2>
+                    <button class="btn" style="width:auto; background:#333; color:var(--primary)" onclick="addItem('editing_videos')">+ فيديو جديد</button>
                 </div>
-                <div id="list-editing"></div>
-            </div>
-
-            <div id="tab-ai" class="tab-content">
-                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px">
-                    <h2>AI Videos</h2>
-                    <button class="btn" style="width:auto; background:#333; color:var(--primary)" onclick="addItem('ai')">+ Add Video</button>
-                </div>
-                <div id="list-ai"></div>
+                <div id="list-editing_videos"></div>
             </div>
 
             <div id="tab-designs" class="tab-content">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px">
-                    <h2>Graphic Designs Gallery</h2>
-                    <button class="btn" style="width:auto; background:#333; color:var(--primary)" onclick="addDesign()">+ Add Design</button>
+                    <h2>معرض التصميمات (Gallery)</h2>
+                    <button class="btn" style="width:auto; background:#333; color:var(--primary)" onclick="addDesign()">+ تصميم جديد</button>
                 </div>
                 <div id="list-designs"></div>
+            </div>
+
+            <div id="tab-general" class="tab-content">
+                <h2>إعدادات الواجهة الرئيسية</h2>
+                <div class="card">
+                    <h3><i class="fas fa-scroll"></i> الشريط المتحرك (Ticker)</h3>
+                    <div class="form-group">
+                        <label>الكلام اللي بيتحرك في الشريط (افصل بينهم بعلامة | )</label>
+                        <input class="input-field" id="ticker-text" placeholder="VIDEO EDITOR | AI ARTIST">
+                    </div>
+                </div>
+                <div class="card">
+                    <h3><i class="fas fa-star"></i> فيديو الواجهة (اختياري)</h3>
+                    <div class="form-group">
+                        <label>رابط الفيديو الرئيسي</label>
+                        <input class="input-field" id="hero-url" placeholder="https://vimeo.com/...">
+                    </div>
+                </div>
+            </div>
+
+            <div id="tab-profile" class="tab-content">
+                <h2>البروفايل والتواصل</h2>
+                <div class="card">
+                    <div class="form-group">
+                        <label>صورة البروفايل</label>
+                        <div style="display:flex; gap:10px">
+                            <input type="text" id="prof-img" class="input-field" style="margin:0">
+                            <input type="file" id="file-prof" hidden onchange="uploadImage(this, 'prof-img')">
+                            <button class="btn-icon" style="width:auto; padding:0 15px" onclick="document.getElementById('file-prof').click()"><i class="fas fa-upload"></i> رفع صورة</button>
+                        </div>
+                    </div>
+                    <div class="form-group"><label>الاسم</label><input class="input-field" id="prof-name"></div>
+                    <div class="form-group"><label>نبذة (إنجليزي)</label><textarea id="bio-en" class="input-field" rows="3"></textarea></div>
+                    <div class="form-group"><label>نبذة (عربي)</label><textarea id="bio-ar" class="input-field" rows="3" style="direction:rtl"></textarea></div>
+                </div>
+                <div class="card">
+                    <h3>روابط السوشيال ميديا</h3>
+                    <div class="form-group"><label>LinkedIn</label><input class="input-field" id="social-linkedin"></div>
+                    <div class="form-group"><label>YouTube</label><input class="input-field" id="social-youtube"></div>
+                    <div class="form-group"><label>Instagram</label><input class="input-field" id="social-instagram"></div>
+                    <div class="form-group"><label>Email</label><input class="input-field" id="social-email"></div>
+                </div>
             </div>
 
         </div>
     </div>
 
     <script>
+        // ==========================================
+        // بياناتك الصحيحة
+        // ==========================================
         const GITHUB_USERNAME = 'gremonfree-ui'; 
         const REPO_NAME = 'chef-aflam';
         const DB_FILE = 'db.js';
 
         let db = {
-            general: { ticker: "", hero_video: "", hero_title_en: "", hero_title_ar: "" },
-            profile: { name: "Chef Aflam", image: "", bio_en: "", bio_ar: "", linkedin: "", youtube: "", instagram: "", email: "" },
-            editing: [],
-            ai: [],
+            general: { ticker: "", hero_video: "" },
+            profile: { name: "", image: "", bio_en: "", bio_ar: "", linkedin: "", youtube: "", instagram: "", email: "" },
+            editing_videos: [], 
+            ai_videos: [],      
             designs: []
         };
         
@@ -186,30 +185,37 @@
         }
 
         function renderUI() {
-            document.getElementById('ticker-text').value = db.general.ticker || '';
-            document.getElementById('hero-url').value = db.general.hero_video || '';
-            document.getElementById('hero-title-en').value = db.general.hero_title_en || '';
-            document.getElementById('hero-title-ar').value = db.general.hero_title_ar || '';
+            // General
+            if(db.general) {
+                document.getElementById('ticker-text').value = db.general.ticker || '';
+                document.getElementById('hero-url').value = db.general.hero_video || '';
+            }
 
+            // Profile
             document.getElementById('prof-img').value = db.profile.image || '';
             document.getElementById('prof-name').value = db.profile.name || '';
             document.getElementById('bio-en').value = db.profile.bio_en || '';
             document.getElementById('bio-ar').value = db.profile.bio_ar || '';
             
+            // Social
             document.getElementById('social-linkedin').value = db.profile.linkedin || '';
             document.getElementById('social-youtube').value = db.profile.youtube || '';
             document.getElementById('social-instagram').value = db.profile.instagram || '';
             document.getElementById('social-email').value = db.profile.email || '';
 
-            renderVideoList('editing', db.editing);
-            renderVideoList('ai', db.ai);
-            renderDesignList(db.designs);
+            // Lists (مهم: رجعنا file بدل url عشان الداتا القديمة تظهر)
+            renderVideoList('editing_videos', db.editing_videos);
+            renderVideoList('ai_videos', db.ai_videos);
+            renderDesignList(db.designs || []);
         }
 
         function renderVideoList(type, list) {
             const container = document.getElementById('list-' + type);
             container.innerHTML = '';
+            if(!list) return;
             list.forEach((item, i) => {
+                // هنا السر: بنستخدم item.file مش item.url
+                const val = item.file || item.url || ""; 
                 container.innerHTML += `
                 <div class="card">
                     <div class="controls">
@@ -217,9 +223,9 @@
                         <button class="btn-icon" onclick="moveItem('${type}', ${i}, 1)"><i class="fas fa-arrow-down"></i></button>
                         <button class="btn-icon btn-danger" onclick="delItem('${type}', ${i})"><i class="fas fa-trash"></i></button>
                     </div>
-                    <div class="form-group"><label>Video URL</label><input onchange="updateList('${type}', ${i}, 'url', this.value)" value="${item.url||''}" class="input-field"></div>
-                    <div class="form-group"><label>Title (EN)</label><input onchange="updateList('${type}', ${i}, 'title_en', this.value)" value="${item.title_en||''}" class="input-field"></div>
-                    <div class="form-group"><label>Title (AR)</label><input onchange="updateList('${type}', ${i}, 'title_ar', this.value)" value="${item.title_ar||''}" class="input-field" style="direction:rtl"></div>
+                    <div class="form-group"><label>رابط الفيديو</label><input onchange="updateList('${type}', ${i}, 'file', this.value)" value="${val}" class="input-field"></div>
+                    <div class="form-group"><label>العنوان (EN)</label><input onchange="updateList('${type}', ${i}, 'title_en', this.value)" value="${item.title_en||''}" class="input-field"></div>
+                    <div class="form-group"><label>العنوان (AR)</label><input onchange="updateList('${type}', ${i}, 'title_ar', this.value)" value="${item.title_ar||''}" class="input-field" style="direction:rtl"></div>
                 </div>`;
             });
         }
@@ -227,6 +233,7 @@
         function renderDesignList(list) {
             const container = document.getElementById('list-designs');
             container.innerHTML = '';
+            if(!list) return;
             list.forEach((item, i) => {
                 container.innerHTML += `
                 <div class="card">
@@ -236,7 +243,7 @@
                         <button class="btn-icon btn-danger" onclick="delItem('designs', ${i})"><i class="fas fa-trash"></i></button>
                     </div>
                     <div class="form-group">
-                        <label>Design Image</label>
+                        <label>رابط الصورة</label>
                         <div style="display:flex; gap:10px">
                             <input type="text" id="design-img-${i}" onchange="updateList('designs', ${i}, 'url', this.value)" value="${item.url||''}" class="input-field" style="margin:0">
                             <input type="file" id="file-design-${i}" hidden onchange="uploadImage(this, 'design-img-${i}', 'designs', ${i})">
@@ -244,25 +251,28 @@
                         </div>
                         ${item.url ? `<img src="${item.url}" class="preview-img">` : ''}
                     </div>
-                    <div class="form-group"><label>Description</label><input onchange="updateList('designs', ${i}, 'desc', this.value)" value="${item.desc||''}" class="input-field"></div>
+                    <div class="form-group"><label>وصف</label><input onchange="updateList('designs', ${i}, 'desc', this.value)" value="${item.desc||''}" class="input-field"></div>
                 </div>`;
             });
         }
 
+        // --- Logic & Helpers ---
         window.updateList = (type, i, key, val) => { db[type][i][key] = val; };
         
         window.addItem = (type) => {
-            db[type].push({ url: "", title_en: "New Project", title_ar: "مشروع جديد" });
+            if(!db[type]) db[type] = [];
+            db[type].push({ file: "", title_en: "New Project", title_ar: "مشروع جديد" });
             renderUI();
         };
 
         window.addDesign = () => {
+            if(!db.designs) db.designs = [];
             db.designs.push({ url: "", desc: "" });
             renderUI();
         };
 
         window.delItem = (type, i) => {
-            if(!confirm('Delete item?')) return;
+            if(!confirm('حذف العنصر؟')) return;
             db[type].splice(i, 1);
             renderUI();
         };
@@ -301,21 +311,22 @@
                     if(res.ok) {
                         const imgUrl = `https://${GITHUB_USERNAME}.github.io/${REPO_NAME}/${path}`;
                         document.getElementById(targetId).value = imgUrl;
+                        
                         if(listType === 'designs') db.designs[index].url = imgUrl;
                         else if(targetId === 'prof-img') db.profile.image = imgUrl;
+                        
                         if(listType === 'designs') renderUI();
-                        alert('Image Uploaded! ✅');
+                        alert('تم رفع الصورة بنجاح! ✅');
                     }
-                } catch(err) { console.error(err); alert('Upload Failed ❌'); }
+                } catch(err) { console.error(err); alert('فشل الرفع ❌'); }
             };
             reader.readAsDataURL(file);
         }
 
         async function saveChanges() {
+            // Collect General & Profile Data
             db.general.ticker = document.getElementById('ticker-text').value;
             db.general.hero_video = document.getElementById('hero-url').value;
-            db.general.hero_title_en = document.getElementById('hero-title-en').value;
-            db.general.hero_title_ar = document.getElementById('hero-title-ar').value;
 
             db.profile.name = document.getElementById('prof-name').value;
             db.profile.image = document.getElementById('prof-img').value;
@@ -328,12 +339,12 @@
 
             const btn = document.getElementById('save-text');
             const loader = document.getElementById('save-loader');
-            btn.innerText = 'Publishing...'; loader.style.display = 'block';
+            btn.innerText = 'جاري الحفظ...'; loader.style.display = 'block';
 
             const jsContent = `const db = ${JSON.stringify(db, null, 4)};`;
             const encodedContent = btoa(unescape(encodeURIComponent(jsContent)));
             
-            const body = { message: "Update Content via Super Admin", content: encodedContent };
+            const body = { message: "Update via Super Admin", content: encodedContent };
             if(fileSha) body.sha = fileSha;
 
             try {
@@ -345,10 +356,10 @@
                 if(res.ok) {
                     const data = await res.json();
                     fileSha = data.content.sha;
-                    alert('Saved Successfully! 🎉 Site will update in 1 minute.');
-                } else alert('Save Failed! Check console.');
+                    alert('تم الحفظ بنجاح! 🎉 الموقع سيتحدث خلال دقيقة.');
+                } else alert('فشل الحفظ! تأكد من المفتاح.');
             } catch(e) { console.error(e); } 
-            finally { btn.innerText = 'Publish All Changes'; loader.style.display = 'none'; }
+            finally { btn.innerText = 'حفظ ونشر التعديلات'; loader.style.display = 'none'; }
         }
     </script>
 </body>
