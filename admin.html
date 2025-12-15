@@ -216,6 +216,15 @@
                     if(mode === 'image') preview = `<img src="${val}" class="preview-media">`;
                     if(mode === 'youtube') preview = `<iframe src="https://www.youtube.com/embed/${val}" style="width:100%;height:150px;margin-top:10px;border:none"></iframe>`;
                 }
+                
+                let uploadPart = '';
+                if(mode !== 'youtube') {
+                    uploadPart = `
+                    <input type="file" id="up-${type}-${i}" hidden onchange="uploadFile(this, '${type}-val-${i}', '${type}', ${i})">
+                    <button class="btn-icon" style="width:50px; margin-left:5px" onclick="document.getElementById('up-${type}-${i}').click()"><i class="fas fa-upload"></i></button>
+                    `;
+                }
+
                 container.innerHTML += `
                 <div class="card">
                     <div class="controls">
@@ -225,7 +234,10 @@
                     </div>
                     <div class="form-group">
                         <label>File Path / URL</label>
-                        <input class="input-field" value="${val}" onchange="updateItem('${type}', ${i}, 'val', this.value)">
+                        <div style="display:flex">
+                            <input id="${type}-val-${i}" class="input-field" style="margin:0" value="${val}" onchange="updateItem('${type}', ${i}, 'val', this.value)">
+                            ${uploadPart}
+                        </div>
                         ${preview}
                     </div>
                     <div class="form-group"><label>Title (EN)</label><input class="input-field" value="${item.title_en||''}" onchange="updateItem('${type}', ${i}, 'title_en', this.value)"></div>
