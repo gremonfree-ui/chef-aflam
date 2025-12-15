@@ -65,7 +65,31 @@ const db = {
         "images/design1.jpg",
         "images/design2.jpg",
         "images/design3.jpg",
-        "images/design4.jpg"
+        "images/design4.jpg",
+        {
+            "url": "images/design1.jpg",
+            "desc": "Design 1",
+            "title_en": "Design 1",
+            "title_ar": "تصميم 1"
+        },
+        {
+            "url": "images/design2.jpg",
+            "desc": "Design 2",
+            "title_en": "Design 2",
+            "title_ar": "تصميم 2"
+        },
+        {
+            "url": "images/design3.jpg",
+            "desc": "Design 3",
+            "title_en": "Design 3",
+            "title_ar": "تصميم 3"
+        },
+        {
+            "url": "images/design4.jpg",
+            "desc": "Design 4",
+            "title_en": "Design 4",
+            "title_ar": "تصميم 4"
+        }
     ],
     "ai_featured": {
         "file": "ai_videos/trailer.mp4",
