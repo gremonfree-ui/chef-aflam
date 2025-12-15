@@ -2,7 +2,8 @@ const db = {
     "profile": {
         "image": "images/profile.jpg",
         "bio_en": "I’m Remon — chef aflam who blends real film making with AI magic, creating bold YouTube content, smart edits, and visuals that hit different.",
-        "bio_ar": "أنا ريمون… شيف أفلام بدمج صناعة الفيديو الحقيقية مع شغل الـذكاء الاصطناعي، وبقدّم محتوى يوتيوب جريء، ومونتاج ذكي، وفيديوهات ليها بصمة مختلفة.\nمش هتلاقي زيها"
+        "bio_ar": "أنا ريمون… شيف أفلام بدمج صناعة الفيديو الحقيقية مع شغل الـذكاء الاصطناعي، وبقدّم محتوى يوتيوب جريء، ومونتاج ذكي، وفيديوهات ليها بصمة مختلفة.\nمش هتلاقي زيها",
+        "name": ""
     },
     "home_videos": [
         {
@@ -38,12 +39,12 @@ const db = {
             "title_ar": "رشد للاستشارات: مشاكل التعليم"
         }
     ],
-    "ai_featured": {
-        "file": "ai_videos/trailer.mp4",
-        "title_en": "Dubai AI Competition Promo 2425",
-        "title_ar": "برومو مسابقة دبي للذكاء الاصطناعي 2425"
-    },
     "ai_videos": [
+        {
+            "file": "ai_videos/trailer.mp4",
+            "title_en": "Dubai Competition Trailer",
+            "title_ar": "تريلر مسابقة دبي"
+        },
         {
             "file": "ai_videos/ai1.mp4",
             "title_en": "Tiny Figure & The Ring",
@@ -60,6 +61,17 @@ const db = {
             "title_ar": "موديل الذكاء الاصطناعي"
         }
     ],
+    "designs": [
+        "images/design1.jpg",
+        "images/design2.jpg",
+        "images/design3.jpg",
+        "images/design4.jpg"
+    ],
+    "ai_featured": {
+        "file": "ai_videos/trailer.mp4",
+        "title_en": "Dubai AI Competition Promo 2425",
+        "title_ar": "برومو مسابقة دبي للذكاء الاصطناعي 2425"
+    },
     "gallery": [
         "images/design1.jpg",
         "images/design2.jpg",
