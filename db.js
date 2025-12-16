@@ -7,6 +7,11 @@ const db = {
     },
     "home_videos": [
         {
+            "title_en": "IT WELCOME TO DERRY Episode 8 Ending Explained",
+            "title_ar": "تحليل نهاية الحلقة 8 والأخيرة من مسلسل IT: Welcome to Derry",
+            "id": "https://youtu.be/-Ba8N6QF-RY?si=1ucmJkqkiSEXD-nj"
+        },
+        {
             "id": "qqF4nTBr0PY",
             "title_en": "Stranger Things S5 Analysis",
             "title_ar": "تحليل سترينجر ثينجز: من هو الشرير الحقيقي؟"
@@ -20,6 +25,11 @@ const db = {
             "id": "2l9AR_7EAX8",
             "title_en": "Predator Badlands Review",
             "title_ar": "مراجعة فيلم بريداتور بادلاندز"
+        },
+        {
+            "title_en": "New",
+            "title_ar": "جديد",
+            "id": ""
         }
     ],
     "editing_videos": [
