@@ -84,7 +84,7 @@
             </div>
 
             <div id="tab-home" class="tab-content">
-                <h2>Home Reviews (YouTube IDs)</h2>
+                <h2>Home Reviews (Paste Full YouTube Link)</h2>
                 <div id="list-home_videos"></div>
                 <button class="btn" style="background:#222; color:#fff" onclick="addItem('home_videos')">+ Add Review</button>
             </div>
@@ -250,7 +250,23 @@
 
         window.updateItem = (type, i, key, val) => {
             if(key === 'val') {
-                if(type === 'home_videos') db[type][i].id = val;
+                if(type === 'home_videos') {
+                    let vidId = val;
+                    // MAGIC: Extract ID from any YouTube URL
+                    const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+                    const match = val.match(regExp);
+                    if (match && match[2].length == 11) {
+                        vidId = match[2];
+                    }
+                    db[type][i].id = vidId;
+                    
+                    // Update field view if it changed
+                    if(val !== vidId) {
+                        const input = document.getElementById(`${type}-val-${i}`);
+                        if(input) input.value = vidId;
+                        renderUI(); // Refresh preview
+                    }
+                }
                 else { db[type][i].file = val; db[type][i].url = val; }
             } else db[type][i][key] = val;
         };
