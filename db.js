@@ -9,7 +9,7 @@ const db = {
         {
             "title_en": "IT WELCOME TO DERRY Episode 8 Ending Explained",
             "title_ar": "تحليل نهاية الحلقة 8 والأخيرة من مسلسل IT: Welcome to Derry",
-            "id": "https://youtu.be/-Ba8N6QF-RY?si=1ucmJkqkiSEXD-nj"
+            "id": "Ba8N6QF-RY"
         },
         {
             "id": "qqF4nTBr0PY",
