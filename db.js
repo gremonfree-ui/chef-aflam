@@ -8,8 +8,8 @@ const db = {
     "home_videos": [
         {
             "title_en": "IT WELCOME TO DERRY Episode 8 Ending Explained",
-            "title_ar": "تحليل نهاية الحلقة 8 والأخيرة من مسلسل IT: Welcome to Derry",
-            "id": "kMhWAGHsJKvXetD8"
+            "title_ar": " تحليل نهاية الحلقة 8 والأخيرة من مسلسل IT: Welcome to Derry",
+            "id": "-Ba8N6QF-RY"
         },
         {
             "id": "qqF4nTBr0PY",
@@ -25,11 +25,6 @@ const db = {
             "id": "2l9AR_7EAX8",
             "title_en": "Predator Badlands Review",
             "title_ar": "مراجعة فيلم بريداتور بادلاندز"
-        },
-        {
-            "title_en": "New",
-            "title_ar": "جديد",
-            "id": ""
         }
     ],
     "editing_videos": [
