@@ -47,12 +47,6 @@ const db = {
             "file": "videos/edit3.mp4",
             "title_en": "Rushd Consulting: Education",
             "title_ar": "رشد للاستشارات: مشاكل التعليم"
-        },
-        {
-            "title_en": "New",
-            "title_ar": "جديد",
-            "file": "https://www.instagram.com/reel/DR33Z9MiUIP/?utm_source=ig_web_button_share_sheet&igsh=MzRlODBiNWFlZA==",
-            "url": "https://www.instagram.com/reel/DR33Z9MiUIP/?utm_source=ig_web_button_share_sheet&igsh=MzRlODBiNWFlZA=="
         }
     ],
     "ai_videos": [
