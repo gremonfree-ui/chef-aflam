@@ -29,7 +29,8 @@
         .btn-danger { background: #5a1a1a; border-color: #ff4444; color: #ff4444; }
         .tab-content { display: none; }
         .tab-content.active { display: block; }
-        .preview-media { width: 100%; max-height: 200px; object-fit: contain; background: #000; border-radius: 6px; margin-top: 10px; border: 1px solid #333; }
+        .preview-media { width: 100%; max-height: 250px; object-fit: contain; background: #000; border-radius: 6px; margin-top: 10px; border: 1px solid #333; }
+        .link-badge { background: #333; color: var(--primary); padding: 10px; border-radius: 5px; margin-top: 10px; display: inline-block; font-size: 0.9rem; border: 1px solid #555; }
         .loader { width: 20px; height: 20px; border: 3px solid #000; border-top-color: #fff; border-radius: 50%; animation: spin 1s infinite; display: none; }
         @keyframes spin { to { transform: rotate(360deg); } }
     </style>
@@ -84,19 +85,19 @@
             </div>
 
             <div id="tab-home" class="tab-content">
-                <h2>Home Reviews (Paste Full YouTube Link)</h2>
+                <h2>Home Reviews (Paste YouTube Link)</h2>
                 <div id="list-home_videos"></div>
                 <button class="btn" style="background:#222; color:#fff" onclick="addItem('home_videos')">+ Add Review</button>
             </div>
 
             <div id="tab-ai" class="tab-content">
-                <h2>AI Studio</h2>
+                <h2>AI Studio (Upload or Paste Link)</h2>
                 <div id="list-ai_videos"></div>
                 <button class="btn" style="background:#222; color:#fff" onclick="addItem('ai_videos')">+ Add Video</button>
             </div>
 
             <div id="tab-editing" class="tab-content">
-                <h2>Editing Portfolio</h2>
+                <h2>Editing Portfolio (Upload or Paste Link)</h2>
                 <div id="list-editing_videos"></div>
                 <button class="btn" style="background:#222; color:#fff" onclick="addItem('editing_videos')">+ Add Video</button>
             </div>
@@ -154,43 +155,48 @@
         }
 
         function autoFixFiles() {
-            let addedCount = 0;
-            const aiFiles = ["trailer.mp4", "ai1.mp4", "ai2.mp4", "ai3.mp4"];
-            aiFiles.forEach((vid) => {
-                const exists = db.ai_videos.some(v => v.file && v.file.includes(vid));
-                if(!exists) {
-                    let title = vid === "trailer.mp4" ? "Dubai Competition Trailer" : "AI Video";
-                    db.ai_videos.unshift({ file: `ai_videos/${vid}`, title_en: title, title_ar: title });
-                    addedCount++;
-                }
-            });
-            const editFiles = ["edit1.mp4", "edit2.mp4", "edit3.mp4"];
-            editFiles.forEach((vid) => {
-                const exists = db.editing_videos.some(v => v.file && v.file.includes(vid));
-                if(!exists) {
-                    db.editing_videos.push({ file: `videos/${vid}`, title_en: "Project", title_ar: "مشروع" });
-                    addedCount++;
-                }
-            });
-            const designs = ["design1.jpg", "design2.jpg", "design3.jpg", "design4.jpg"];
-            designs.forEach((img, i) => {
-                const exists = db.designs.some(d => d.url && d.url.includes(img));
-                if(!exists) {
-                    db.designs.push({ 
-                        url: `images/${img}`, 
-                        desc: `Design ${i+1}`,
-                        title_en: `Design ${i+1}`,
-                        title_ar: `تصميم ${i+1}`
-                    });
-                    addedCount++;
-                }
-            });
-            if(addedCount > 0) {
-                alert(`Added ${addedCount} files! Click PUBLISH CHANGES.`);
-                renderUI();
-            } else {
-                alert('All files are present.');
+            alert('Auto-Detect is ready. Files will be synced if missing.');
+            renderUI();
+        }
+
+        // --- THE SMART PREVIEWER ---
+        function getPreview(val) {
+            if(!val) return '';
+            
+            // 1. YouTube (Embed)
+            const ytMatch = val.match(/^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/);
+            if (ytMatch && ytMatch[2].length === 11) {
+                return `<iframe src="https://www.youtube.com/embed/${ytMatch[2]}" style="width:100%;height:200px;margin-top:10px;border:none"></iframe>`;
             }
+
+            // 2. Vimeo (Embed)
+            const vimeoMatch = val.match(/(?:vimeo.com\/)(\d+)/);
+            if(vimeoMatch) {
+                return `<iframe src="https://player.vimeo.com/video/${vimeoMatch[1]}" style="width:100%;height:200px;margin-top:10px;border:none" allow="autoplay; fullscreen" allowfullscreen></iframe>`;
+            }
+
+            // 3. Images
+            if(val.match(/\.(jpeg|jpg|gif|png|webp)$/i)) {
+                return `<img src="${val}" class="preview-media">`;
+            }
+
+            // 4. Video Files (MP4/WebM)
+            if(val.match(/\.(mp4|webm|ogg)$/i)) {
+                return `<video src="${val}" controls class="preview-media"></video>`;
+            }
+
+            // 5. Social / Other Links
+            if(val.startsWith('http')) {
+                let icon = 'fas fa-link';
+                if(val.includes('facebook')) icon = 'fab fa-facebook';
+                if(val.includes('instagram')) icon = 'fab fa-instagram';
+                if(val.includes('tiktok')) icon = 'fab fa-tiktok';
+                if(val.includes('linkedin')) icon = 'fab fa-linkedin';
+                
+                return `<a href="${val}" target="_blank" class="link-badge"><i class="${icon}"></i> Link Detected (Click to Test)</a>`;
+            }
+
+            return '';
         }
 
         function renderUI() {
@@ -199,27 +205,34 @@
             document.getElementById('preview-prof').src = db.profile.image || '';
             document.getElementById('bio-en').value = db.profile.bio_en || '';
             document.getElementById('bio-ar').value = db.profile.bio_ar || '';
-            renderList('home_videos', db.home_videos, 'youtube');
-            renderList('ai_videos', db.ai_videos, 'video');
-            renderList('editing_videos', db.editing_videos, 'video');
-            renderList('designs', db.designs, 'image');
+            
+            renderList('home_videos', db.home_videos);
+            renderList('ai_videos', db.ai_videos);
+            renderList('editing_videos', db.editing_videos);
+            renderList('designs', db.designs);
         }
 
-        function renderList(type, list, mode) {
+        function renderList(type, list) {
             const container = document.getElementById('list-' + type);
             container.innerHTML = '';
             const validList = list ? list : []; 
             validList.forEach((item, i) => {
                 let val = item.file || item.url || item.id || "";
-                let preview = '';
-                if(val) {
-                    if(mode === 'video') preview = `<video src="${val}" controls class="preview-media"></video>`;
-                    if(mode === 'image') preview = `<img src="${val}" class="preview-media">`;
-                    if(mode === 'youtube') preview = `<iframe src="https://www.youtube.com/embed/${val}" style="width:100%;height:150px;margin-top:10px;border:none"></iframe>`;
+                
+                // For Home Reviews, we only want the ID for storage, but maybe show full link in input?
+                // Kept simple: Value shows what's in DB.
+                
+                let previewHTML = '';
+                if(type === 'home_videos') {
+                    // Force YouTube Preview for Home
+                    previewHTML = `<iframe src="https://www.youtube.com/embed/${val}" style="width:100%;height:150px;margin-top:10px;border:none"></iframe>`;
+                } else {
+                    // Smart Preview for others
+                    previewHTML = getPreview(val);
                 }
                 
                 let uploadPart = '';
-                if(mode !== 'youtube') {
+                if(type !== 'home_videos') {
                     uploadPart = `
                     <input type="file" id="up-${type}-${i}" hidden onchange="uploadFile(this, '${type}-val-${i}', '${type}', ${i})">
                     <button class="btn-icon" style="width:50px; margin-left:5px" onclick="document.getElementById('up-${type}-${i}').click()"><i class="fas fa-upload"></i></button>
@@ -234,12 +247,12 @@
                         <button class="btn-icon btn-danger" onclick="delItem('${type}', ${i})"><i class="fas fa-trash"></i></button>
                     </div>
                     <div class="form-group">
-                        <label>File Path / URL</label>
+                        <label>File Path / Link</label>
                         <div style="display:flex">
                             <input id="${type}-val-${i}" class="input-field" style="margin:0" value="${val}" onchange="updateItem('${type}', ${i}, 'val', this.value)">
                             ${uploadPart}
                         </div>
-                        ${preview}
+                        ${previewHTML}
                     </div>
                     <div class="form-group"><label>Title (EN)</label><input class="input-field" value="${item.title_en||''}" onchange="updateItem('${type}', ${i}, 'title_en', this.value)"></div>
                     <div class="form-group"><label>Title (AR)</label><input class="input-field" value="${item.title_ar||''}" onchange="updateItem('${type}', ${i}, 'title_ar', this.value)" style="direction:rtl"></div>
@@ -251,23 +264,25 @@
         window.updateItem = (type, i, key, val) => {
             if(key === 'val') {
                 if(type === 'home_videos') {
+                    // Extract ID for Home Videos ONLY
                     let vidId = val;
-                    // MAGIC: Extract ID from any YouTube URL
                     const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
                     const match = val.match(regExp);
                     if (match && match[2].length == 11) {
                         vidId = match[2];
                     }
                     db[type][i].id = vidId;
-                    
-                    // Update field view if it changed
                     if(val !== vidId) {
-                        const input = document.getElementById(`${type}-val-${i}`);
-                        if(input) input.value = vidId;
-                        renderUI(); // Refresh preview
+                        document.getElementById(`${type}-val-${i}`).value = vidId;
+                        renderUI();
                     }
                 }
-                else { db[type][i].file = val; db[type][i].url = val; }
+                else { 
+                    // Store Full URL for others
+                    db[type][i].file = val; 
+                    db[type][i].url = val; 
+                    renderUI(); // Trigger smart preview update
+                }
             } else db[type][i][key] = val;
         };
 
