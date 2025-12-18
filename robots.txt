@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /admin.html
+Disallow: /db.js
+
+Sitemap: https://www.chefaflam.com/sitemap.xml
