@@ -2,7 +2,7 @@ const db = {
     "profile": {
         "image": "images/profile.jpg",
         "bio_en": "I’m Remon — chef aflam who blends real film making with AI magic, creating bold YouTube content, smart edits, and visuals that hit different.",
-        "bio_ar": "أنا ريمون… شيف أفلام بدمج صناعة الفيديو الحقيقية مع شغل الـذكاء الاصطناعي، وبقدّم محتوى يوتيوب جريء، ومونتاج ذكي، وفيديوهات ليها بصمة مختلفة.jjjj",
+        "bio_ar": "أنا ريمون… شيف أفلام بدمج صناعة الفيديو الحقيقية مع شغل الـذكاء الاصطناعي، وبقدّم محتوى يوتيوب جريء، ومونتاج ذكي، وفيديوهات ليها بصمة مختلفة.",
         "name": ""
     },
     "home_videos": [
