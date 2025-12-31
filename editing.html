@@ -84,7 +84,6 @@
     <script src="db.js"></script>
 
     <script>
-        // 1. تشغيل الأنيميشن والماوس (زي القديم بالظبط)
         AOS.init({mirror:true, duration:800});
         
         particlesJS("particles-js", {
@@ -107,58 +106,46 @@
             });
         }
 
-        // 2. دالة تشغيل الفيديو الذكية (الجديدة)
         function getMediaContent(url) {
             if (!url) return '';
             url = url.trim();
-            // اكتشاف يوتيوب (Shorts أو عادي)
+            
             const ytMatch = url.match(/(?:youtu\.be\/|youtube\.com\/(?:.*v=|.*\/|shorts\/))([^&?]*)/);
             
             if (ytMatch && ytMatch[1]) {
-                return `<div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius:10px;">
-                            <iframe src="https://www.youtube.com/embed/${ytMatch[1]}" 
-                            style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" 
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                            allowfullscreen></iframe>
-                        </div>`;
+                return `<iframe src="https://www.youtube.com/embed/${ytMatch[1]}" 
+                        style="width: 100%; height: 100%; min-height: 350px; border:0; border-radius: 10px;" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                        allowfullscreen></iframe>`;
             }
-            // لو فيديو عادي
-            return `<video src="${url}" controls style="width:100%; border-radius:10px;"></video>`;
+
+            return `<video src="${url}" controls playsinline style="width:100%; height: 100%; min-height: 350px; object-fit: cover; border-radius:10px;"></video>`;
         }
 
-        // 3. تحديد الصفحة وعرض الفيديوهات
-        // الكود ده بيشوف إحنا في صفحة إيه ويختار الداتا الصح أوتوماتيك
-        let targetGrid, targetData;
+        const grid = document.getElementById('editing-grid');
         
-        if (window.location.pathname.includes('ai')) {
-            targetGrid = document.getElementById('ai-grid');
-            targetData = db.ai_videos;
-        } else {
-            // Default to editing
-            targetGrid = document.getElementById('editing-grid');
-            targetData = db.editing_videos;
-        }
-
-        if (targetGrid && targetData) {
-            targetGrid.innerHTML = ''; // تنظيف
-            if(targetData.length === 0) targetGrid.innerHTML = '<h3 style="text-align:center; color:#777; width:100%">No videos yet.</h3>';
+        if (grid && db.editing_videos) {
+            grid.innerHTML = '';
             
-            targetData.forEach(v => {
+            if(db.editing_videos.length === 0) {
+                grid.innerHTML = '<h3 style="text-align:center; color:#777; width:100%">No videos yet.</h3>';
+            }
+            
+            db.editing_videos.forEach(v => {
                 let mediaUrl = v.file || v.url || "";
-                targetGrid.innerHTML += `
-                <div class="card-hover" data-aos="fade-up" style="background: #111; padding: 15px; border-radius: 12px; border: 1px solid #333; margin-bottom: 20px;">
-                    <div class="video-container-vertical" style="margin-bottom:15px;">
+                grid.innerHTML += `
+                <div class="card-hover" data-aos="fade-up">
+                    <div class="video-container-vertical" style="height: 350px; overflow: hidden;">
                         ${getMediaContent(mediaUrl)}
                     </div>
                     <div class="card-body">
-                        <h3 class="lang-en" style="color:#FFD700; margin:0; font-size:1.1rem;">${v.title_en}</h3>
-                        <h3 class="lang-ar d-none" style="color:#FFD700; margin:0; font-size:1.1rem;">${v.title_ar}</h3>
+                        <h3 class="lang-en">${v.title_en}</h3>
+                        <h3 class="lang-ar d-none">${v.title_ar}</h3>
                     </div>
                 </div>`;
             });
         }
 
-        // 4. إعدادات اللغة (بتاعتك القديمة)
         document.addEventListener('DOMContentLoaded', () => { 
             if(localStorage.getItem('chef-lang') === 'ar') toggleLanguage(false); 
         });
@@ -179,13 +166,10 @@
             }
         }
     </script>
-
+    
     <script>
         window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
     </script>
-    <script defer src="/_vercel/insights/script.js"></script>
-</body>
-</html>
     <script defer src="/_vercel/insights/script.js"></script>
 </body>
 </html>
