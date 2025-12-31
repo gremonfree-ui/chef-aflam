@@ -65,12 +65,6 @@ const db = {
     ],
     "ai_videos": [
         {
-            "file": "https://youtu.be/rZihYFQ5GQY",
-            "title_en": "2425 – A Sci-Fi Short Film | Dubai 1 Billion Summit Competition Entry",
-            "title_ar": "2425 | فيلم خيال علمي قصير أُنتج خصيصًا لمسابقة دبي 1 Billion Summit",
-            "url": "https://youtu.be/rZihYFQ5GQY"
-        },
-        {
             "title_en": "Ai Moroccan hoodie local brand",
             "title_ar": "هودي مغربي من ماركة محلية مغربية",
             "file": "https://youtube.com/shorts/T7yaUUNKw_c?feature=share",
