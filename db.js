@@ -71,21 +71,6 @@ const db = {
             "url": "https://youtu.be/rZihYFQ5GQY"
         },
         {
-            "file": "ai_videos/ai1.mp4",
-            "title_en": "Tiny Figure & The Ring",
-            "title_ar": "تايني فيجر والخاتم"
-        },
-        {
-            "file": "ai_videos/ai2.mp4",
-            "title_en": "UAE National Day",
-            "title_ar": "اليوم الوطني للإمارات"
-        },
-        {
-            "file": "ai_videos/ai3.mp4",
-            "title_en": "AI Model",
-            "title_ar": "موديل الذكاء الاصطناعي"
-        },
-        {
             "title_en": "AI-powered jewelry display model",
             "title_ar": "موديل لعرض المجوهرات بالذكاء الاصطناعي",
             "file": "https://youtube.com/shorts/PznjnyjTGvc?feature=share",
