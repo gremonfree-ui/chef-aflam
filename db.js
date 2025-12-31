@@ -80,9 +80,10 @@ const db = {
     ],
     "ai_videos": [
         {
-            "file": "ai_videos/trailer.mp4",
-            "title_en": "Dubai Competition Trailer",
-            "title_ar": "تريلر مسابقة دبي"
+            "file": "https://youtu.be/rZihYFQ5GQY",
+            "title_en": "2425 – A Sci-Fi Short Film | Dubai 1 Billion Summit Competition Entry",
+            "title_ar": "2425 | فيلم خيال علمي قصير أُنتج خصيصًا لمسابقة دبي 1 Billion Summit",
+            "url": "https://youtu.be/rZihYFQ5GQY"
         },
         {
             "file": "ai_videos/ai1.mp4",
