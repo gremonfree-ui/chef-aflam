@@ -150,9 +150,9 @@ const db = {
         }
     ],
     "ai_featured": {
-        "file": "ai_videos/trailer.mp4",
-        "title_en": "Dubai AI Competition Promo 2425",
-        "title_ar": "برومو مسابقة دبي للذكاء الاصطناعي 2425"
+        "file": "https://youtu.be/rZihYFQ5GQY",
+        "title_en": "2425 – A Sci-Fi Short Film | Dubai 1 Billion Summit Competition Entry",
+        "title_ar": "2425 | فيلم خيال علمي قصير أُنتج خصيصًا لمسابقة دبي 1 Billion Summit"
     },
     "gallery": [
         "images/design1.jpg",
