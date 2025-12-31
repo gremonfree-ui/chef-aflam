@@ -71,6 +71,24 @@ const db = {
             "url": "https://youtu.be/rZihYFQ5GQY"
         },
         {
+            "title_en": "Ai Moroccan hoodie local brand",
+            "title_ar": "هودي مغربي من ماركة محلية مغربية",
+            "file": "https://youtube.com/shorts/T7yaUUNKw_c?feature=share",
+            "url": "https://youtube.com/shorts/T7yaUUNKw_c?feature=share"
+        },
+        {
+            "title_en": "Ai Moroccan hoodie local brand 2",
+            "title_ar": "هودي مغربي من ماركة محلية مغربية 2",
+            "file": "https://youtube.com/shorts/YECIgDvfHeQ?feature=share",
+            "url": "https://youtube.com/shorts/YECIgDvfHeQ?feature=share"
+        },
+        {
+            "title_en": "Ai Moroccan hoodie local brand 3",
+            "title_ar": "هودي مغربي من ماركة محلية مغربية 3",
+            "file": "https://youtube.com/shorts/c0HnaANorlw?feature=share",
+            "url": "https://youtube.com/shorts/c0HnaANorlw?feature=share"
+        },
+        {
             "title_en": "AI-powered jewelry display model",
             "title_ar": "موديل لعرض المجوهرات بالذكاء الاصطناعي",
             "file": "https://youtube.com/shorts/PznjnyjTGvc?feature=share",
@@ -93,24 +111,6 @@ const db = {
             "title_ar": "احتفالات دبي راس السنة 2026",
             "file": "https://youtube.com/shorts/gFzneDkdxfE?feature=share",
             "url": "https://youtube.com/shorts/gFzneDkdxfE?feature=share"
-        },
-        {
-            "title_en": "Ai Moroccan hoodie local brand",
-            "title_ar": "هودي مغربي من ماركة محلية مغربية",
-            "file": "https://youtube.com/shorts/T7yaUUNKw_c?feature=share",
-            "url": "https://youtube.com/shorts/T7yaUUNKw_c?feature=share"
-        },
-        {
-            "title_en": "Ai Moroccan hoodie local brand 2",
-            "title_ar": "هودي مغربي من ماركة محلية مغربية 2",
-            "file": "https://youtube.com/shorts/c0HnaANorlw?feature=share",
-            "url": "https://youtube.com/shorts/c0HnaANorlw?feature=share"
-        },
-        {
-            "title_en": "Ai Moroccan hoodie local brand 3",
-            "title_ar": "هودي مغربي من ماركة محلية مغربية 3",
-            "file": "https://youtube.com/shorts/c0HnaANorlw?feature=share",
-            "url": "https://youtube.com/shorts/c0HnaANorlw?feature=share"
         },
         {
             "title_en": "Ai Celebrity Trend",
