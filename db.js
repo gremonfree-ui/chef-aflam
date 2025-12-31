@@ -161,4 +161,4 @@ const db = {
         "images/design3.jpg",
         "images/design4.jpg"
     ]
-};
+}
