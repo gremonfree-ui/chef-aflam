@@ -58,7 +58,7 @@ const db = {
         },
         {
             "title_en": "Retail today isn’t about copying online business",
-            "title_ar": "Retail today isn't about copying online business",
+            "title_ar": "مشاكل قطاع التجزئة",
             "file": "https://youtube.com/shorts/e6Jy3snAVCs?feature=share",
             "url": "https://youtube.com/shorts/e6Jy3snAVCs?feature=share"
         }
