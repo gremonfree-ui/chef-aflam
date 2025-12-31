@@ -149,10 +149,11 @@ const db = {
             "title_ar": "تصميم 4"
         }
     ],
-    "ai_featured": {
-        "file": "https://youtu.be/rZihYFQ5GQY",
-        "title_en": "2425 – A Sci-Fi Short Film | Dubai 1 Billion Summit Competition Entry",
-        "title_ar": "2425 | فيلم خيال علمي قصير أُنتج خصيصًا لمسابقة دبي 1 Billion Summit"
+    ai_featured: {
+        id: 1,
+        file: "https://youtu.be/rZihYFQ5GQY",
+        title_en: "2425 – A Sci-Fi Short Film | Dubai 1 Billion Summit Competition Entry",
+        title_ar: "2425 | فيلم خيال علمي قصير أُنتج خصيصًا لمسابقة دبي 1 Billion Summit"
     },
     "gallery": [
         "images/design1.jpg",
