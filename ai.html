@@ -123,30 +123,42 @@
             });
         }
 
+        // دالة عرض الفيديو (يوتيوب أو ملف)
         function getMediaContent(url) {
             if (!url) return '';
             url = url.trim();
             const ytMatch = url.match(/(?:youtu\.be\/|youtube\.com\/(?:.*v=|.*\/|shorts\/))([^&?]*)/);
             if (ytMatch && ytMatch[1]) {
+                // يوتيوب: عرض Iframe
                 return `<iframe src="https://www.youtube.com/embed/${ytMatch[1]}?rel=0" style="position:absolute; top:0; left:0; width:100%; height:100%; border:0;" allowfullscreen></iframe>`;
             }
+            // ملف فيديو عادي
             return `<video src="${url}" controls style="position:absolute; top:0; left:0; width:100%; height:100%; object-fit:cover;"></video>`;
         }
 
-        // 1. Featured Video Fix
+        // 1. إصلاح الفيديو الرئيسي (Featured Film)
+        // ده الجزء اللي هيخلي الفيلم يظهر بشاشة كاملة
         if(db.ai_featured) {
             const featContainer = document.querySelector('.featured-video');
             if(featContainer) {
-                // Replaces the old static video tag with dynamic content
+                // إجبار الكونتينر على أبعاد 16:9 السينمائية
+                featContainer.style.position = "relative";
+                featContainer.style.paddingBottom = "56.25%"; // نسبة 16:9
+                featContainer.style.height = "0";
+                featContainer.style.overflow = "hidden";
+                
+                // وضع الفيديو
                 featContainer.innerHTML = getMediaContent(db.ai_featured.file || db.ai_featured.url);
             }
+            
+            // تحديث العناوين
             const enTitle = document.getElementById('feat_title_en');
             const arTitle = document.getElementById('feat_title_ar');
             if(enTitle) enTitle.innerText = db.ai_featured.title_en;
             if(arTitle) arTitle.innerText = db.ai_featured.title_ar;
         }
 
-        // 2. AI Grid
+        // 2. شبكة فيديوهات الـ AI
         const aiGrid = document.getElementById('ai-grid');
         if (aiGrid && db.ai_videos) {
             aiGrid.innerHTML = '';
@@ -165,13 +177,26 @@
             });
         }
 
-        // 3. Gallery Grid
+        // 3. معرض الصور (Gallery)
         const galGrid = document.getElementById('gallery-grid');
         if(galGrid && db.gallery) {
             galGrid.innerHTML = '';
             db.gallery.forEach(img => {
-                galGrid.innerHTML += `<div class="gallery-item" data-aos="fade-up"><img src="${img}" alt="Design"></div>`;
+                galGrid.innerHTML += `<div class="gallery-item" data-aos="fade-up"><img src="${img}" alt="Design" onclick="openImageModal('${img}')"></div>`;
             });
+        }
+
+        // دالة تكبير الصور (Modal)
+        function openImageModal(src) {
+            const modal = document.createElement('div');
+            modal.style.position = 'fixed'; top:0; left:0;
+            modal.style.width = '100vw'; modal.style.height = '100vh';
+            modal.style.background = 'rgba(0,0,0,0.9)';
+            modal.style.display = 'flex'; modal.style.alignItems='center'; modal.style.justifyContent='center';
+            modal.style.zIndex = '10000';
+            modal.innerHTML = `<img src="${src}" style="max-width:90%; max-height:90%; border-radius:10px; box-shadow:0 0 20px rgba(255,215,0,0.5);">`;
+            modal.onclick = () => modal.remove();
+            document.body.appendChild(modal);
         }
 
         document.addEventListener('DOMContentLoaded', () => { if(localStorage.getItem('chef-lang') === 'ar') toggleLanguage(false); });
@@ -192,7 +217,7 @@
             }
         }
     </script>
-
+    
     <script>
         window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
     </script>
