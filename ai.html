@@ -107,24 +107,13 @@
         <p style="color:#444;font-size:0.9rem;">&copy; 2025 CHEF AFLAM</p>
     </footer>
 
-   <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <script src="db.js"></script>
-
     <script>
         AOS.init({mirror:true, duration:800});
         
-        particlesJS("particles-js", {
-            "particles": {
-                "number": {"value": 60},
-                "color": {"value": "#ffffff"},
-                "opacity": {"value": 0.5},
-                "size": {"value": 3, "random": true},
-                "line_linked": {"enable": true, "distance": 150, "color": "#FFD700", "opacity": 0.4, "width": 1},
-                "move": {"enable": true, "speed": 3}
-            },
-            "interactivity": {"events": {"onhover": {"enable": true, "mode": "repulse"}}}
-        });
+        particlesJS("particles-js",{"particles":{"number":{"value":60},"color":{"value":"#ffffff"},"opacity":{"value":0.5},"size":{"value":3,"random":true},"line_linked":{"enable":true,"distance":150,"color":"#FFD700","opacity":0.4,"width":1},"move":{"enable":true,"speed":3}},"interactivity":{"events":{"onhover":{"enable":true,"mode":"repulse"}}}});
 
         const cursorGlow = document.getElementById('cursorGlow');
         if(cursorGlow) {
@@ -137,32 +126,35 @@
         function getMediaContent(url) {
             if (!url) return '';
             url = url.trim();
-            
             const ytMatch = url.match(/(?:youtu\.be\/|youtube\.com\/(?:.*v=|.*\/|shorts\/))([^&?]*)/);
-            
             if (ytMatch && ytMatch[1]) {
-                return `<iframe src="https://www.youtube.com/embed/${ytMatch[1]}" 
-                        style="width: 100%; height: 100%; min-height: 350px; border:0; border-radius: 10px;" 
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                        allowfullscreen></iframe>`;
+                return `<iframe src="https://www.youtube.com/embed/${ytMatch[1]}?rel=0" style="position:absolute; top:0; left:0; width:100%; height:100%; border:0;" allowfullscreen></iframe>`;
             }
-
-            return `<video src="${url}" controls playsinline style="width:100%; height: 100%; min-height: 350px; object-fit: cover; border-radius:10px;"></video>`;
+            return `<video src="${url}" controls style="position:absolute; top:0; left:0; width:100%; height:100%; object-fit:cover;"></video>`;
         }
 
-        const videoGrid = document.getElementById('ai-grid');
-        if (videoGrid && db.ai_videos) {
-            videoGrid.innerHTML = '';
-            
-            if(db.ai_videos.length === 0) {
-                videoGrid.innerHTML = '<h3 style="text-align:center; color:#777; width:100%">No AI videos yet.</h3>';
+        // 1. Featured Video Fix
+        if(db.ai_featured) {
+            const featContainer = document.querySelector('.featured-video');
+            if(featContainer) {
+                // Replaces the old static video tag with dynamic content
+                featContainer.innerHTML = getMediaContent(db.ai_featured.file || db.ai_featured.url);
             }
-            
+            const enTitle = document.getElementById('feat_title_en');
+            const arTitle = document.getElementById('feat_title_ar');
+            if(enTitle) enTitle.innerText = db.ai_featured.title_en;
+            if(arTitle) arTitle.innerText = db.ai_featured.title_ar;
+        }
+
+        // 2. AI Grid
+        const aiGrid = document.getElementById('ai-grid');
+        if (aiGrid && db.ai_videos) {
+            aiGrid.innerHTML = '';
             db.ai_videos.forEach(v => {
                 let mediaUrl = v.file || v.url || "";
-                videoGrid.innerHTML += `
+                aiGrid.innerHTML += `
                 <div class="card-hover" data-aos="fade-up">
-                    <div class="video-container-vertical" style="height: 350px; overflow: hidden;">
+                    <div class="video-container-vertical">
                         ${getMediaContent(mediaUrl)}
                     </div>
                     <div class="card-body">
@@ -173,38 +165,17 @@
             });
         }
 
-        const designGrid = document.getElementById('design-grid');
-        if (designGrid && db.ai_designs) {
-            designGrid.innerHTML = '';
-            db.ai_designs.forEach(d => {
-                designGrid.innerHTML += `
-                <div class="design-card" data-aos="zoom-in">
-                    <img src="${d.img}" alt="AI Design" onclick="openModal('${d.img}')">
-                </div>`;
+        // 3. Gallery Grid
+        const galGrid = document.getElementById('gallery-grid');
+        if(galGrid && db.gallery) {
+            galGrid.innerHTML = '';
+            db.gallery.forEach(img => {
+                galGrid.innerHTML += `<div class="gallery-item" data-aos="fade-up"><img src="${img}" alt="Design"></div>`;
             });
         }
 
-        function openModal(src) {
-            const modal = document.createElement('div');
-            modal.style.position = 'fixed';
-            modal.style.top = '0';
-            modal.style.left = '0';
-            modal.style.width = '100%';
-            modal.style.height = '100%';
-            modal.style.background = 'rgba(0,0,0,0.9)';
-            modal.style.display = 'flex';
-            modal.style.alignItems = 'center';
-            modal.style.justifyContent = 'center';
-            modal.style.zIndex = '10000';
-            modal.innerHTML = `<img src="${src}" style="max-width:90%; max-height:90%; border-radius:10px; box-shadow:0 0 20px rgba(255,215,0,0.5);">`;
-            modal.onclick = () => modal.remove();
-            document.body.appendChild(modal);
-        }
-
-        document.addEventListener('DOMContentLoaded', () => { 
-            if(localStorage.getItem('chef-lang') === 'ar') toggleLanguage(false); 
-        });
-
+        document.addEventListener('DOMContentLoaded', () => { if(localStorage.getItem('chef-lang') === 'ar') toggleLanguage(false); });
+        
         function toggleLanguage(save = true) {
             const body = document.body;
             const isRTL = body.classList.contains('rtl');
@@ -221,7 +192,7 @@
             }
         }
     </script>
-    
+
     <script>
         window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
     </script>

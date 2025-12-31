@@ -82,22 +82,11 @@
   <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <script src="db.js"></script>
-
     <script>
         AOS.init({mirror:true, duration:800});
         
-        particlesJS("particles-js", {
-            "particles": {
-                "number": {"value": 60},
-                "color": {"value": "#ffffff"},
-                "opacity": {"value": 0.5},
-                "size": {"value": 3, "random": true},
-                "line_linked": {"enable": true, "distance": 150, "color": "#FFD700", "opacity": 0.4, "width": 1},
-                "move": {"enable": true, "speed": 3}
-            },
-            "interactivity": {"events": {"onhover": {"enable": true, "mode": "repulse"}}}
-        });
-
+        particlesJS("particles-js",{"particles":{"number":{"value":60},"color":{"value":"#ffffff"},"opacity":{"value":0.5},"size":{"value":3,"random":true},"line_linked":{"enable":true,"distance":150,"color":"#FFD700","opacity":0.4,"width":1},"move":{"enable":true,"speed":3}},"interactivity":{"events":{"onhover":{"enable":true,"mode":"repulse"}}}});
+        
         const cursorGlow = document.getElementById('cursorGlow');
         if(cursorGlow) {
             document.addEventListener('mousemove', (e) => {
@@ -109,33 +98,21 @@
         function getMediaContent(url) {
             if (!url) return '';
             url = url.trim();
-            
             const ytMatch = url.match(/(?:youtu\.be\/|youtube\.com\/(?:.*v=|.*\/|shorts\/))([^&?]*)/);
-            
             if (ytMatch && ytMatch[1]) {
-                return `<iframe src="https://www.youtube.com/embed/${ytMatch[1]}" 
-                        style="width: 100%; height: 100%; min-height: 350px; border:0; border-radius: 10px;" 
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                        allowfullscreen></iframe>`;
+                return `<iframe src="https://www.youtube.com/embed/${ytMatch[1]}?rel=0" style="position:absolute; top:0; left:0; width:100%; height:100%; border:0;" allowfullscreen></iframe>`;
             }
-
-            return `<video src="${url}" controls playsinline style="width:100%; height: 100%; min-height: 350px; object-fit: cover; border-radius:10px;"></video>`;
+            return `<video src="${url}" controls style="position:absolute; top:0; left:0; width:100%; height:100%; object-fit:cover;"></video>`;
         }
 
         const grid = document.getElementById('editing-grid');
-        
         if (grid && db.editing_videos) {
             grid.innerHTML = '';
-            
-            if(db.editing_videos.length === 0) {
-                grid.innerHTML = '<h3 style="text-align:center; color:#777; width:100%">No videos yet.</h3>';
-            }
-            
             db.editing_videos.forEach(v => {
                 let mediaUrl = v.file || v.url || "";
                 grid.innerHTML += `
                 <div class="card-hover" data-aos="fade-up">
-                    <div class="video-container-vertical" style="height: 350px; overflow: hidden;">
+                    <div class="video-container-vertical">
                         ${getMediaContent(mediaUrl)}
                     </div>
                     <div class="card-body">
@@ -146,10 +123,8 @@
             });
         }
 
-        document.addEventListener('DOMContentLoaded', () => { 
-            if(localStorage.getItem('chef-lang') === 'ar') toggleLanguage(false); 
-        });
-
+        document.addEventListener('DOMContentLoaded', () => { if(localStorage.getItem('chef-lang') === 'ar') toggleLanguage(false); });
+        
         function toggleLanguage(save = true) {
             const body = document.body;
             const isRTL = body.classList.contains('rtl');
@@ -166,7 +141,7 @@
             }
         }
     </script>
-    
+
     <script>
         window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
     </script>
