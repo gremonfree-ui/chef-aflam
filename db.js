@@ -39,21 +39,6 @@ const db = {
     ],
     "editing_videos": [
         {
-            "file": "videos/edit1.mp4",
-            "title_en": "Rushd Consulting: Market",
-            "title_ar": "رشد للاستشارات: دراسة السوق"
-        },
-        {
-            "file": "videos/edit2.mp4",
-            "title_en": "Rushd Consulting: UGC",
-            "title_ar": "رشد للاستشارات: محتوى UGC"
-        },
-        {
-            "file": "videos/edit3.mp4",
-            "title_en": "Rushd Consulting: Education",
-            "title_ar": "رشد للاستشارات: مشاكل التعليم"
-        },
-        {
             "title_en": "Rushd Consulting: Market Reserch",
             "title_ar": "رشد للاستشارات: دراسة السوق",
             "file": "https://youtube.com/shorts/r6SCIlIOcUY?feature=share",
