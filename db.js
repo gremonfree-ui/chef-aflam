@@ -61,6 +61,18 @@ const db = {
             "title_ar": "مشاكل قطاع التجزئة",
             "file": "https://youtube.com/shorts/e6Jy3snAVCs?feature=share",
             "url": "https://youtube.com/shorts/e6Jy3snAVCs?feature=share"
+        },
+        {
+            "title_en": "The importance of real estate consulting",
+            "title_ar": "اهمية الاستشارات العقارية",
+            "file": "https://youtube.com/shorts/JbwVYFWd3hw?feature=share",
+            "url": "https://youtube.com/shorts/JbwVYFWd3hw?feature=share"
+        },
+        {
+            "title_en": "The biggest mistake in real estate investment",
+            "title_ar": "اكبر خطأ في الاستثمار العقاري",
+            "file": "https://youtube.com/shorts/cpFB0tTtgBY?feature=share",
+            "url": "https://youtube.com/shorts/cpFB0tTtgBY?feature=share"
         }
     ],
     "ai_videos": [
@@ -111,6 +123,12 @@ const db = {
             "title_ar": "تريند المشاهير ",
             "file": "https://youtube.com/shorts/WJ-i6081b9o?feature=share",
             "url": "https://youtube.com/shorts/WJ-i6081b9o?feature=share"
+        },
+        {
+            "title_en": "رمضان كريم",
+            "title_ar": "Ramdan Karem",
+            "file": "https://youtube.com/shorts/ZoHRAS38RL4?feature=share",
+            "url": "https://youtube.com/shorts/ZoHRAS38RL4?feature=share"
         }
     ],
     "designs": [
