@@ -133,8 +133,8 @@ const db = {
         {
             "title_en": "Project Genesis | sci-fi short film-created for Huggsfield Action Films contest",
             "title_ar": "مشروع جينيسيس | فيلم خيال علمي قصير تم عمله للمشاركة في افلام الاكشن لموقع هاجزفيلد",
-            "file": "https://www.tiktok.com/@chefaflam/video/7609764819419565333?is_from_webapp=1&sender_device=pc&web_id=7611355091887621652",
-            "url": "https://www.tiktok.com/@chefaflam/video/7609764819419565333?is_from_webapp=1&sender_device=pc&web_id=7611355091887621652"
+            "file": "https://youtu.be/6OpazaHYxS8",
+            "url": "https://youtu.be/6OpazaHYxS8"
         }
     ],
     "designs": [
